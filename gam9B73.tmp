@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://bkgsdlcelledb"]
+
+[ext_resource type="Script" path="res://scripts/canvasManager.gd" id="1_1sayb"]
+[ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://player.tscn" id="1_d3ts3"]
+[ext_resource type="Script" path="res://scripts/gameplay.gd" id="1_opprc"]
+[ext_resource type="Script" path="res://scripts/GroundSpawner.gd" id="3_2rtxb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
+size = Vector2(9, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2l0u6"]
+
+[node name="Gameplay" type="Node2D"]
+script = ExtResource("1_opprc")
+
+[node name="scoreTimer" type="Timer" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("1_1sayb")
+
+[node name="scoreLabel" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "000"
+
+[node name="Player" parent="." instance=ExtResource("1_d3ts3")]
+position = Vector2(30, 89)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(131.075, 4)
+offset = Vector2(159.815, 90.315)
+zoom = Vector2(4, 4)
+
+[node name="GroundSpawner" type="Node2D" parent="."]
+script = ExtResource("3_2rtxb")
+
+[node name="SpawnTrigger" type="Area2D" parent="GroundSpawner"]
+position = Vector2(322, 204)
+collision_layer = 4
+collision_mask = 4
+input_pickable = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/SpawnTrigger"]
+position = Vector2(-5.5, 0)
+shape = SubResource("RectangleShape2D_f2vle")
+
+[node name="DespawnTrigger" type="Area2D" parent="GroundSpawner"]
+position = Vector2(-5, 202)
+scale = Vector2(0.480001, 1)
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/DespawnTrigger"]
+shape = SubResource("RectangleShape2D_2l0u6")
+
+[connection signal="timeout" from="scoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
+[connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]

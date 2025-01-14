@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://6j8fdpsikfqn"]
+
+[node name="Background" type="Node2D"]
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="AnimatableBody2D"]

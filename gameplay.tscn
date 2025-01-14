@@ -1,0 +1,180 @@
+[gd_scene load_steps=14 format=3 uid="uid://bkgsdlcelledb"]
+
+[ext_resource type="Script" path="res://scripts/canvasManager.gd" id="1_1sayb"]
+[ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://player.tscn" id="1_d3ts3"]
+[ext_resource type="Script" path="res://scripts/gameplay.gd" id="1_opprc"]
+[ext_resource type="Script" path="res://scripts/GroundSpawner.gd" id="3_2rtxb"]
+[ext_resource type="PackedScene" uid="uid://6j8fdpsikfqn" path="res://background.tscn" id="3_q2xm3"]
+[ext_resource type="LabelSettings" uid="uid://cah3ii4hvydr" path="res://LabelSettings/pixelTextoutline.tres" id="3_xlalq"]
+[ext_resource type="Script" path="res://parallaxEffect.gd" id="4_0a36o"]
+[ext_resource type="Texture2D" uid="uid://b2uhko5fji2d0" path="res://sprites/bgGround.png" id="4_q3l51"]
+[ext_resource type="Texture2D" uid="uid://dg4tagav82avf" path="res://sprites/skyBG.png" id="5_00ins"]
+[ext_resource type="Texture2D" uid="uid://b8n7c56ggpfef" path="res://sprites/cloudsBG.png" id="6_mpir8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_28yds"]
+size = Vector2(98, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
+size = Vector2(9, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2l0u6"]
+
+[node name="Gameplay" type="Node2D"]
+script = ExtResource("1_opprc")
+scoreForNormal = 2
+scoreForHard = 3
+gameSpeed = 2.0
+
+[node name="scoreTimer" type="Timer" parent="."]
+wait_time = 0.4
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("1_1sayb")
+
+[node name="MainMenu" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartButton" type="Button" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu/StartButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "CLICK TO START"
+label_settings = ExtResource("3_xlalq")
+
+[node name="GameplayHud" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="scoreLabel" type="Label" parent="CanvasLayer/GameplayHud"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -72.0
+offset_top = 5.0
+offset_right = 72.0
+offset_bottom = 69.0
+grow_horizontal = 2
+text = "000"
+label_settings = ExtResource("3_xlalq")
+horizontal_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(131.075, 4)
+offset = Vector2(159.815, 90.315)
+zoom = Vector2(4, 4)
+
+[node name="Background" parent="." instance=ExtResource("3_q2xm3")]
+script = ExtResource("4_0a36o")
+
+[node name="skyBG" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0, 0)
+scroll_offset = Vector2(0, 84.24)
+repeat_size = Vector2(256, 0)
+repeat_times = 2
+follow_viewport = false
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/skyBG"]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("5_00ins")
+offset = Vector2(384, 0)
+
+[node name="groundBG" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0, 0)
+scroll_offset = Vector2(0, 108.37)
+repeat_size = Vector2(256, 0)
+repeat_times = 2
+follow_viewport = false
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/groundBG"]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("4_q3l51")
+offset = Vector2(384, 0)
+
+[node name="cloudsBG" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0, 0)
+scroll_offset = Vector2(0, 72.105)
+repeat_size = Vector2(256, 0)
+repeat_times = 2
+follow_viewport = false
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/cloudsBG"]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("6_mpir8")
+offset = Vector2(384, 0)
+
+[node name="Player" parent="." instance=ExtResource("1_d3ts3")]
+physics_interpolation_mode = 1
+position = Vector2(30, 136)
+
+[node name="deathBarrier" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="deathBarrier"]
+position = Vector2(51, 216)
+shape = SubResource("RectangleShape2D_28yds")
+debug_color = Color(0.932447, 0.260223, 0, 0.42)
+
+[node name="GroundSpawner" type="Node2D" parent="."]
+script = ExtResource("3_2rtxb")
+
+[node name="SpawnTrigger" type="Area2D" parent="GroundSpawner"]
+position = Vector2(322, 204)
+collision_layer = 4
+collision_mask = 4
+input_pickable = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/SpawnTrigger"]
+position = Vector2(-5.5, 0)
+shape = SubResource("RectangleShape2D_f2vle")
+
+[node name="DespawnTrigger" type="Area2D" parent="GroundSpawner"]
+position = Vector2(-5, 202)
+scale = Vector2(0.480001, 1)
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/DespawnTrigger"]
+shape = SubResource("RectangleShape2D_2l0u6")
+
+[connection signal="ready" from="." to="CanvasLayer" method="_on_gameplay_ready"]
+[connection signal="timeout" from="scoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="CanvasLayer" method="_on_start_button_pressed"]
+[connection signal="body_entered" from="deathBarrier" to="." method="_on_death_barrier_player_entered"]
+[connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
+[connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]
