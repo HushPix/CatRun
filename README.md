@@ -1,2 +1,2 @@
 # CatRun
-My runner game mad in Godot Engine
+My runner game made in Godot Engine
