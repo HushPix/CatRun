@@ -1,4 +1,5 @@
 extends Node2D
+class_name Player
 ## The player class, has some internal player logic
 @onready var character_body_2d: CharacterBody2D = $CharacterBody2D
 ## This bool tells if the player is alive
@@ -16,6 +17,19 @@ enum playerInputState {
 ## This function check if the player is alive
 func _isPlayerAlive() -> bool:
 	return isAlive
+	
+func _isPlayerJumping() -> bool:
+	if(character_body_2d.velocity.y <= 0 and character_body_2d.is_on_floor()):
+		return true
+	return false
+
+func _isPlayerOnFloor() -> bool:
+	return character_body_2d.is_on_floor()
+	
+func _isPlayerFalling() -> bool:
+	if(character_body_2d.velocity.y >= 0 and !character_body_2d.is_on_floor()):
+		return true
+	return false
 
 func enableInput() -> void:
 	currentState = playerInputState.AllowInput
