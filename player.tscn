@@ -175,9 +175,13 @@ animation_tree = NodePath("../CharacterBody2D/AnimationTree")
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 collision_mask = 2
 floor_constant_speed = true
+floor_max_angle = 0.802851
 floor_snap_length = 5.0
+platform_on_leave = 2
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="CharacterBody2D"]
+position = Vector2(-4.76837e-07, 1.5)
+scale = Vector2(1.4, 1.15)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 position = Vector2(0, 3.5)
