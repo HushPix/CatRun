@@ -162,6 +162,7 @@ transitions = ["Start", "Run", SubResource("AnimationNodeStateMachineTransition_
 script = ExtResource("1_ctbvp")
 
 [node name="debug" type="Label" parent="."]
+visible = false
 offset_left = -100.0
 offset_top = -46.0
 offset_right = -60.0
