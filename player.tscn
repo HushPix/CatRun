@@ -1,8 +1,11 @@
-[gd_scene load_steps=26 format=3 uid="uid://dr24hb7d2yjjl"]
+[gd_scene load_steps=27 format=3 uid="uid://dr24hb7d2yjjl"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_ctbvp"]
 [ext_resource type="Script" path="res://player_animator.gd" id="2_2gxwj"]
 [ext_resource type="Texture2D" uid="uid://b10r22xi31ich" path="res://sprites/playerSprite.png" id="2_casxf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cqp0x"]
+font_size = 12
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lacaq"]
 size = Vector2(16, 19)
@@ -159,10 +162,11 @@ transitions = ["Start", "Run", SubResource("AnimationNodeStateMachineTransition_
 script = ExtResource("1_ctbvp")
 
 [node name="debug" type="Label" parent="."]
-offset_left = -18.0
-offset_top = -37.0
-offset_right = 22.0
-offset_bottom = -14.0
+offset_left = -100.0
+offset_top = -46.0
+offset_right = -60.0
+offset_bottom = -23.0
+label_settings = SubResource("LabelSettings_cqp0x")
 
 [node name="playerAnimator" type="Node" parent="." node_paths=PackedStringArray("animation_tree")]
 script = ExtResource("2_2gxwj")

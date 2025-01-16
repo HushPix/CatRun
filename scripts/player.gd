@@ -52,11 +52,11 @@ func gameOver() -> void:
 func goBackToInitialPos() -> void:
 	var roundedPositionX: int = round(character_body_2d.global_position.x)
 	clampSpeedX()
-	if(roundedPositionX != initialPosition):
-		if(roundedPositionX < initialPosition):
-			character_body_2d.velocity.x += 5
-		elif(roundedPositionX >= initialPosition):
-			character_body_2d.velocity.x = 0
+	if(character_body_2d.is_on_floor() and roundedPositionX != initialPosition):
+		if(roundedPositionX < initialPosition - 2):
+			character_body_2d.velocity.x += 5		
+	else:
+		character_body_2d.velocity.x = 0
 func clampSpeedX() -> void:
 	if character_body_2d.velocity.x >= maxSpeed:
 		character_body_2d.velocity.x = maxSpeed
@@ -68,7 +68,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	#print(str(character_body_2d.global_position.x) + "  " + str(initialPosition))
-	debug.text = str(character_body_2d.velocity.x)
+	debug.text = str(character_body_2d.global_position)+ "initialPos: " + str(initialPosition)+ " speed:" + str(character_body_2d.velocity.x)
 	pass
 	
 func _physics_process(delta: float) -> void:
@@ -76,7 +76,7 @@ func _physics_process(delta: float) -> void:
 	if not character_body_2d.is_on_floor():
 		character_body_2d.velocity += character_body_2d.get_gravity() * delta
 	
-	if(character_body_2d.is_on_floor() and !character_body_2d.is_on_wall()):
+	if(!character_body_2d.is_on_wall()):
 		goBackToInitialPos()
 	
 	# Handle jump.
@@ -85,7 +85,8 @@ func _physics_process(delta: float) -> void:
 			if Input.is_action_pressed("jumpClick") and character_body_2d.is_on_floor():
 				character_body_2d.velocity.y = JUMP_VELOCITY
 
-	character_body_2d.move_and_slide()
+	if(isAlive):
+		character_body_2d.move_and_slide()
 
 
 func player_exits_screen() -> void:
