@@ -158,12 +158,6 @@ transitions = ["Start", "Run", SubResource("AnimationNodeStateMachineTransition_
 [node name="Player" type="Node2D"]
 script = ExtResource("1_ctbvp")
 
-[node name="debug" type="Label" parent="."]
-offset_left = -18.0
-offset_top = -37.0
-offset_right = 22.0
-offset_bottom = -14.0
-
 [node name="playerAnimator" type="Node" parent="." node_paths=PackedStringArray("animation_tree")]
 script = ExtResource("2_2gxwj")
 animation_tree = NodePath("../CharacterBody2D/AnimationTree")
