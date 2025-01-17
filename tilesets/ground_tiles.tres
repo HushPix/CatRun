@@ -1,9 +1,19 @@
-[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://dfv5jo3lk4pca"]
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://dfv5jo3lk4pca"]
 
 [ext_resource type="Texture2D" uid="uid://c1gih8754p5kq" path="res://sprites/tileset.png" id="1_oleqd"]
+[ext_resource type="Texture2D" uid="uid://d2txheibpy4rc" path="res://sprites/props.png" id="2_ihyuo"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_pqxfw"]
 tile_data = PackedInt32Array(0, 0, 3, 1, 65536, 3, 2, 131072, 3)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_qusgc"]
+tile_data = PackedInt32Array(0, 1, 1, 65536, 1, 2)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_a8eq1"]
+tile_data = PackedInt32Array(0, 65537, 1, 65536, 65537, 2)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_xjkv1"]
+tile_data = PackedInt32Array(0, 131073, 1, 65536, 131073, 2)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_do8y2"]
 resource_name = "groundTiles"
@@ -186,6 +196,44 @@ texture = ExtResource("1_oleqd")
 0:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, 8, -8, -8, -8)
 1:5/0 = 0
 1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 8, -8, -8, 8, -8)
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+10:1/0 = 0
+10:2/0 = 0
+9:2/0 = 0
+8:2/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+11:0/0 = 0
+11:1/0 = 0
+11:2/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+11:4/0 = 0
+10:4/0 = 0
+9:4/0 = 0
+8:4/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hwmdq"]
+texture = ExtResource("2_ihyuo")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
 
 [resource]
 physics_layer_0/collision_layer = 2
@@ -193,4 +241,8 @@ terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.501961, 0, 0.25098, 1)
 sources/0 = SubResource("TileSetAtlasSource_do8y2")
+sources/1 = SubResource("TileSetAtlasSource_hwmdq")
 pattern_0 = SubResource("TileMapPattern_pqxfw")
+pattern_1 = SubResource("TileMapPattern_qusgc")
+pattern_2 = SubResource("TileMapPattern_a8eq1")
+pattern_3 = SubResource("TileMapPattern_xjkv1")

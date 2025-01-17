@@ -11,21 +11,21 @@
 [ext_resource type="Texture2D" uid="uid://dg4tagav82avf" path="res://sprites/skyBG.png" id="5_00ins"]
 [ext_resource type="Texture2D" uid="uid://b8n7c56ggpfef" path="res://sprites/cloudsBG.png" id="6_mpir8"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
+size = Vector2(9, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2l0u6"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28yds"]
 size = Vector2(164, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5e380"]
 size = Vector2(49.5, 178.25)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
-size = Vector2(9, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2l0u6"]
-
 [node name="Gameplay" type="Node2D"]
 script = ExtResource("1_opprc")
 scoreForNormal = 1
-scoreForHard = 1000
+scoreForHard = 1
 gameSpeed = 2.0
 
 [node name="scoreTimer" type="Timer" parent="."]
@@ -139,23 +139,6 @@ texture_repeat = 2
 texture = ExtResource("6_mpir8")
 offset = Vector2(384, 0)
 
-[node name="Player" parent="." instance=ExtResource("1_d3ts3")]
-physics_interpolation_mode = 1
-position = Vector2(102, 136)
-
-[node name="deathBarrier" type="Area2D" parent="."]
-collision_layer = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="deathBarrier"]
-position = Vector2(53, 237)
-shape = SubResource("RectangleShape2D_28yds")
-debug_color = Color(0.932447, 0.260223, 0, 0.42)
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="deathBarrier"]
-position = Vector2(-58, 90)
-shape = SubResource("RectangleShape2D_5e380")
-debug_color = Color(0.932447, 0.260223, 0, 0.42)
-
 [node name="GroundSpawner" type="Node2D" parent="."]
 script = ExtResource("3_2rtxb")
 
@@ -179,10 +162,27 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/DespawnTrigger"]
 shape = SubResource("RectangleShape2D_2l0u6")
 
+[node name="Player" parent="." instance=ExtResource("1_d3ts3")]
+physics_interpolation_mode = 1
+position = Vector2(102, 136)
+
+[node name="deathBarrier" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="deathBarrier"]
+position = Vector2(53, 237)
+shape = SubResource("RectangleShape2D_28yds")
+debug_color = Color(0.932447, 0.260223, 0, 0.42)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="deathBarrier"]
+position = Vector2(-58, 90)
+shape = SubResource("RectangleShape2D_5e380")
+debug_color = Color(0.932447, 0.260223, 0, 0.42)
+
 [connection signal="ready" from="." to="CanvasLayer" method="_on_gameplay_ready"]
 [connection signal="timeout" from="scoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="CanvasLayer" method="_on_start_button_pressed"]
-[connection signal="body_entered" from="deathBarrier" to="." method="_on_death_barrier_player_entered"]
 [connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
 [connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]
+[connection signal="body_entered" from="deathBarrier" to="." method="_on_death_barrier_player_entered"]

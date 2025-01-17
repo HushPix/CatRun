@@ -39,7 +39,7 @@ var groundTypes = {
 }
 
 #This array contains currenlty loaded ground prefabs. By default it has ground0 loaded in to prevent crashes
-var levelsInMemory: Array = ["res://groundPrefabs/idle/ground0.tscn"]
+var levelsInMemory: Array = ["res://groundPrefabs/idle/groundIdle1.tscn"]
 	
 #This function is used to load all level prefabs from the game's files	
 func loadLevelsIn(level, debug = false) -> void:
