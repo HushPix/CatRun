@@ -1,7 +1,8 @@
-[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://dfv5jo3lk4pca"]
+[gd_resource type="TileSet" load_steps=13 format=3 uid="uid://dfv5jo3lk4pca"]
 
 [ext_resource type="Texture2D" uid="uid://c1gih8754p5kq" path="res://sprites/tileset.png" id="1_oleqd"]
 [ext_resource type="Texture2D" uid="uid://d2txheibpy4rc" path="res://sprites/props.png" id="2_ihyuo"]
+[ext_resource type="Texture2D" uid="uid://mu0puevwhoap" path="res://sprites/obstacles.png" id="3_6rrgo"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_pqxfw"]
 tile_data = PackedInt32Array(0, 0, 3, 1, 65536, 3, 2, 131072, 3)
@@ -15,8 +16,14 @@ tile_data = PackedInt32Array(0, 65537, 1, 65536, 65537, 2)
 [sub_resource type="TileMapPattern" id="TileMapPattern_xjkv1"]
 tile_data = PackedInt32Array(0, 131073, 1, 65536, 131073, 2)
 
+[sub_resource type="TileMapPattern" id="TileMapPattern_0skw8"]
+tile_data = PackedInt32Array(0, 2, 0, 1, 65538, 0, 2, 131074, 0)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_aa7jy"]
+tile_data = PackedInt32Array(0, 2, 0, 1, 131074, 0)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_do8y2"]
-resource_name = "groundTiles"
+resource_name = "Ground and Background"
 texture = ExtResource("1_oleqd")
 0:0/0 = 0
 0:0/0/terrain_set = 0
@@ -222,6 +229,7 @@ texture = ExtResource("1_oleqd")
 11:5/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hwmdq"]
+resource_name = "Props and decorations"
 texture = ExtResource("2_ihyuo")
 0:0/0 = 0
 1:0/0 = 0
@@ -235,14 +243,28 @@ texture = ExtResource("2_ihyuo")
 1:2/0 = 0
 2:2/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2t40t"]
+resource_name = "Obstacles"
+texture = ExtResource("3_6rrgo")
+0:0/0 = 0
+0:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(8, -8, 8, 8, -8, 8)
+1:0/0 = 0
+1:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/0 = 0
+2:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(-8, -8, 8, 8, -8, 8)
+
 [resource]
 physics_layer_0/collision_layer = 2
+physics_layer_1/collision_layer = 16
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.501961, 0, 0.25098, 1)
 sources/0 = SubResource("TileSetAtlasSource_do8y2")
 sources/1 = SubResource("TileSetAtlasSource_hwmdq")
+sources/2 = SubResource("TileSetAtlasSource_2t40t")
 pattern_0 = SubResource("TileMapPattern_pqxfw")
 pattern_1 = SubResource("TileMapPattern_qusgc")
 pattern_2 = SubResource("TileMapPattern_a8eq1")
 pattern_3 = SubResource("TileMapPattern_xjkv1")
+pattern_4 = SubResource("TileMapPattern_0skw8")
+pattern_5 = SubResource("TileMapPattern_aa7jy")

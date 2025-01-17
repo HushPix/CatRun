@@ -213,4 +213,12 @@ parameters/Fall/TimeScale/scale = 2.0
 parameters/Jump/TimeScale/scale = 3.0
 parameters/Run/TimeScale/scale = 3.0
 
+[node name="obstacleDetection" type="Area2D" parent="CharacterBody2D"]
+collision_mask = 16
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="CharacterBody2D/obstacleDetection"]
+position = Vector2(0, 3.5)
+shape = SubResource("RectangleShape2D_lacaq")
+
 [connection signal="screen_exited" from="CharacterBody2D/VisibleOnScreenNotifier2D" to="." method="player_exits_screen"]
+[connection signal="body_entered" from="CharacterBody2D/obstacleDetection" to="." method="_on_obstacle_detection_body_entered"]

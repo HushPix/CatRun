@@ -8,8 +8,8 @@ class_name Player
 ## This bool tells if the player is alive
 const JUMP_VELOCITY = -400.0
 
-var isAlive: bool 
-var isOnScreen: bool = true
+var alive: bool 
+var onScreen: bool = true
 var isControlable: bool 
 var currentState
 var initialPosition: float 
@@ -22,7 +22,10 @@ enum playerInputState {
 
 ## This function check if the player is alive
 func _isPlayerAlive() -> bool:
-	return isAlive
+	return alive
+	
+func _isPlayerOnScreen() -> bool:
+	return onScreen
 	
 func _isPlayerJumping() -> bool:
 	if(character_body_2d.velocity.y <= 0 and character_body_2d.is_on_floor()):
@@ -44,10 +47,9 @@ func disableInput() -> void:
 	currentState = playerInputState.BlockInput
 	
 func gameOver() -> void:
-	isAlive = false
+	alive = false
 	disableInput()
-	if(!isOnScreen):
-		print("died_outside")
+	
 	
 func goBackToInitialPos() -> void:
 	var roundedPositionX: int = round(character_body_2d.global_position.x)
@@ -63,7 +65,7 @@ func clampSpeedX() -> void:
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	isAlive = true
+	alive = true
 	initialPosition = character_body_2d.global_position.x
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -85,10 +87,16 @@ func _physics_process(delta: float) -> void:
 			if Input.is_action_pressed("jumpClick") and character_body_2d.is_on_floor():
 				character_body_2d.velocity.y = JUMP_VELOCITY
 
-	if(isAlive):
+	if(alive):
 		character_body_2d.move_and_slide()
+		
 
 
 func player_exits_screen() -> void:
-	isOnScreen = false
+	onScreen = false
 	
+
+
+func _on_obstacle_detection_body_entered(body: Node2D) -> void:
+	gameOver()
+		
