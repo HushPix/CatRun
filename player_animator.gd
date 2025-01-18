@@ -13,3 +13,5 @@ func _physics_process(delta: float) -> void:
 	animation_tree.set("parameters/conditions/onGround", onGround)
 	animation_tree.set("parameters/conditions/jump", !onGround)
 	animation_tree.set("parameters/conditions/fall", falling)
+	if(isOnScreen):
+		animation_tree.set("parameters/conditions/Fail", !isAlive)
