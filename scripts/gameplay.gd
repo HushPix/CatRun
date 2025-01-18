@@ -135,13 +135,6 @@ func _on_start_button_pressed() -> void:
 	player.enableInput()
 	print("game started")
 
-# Prepares objects for game over status
-func gameOver() -> void:
-	player.gameOver()
-	
-# Triggers game over
-func _on_death_barrier_player_entered(player) -> void:
-	gameOver()
 
 func _gamePaused() -> void:
 	var isPaused: bool = get_tree().paused
@@ -154,3 +147,7 @@ func _on_pause_button_pressed() -> void:
 
 func _on_un_pause_button_pressed() -> void:
 	_gamePaused()
+
+
+func _on_retry_button_pressed() -> void:
+	get_tree().reload_current_scene()

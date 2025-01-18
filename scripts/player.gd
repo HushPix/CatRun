@@ -5,13 +5,15 @@ class_name Player
 @onready var on_screen_notifier: VisibleOnScreenNotifier2D = $CharacterBody2D/VisibleOnScreenNotifier2D
 @onready var debug: Label = $debug
 
+signal playerDied
+
 ## This bool tells if the player is alive
 const JUMP_VELOCITY = -400.0
 
 var alive: bool 
 var onScreen: bool = true
 var isControlable: bool 
-var currentState
+var currentState: playerInputState
 var initialPosition: float 
 var maxSpeed: float = 50
 
@@ -49,6 +51,7 @@ func disableInput() -> void:
 func gameOver() -> void:
 	alive = false
 	disableInput()
+	emit_signal("playerDied")
 	
 	
 func goBackToInitialPos() -> void:
@@ -82,14 +85,15 @@ func _physics_process(delta: float) -> void:
 		goBackToInitialPos()
 	
 	# Handle jump.
-	match currentState:
-		playerInputState.AllowInput:
-			if Input.is_action_pressed("jumpClick") and character_body_2d.is_on_floor():
-				character_body_2d.velocity.y = JUMP_VELOCITY
 
 	if(alive):
 		character_body_2d.move_and_slide()
 		
+
+func _unhandled_input(event: InputEvent) -> void:
+		if(currentState == playerInputState.AllowInput):
+			if(event.is_action_pressed("jumpClick") and character_body_2d.is_on_floor()):
+				character_body_2d.velocity.y = JUMP_VELOCITY
 
 func player_exits_screen() -> void:
 	onScreen = false
@@ -99,3 +103,7 @@ func player_exits_screen() -> void:
 func _on_obstacle_detection_body_entered(body: Node2D) -> void:
 	gameOver()
 		
+
+
+func _on_death_barrier_area_entered(area: Area2D) -> void:
+	gameOver()
