@@ -138,9 +138,19 @@ func _on_start_button_pressed() -> void:
 # Prepares objects for game over status
 func gameOver() -> void:
 	player.gameOver()
-	scoreTimer.stop()
-	print("game over")
 	
 # Triggers game over
 func _on_death_barrier_player_entered(player) -> void:
 	gameOver()
+
+func _gamePaused() -> void:
+	var isPaused: bool = get_tree().paused
+	get_tree().paused = !isPaused
+	
+	
+	
+func _on_pause_button_pressed() -> void:
+	_gamePaused()
+
+func _on_un_pause_button_pressed() -> void:
+	_gamePaused()

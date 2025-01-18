@@ -91,7 +91,6 @@ func _physics_process(delta: float) -> void:
 		character_body_2d.move_and_slide()
 		
 
-
 func player_exits_screen() -> void:
 	onScreen = false
 	

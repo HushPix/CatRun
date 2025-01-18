@@ -41,6 +41,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_force_pass_scroll_events = false
 
 [node name="StartButton" type="Button" parent="CanvasLayer/MainMenu"]
 layout_mode = 1
@@ -74,6 +75,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_force_pass_scroll_events = false
 
 [node name="scoreLabel" type="Label" parent="CanvasLayer/GameplayHud"]
 layout_mode = 1
@@ -88,6 +90,31 @@ grow_horizontal = 2
 text = "000"
 label_settings = ExtResource("3_xlalq")
 horizontal_alignment = 1
+
+[node name="pauseButton" type="Button" parent="CanvasLayer/GameplayHud"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = 132.0
+offset_bottom = 42.0
+text = "pause"
+
+[node name="PauseMenu" type="Control" parent="CanvasLayer"]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_force_pass_scroll_events = false
+
+[node name="unPauseButton" type="Button" parent="CanvasLayer/PauseMenu"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = 132.0
+offset_bottom = 42.0
+text = "pause"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(131.075, 4)
@@ -183,6 +210,10 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 [connection signal="timeout" from="scoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="CanvasLayer" method="_on_start_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameplayHud/pauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameplayHud/pauseButton" to="CanvasLayer" method="_on_pause_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/unPauseButton" to="." method="_on_un_pause_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/unPauseButton" to="CanvasLayer" method="_on_un_pause_button_pressed"]
 [connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
 [connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]
 [connection signal="body_entered" from="deathBarrier" to="." method="_on_death_barrier_player_entered"]
