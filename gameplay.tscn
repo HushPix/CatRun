@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/GroundSpawner.gd" id="3_2rtxb"]
 [ext_resource type="PackedScene" uid="uid://6j8fdpsikfqn" path="res://background.tscn" id="3_q2xm3"]
 [ext_resource type="LabelSettings" uid="uid://cah3ii4hvydr" path="res://LabelSettings/pixelTextoutline.tres" id="3_xlalq"]
-[ext_resource type="Script" path="res://parallaxEffect.gd" id="4_0a36o"]
+[ext_resource type="Script" path="res://scripts/parallaxEffect.gd" id="4_0a36o"]
 [ext_resource type="Texture2D" uid="uid://b2uhko5fji2d0" path="res://sprites/bgGround.png" id="4_q3l51"]
 [ext_resource type="Texture2D" uid="uid://dg4tagav82avf" path="res://sprites/skyBG.png" id="5_00ins"]
 [ext_resource type="Texture2D" uid="uid://b8n7c56ggpfef" path="res://sprites/cloudsBG.png" id="6_mpir8"]
@@ -89,6 +89,19 @@ grow_horizontal = 2
 text = "000"
 label_settings = ExtResource("3_xlalq")
 horizontal_alignment = 1
+
+[node name="hiScoreLabel" type="Label" parent="CanvasLayer/GameplayHud"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -384.0
+offset_top = 5.0
+offset_bottom = 69.0
+grow_horizontal = 0
+text = "BEST:000"
+label_settings = ExtResource("3_xlalq")
+horizontal_alignment = 2
 
 [node name="pauseButton" type="Button" parent="CanvasLayer/GameplayHud"]
 layout_mode = 0

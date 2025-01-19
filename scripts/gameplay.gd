@@ -10,6 +10,8 @@ enum level {
 	IDLE
 }
 
+const SAVEFILE = "res://cat_run_save.sav" # change res to user before building
+
 #References to objects on scene
 @onready var scoreTimer: Timer = $scoreTimer
 @onready var player: Node2D = $Player
@@ -17,12 +19,14 @@ enum level {
 
 var random = RandomNumberGenerator.new()
 
+@export var deleteSave: bool
 @export var scoreForNormal: int #minimum score for normal difficulty
 @export var scoreForHard: int  #minimum score for hard difficulty
 @export var gameSpeed: float
 
 var difficulty: level = level.IDLE
-var score: int 
+var score: int = 0
+var hiScore: int = 0
 
 #This could probably be done better but for me it was the easiest to make individual arrays for each level category
 var easyLevels: Array
@@ -82,6 +86,9 @@ func getLevelFromMemory() -> String:
 # This functions returns the current player score
 func getScore() -> int:
 	return score
+	
+func getHighScore() -> int:
+	return hiScore
 
 #This return current game speed
 func getSpeed() -> float:
@@ -90,6 +97,10 @@ func getSpeed() -> float:
 # This function returns the current difficulty
 func getDifficulty() -> level:
 	return difficulty
+	
+func setHighScore() -> void:
+	if(score > hiScore):
+		hiScore = score
 	
 #This sets the game's difficulty to the value of newDifficulty
 func setDifficulty(newDifficulty: level) -> void:
@@ -107,9 +118,25 @@ func _changeDifficulty(newDifficulty: level) -> void:
 	loadLevelsIn(getDifficulty())
 	addLevelsToMemory(groundTypes[getDifficulty()])
 	
-
+func save_score() -> void:
+	var file = FileAccess.open(SAVEFILE, FileAccess.WRITE_READ)
+	file.store_64(hiScore)
+	
+func load_score() -> void:
+	var file = FileAccess.open(SAVEFILE, FileAccess.READ)
+	if(FileAccess.file_exists(SAVEFILE)):
+		hiScore = file.get_64()
+		
+func delete_save() -> void:
+	hiScore = 0
+	score = 0
+	save_score()
 # Called when the node enters the scen
 func _ready() -> void:
+	if(deleteSave):
+		delete_save()
+	player.playerDied.connect(on_game_over)
+	load_score()
 	_changeDifficulty(level.IDLE)
 	player.disableInput()
 
@@ -140,7 +167,9 @@ func _gamePaused() -> void:
 	var isPaused: bool = get_tree().paused
 	get_tree().paused = !isPaused
 	
-	
+func on_game_over() -> void:
+	setHighScore()
+	save_score()	
 	
 func _on_pause_button_pressed() -> void:
 	_gamePaused()
