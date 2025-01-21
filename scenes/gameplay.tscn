@@ -1,10 +1,10 @@
 [gd_scene load_steps=15 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" path="res://scripts/canvasManager.gd" id="1_1sayb"]
-[ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://player.tscn" id="1_d3ts3"]
+[ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
 [ext_resource type="Script" path="res://scripts/gameplay.gd" id="1_opprc"]
 [ext_resource type="Script" path="res://scripts/GroundSpawner.gd" id="3_2rtxb"]
-[ext_resource type="PackedScene" uid="uid://6j8fdpsikfqn" path="res://background.tscn" id="3_q2xm3"]
+[ext_resource type="PackedScene" uid="uid://6j8fdpsikfqn" path="res://scenes/background.tscn" id="3_q2xm3"]
 [ext_resource type="LabelSettings" uid="uid://cah3ii4hvydr" path="res://LabelSettings/pixelTextoutline.tres" id="3_xlalq"]
 [ext_resource type="Script" path="res://scripts/parallaxEffect.gd" id="4_0a36o"]
 [ext_resource type="Texture2D" uid="uid://b2uhko5fji2d0" path="res://sprites/bgGround.png" id="4_q3l51"]

@@ -48,7 +48,7 @@ var levelsInMemory: Array = ["res://groundPrefabs/idle/groundIdle1.tscn"]
 #This function is used to load all level prefabs from the game's files	
 func loadLevelsIn(level, debug = false) -> void:
 	var folderName: String
-	var path = "res://groundPrefabs/"
+	var path = "res://groundPrefabs/" #looks for all the prefabs here
 	var fileName
 	match level:
 		0: folderName = "easy"
@@ -58,11 +58,12 @@ func loadLevelsIn(level, debug = false) -> void:
 	path += folderName
 	var dir = DirAccess.open(path)
 	if dir:
-		dir.list_dir_begin()
-		fileName = dir.get_next()
+		dir.list_dir_begin() #opens up the file stream
+		fileName = dir.get_next()  #looks for another file in the folder
 		while fileName != "":
-			groundTypes[level].append(path+"/"+fileName)
+			groundTypes[level].append(path+"/"+fileName) #adds levels to specific array
 			fileName = dir.get_next()
+		dir.list_dir_end() #closes the file stream
 		if debug:
 			print(groundTypes[level])
 	else:
@@ -72,32 +73,27 @@ func loadLevelsIn(level, debug = false) -> void:
 func addLevelsToMemory(inputArray: Array) -> void:
 	levelsInMemory.append_array(inputArray)
 	
-#Depracated - used for testing
-#func getBaseTileset() -> String:
-	#return "res://groundPrefabs/idle/ground0.tscn"
-	
 func getLevelFromMemory() -> String:
 	var index = random.randi_range(0, levelsInMemory.size() - 1)
-	#print("Here is my index " + str(index))
-#	if(index < 0 ):
-#		return "res://groundPrefabs/idle/ground0.tscn"
 	return levelsInMemory[index]
 
-# This functions returns the current player score
+#This functions returns the current player score
 func getScore() -> int:
 	return score
 	
+#Returns High Score
 func getHighScore() -> int:
 	return hiScore
 
-#This return current game speed
+#This returns current game speed
 func getSpeed() -> float:
 	return gameSpeed
 	
-# This function returns the current difficulty
+#This function returns the current difficulty
 func getDifficulty() -> level:
 	return difficulty
 	
+#This function changes the high score	
 func setHighScore() -> void:
 	if(score > hiScore):
 		hiScore = score
@@ -112,26 +108,30 @@ func gameStarted() -> void:
 	scoreTimer.start()
 	player.isControlable = true
 
-# This function changes the difficulty
+#This function changes the difficulty
 func _changeDifficulty(newDifficulty: level) -> void:
 	setDifficulty(newDifficulty)
 	loadLevelsIn(getDifficulty())
 	addLevelsToMemory(groundTypes[getDifficulty()])
 	
+#This function is used to modify the savedata (will change name to something more expansive)
 func save_score() -> void:
 	var file = FileAccess.open(SAVEFILE, FileAccess.WRITE_READ)
 	file.store_64(hiScore)
-	
+
+#This is used to load in the saveData
 func load_score() -> void:
 	var file = FileAccess.open(SAVEFILE, FileAccess.READ)
 	if(FileAccess.file_exists(SAVEFILE)):
 		hiScore = file.get_64()
 		
+#This is a quick way to reset the save data		
 func delete_save() -> void:
 	hiScore = 0
 	score = 0
 	save_score()
-# Called when the node enters the scen
+	
+#Called when the node enters the scene
 func _ready() -> void:
 	if(deleteSave):
 		delete_save()
@@ -149,28 +149,30 @@ func _on_score_timer_timeout() -> void:
 	if (player._isPlayerAlive()):
 		score+=1
 
-# This compares the current score, and changes difficulty according to made progress
+#This compares the current score, and changes difficulty according to made progress
 func _compareCurrentScore() -> void:
 	if score > scoreForNormal and getDifficulty() == level.EASY:
 		_changeDifficulty(level.MEDIUM)
 	if score > scoreForHard and getDifficulty() == level.MEDIUM:
 		_changeDifficulty(level.HARD)
 
-# This should be in canvas manager but i'll move it later
+#This should be in canvas manager but i'll move it later (i forgor why tho)
 func _on_start_button_pressed() -> void:
 	gameStarted()
 	player.enableInput()
 	print("game started")
 
-
+#I love how simple it is to pause the game in godot
 func _gamePaused() -> void:
 	var isPaused: bool = get_tree().paused
 	get_tree().paused = !isPaused
-	
+
+#When the cat fails :(
 func on_game_over() -> void:
 	setHighScore()
 	save_score()	
-	
+
+
 func _on_pause_button_pressed() -> void:
 	_gamePaused()
 

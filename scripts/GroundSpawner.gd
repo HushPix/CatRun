@@ -1,5 +1,5 @@
 extends Node2D
-var groundScene = preload("res://ground.tscn")
+var groundScene = preload("res://scenes/ground.tscn")
 @onready var ground_spawner: Node2D = $"."
 @onready var spawn_trigger: Area2D = $SpawnTrigger
 @onready var despawn_trigger: Area2D = $DespawnTrigger

@@ -1,5 +1,5 @@
 # CatRun
-My runner game made in Godot Engine
+My endless runner game made in Godot Engine
 
 ## License
 Shield: [![CC BY-NC 4.0][cc-by-nc-shield]][cc-by-nc]
