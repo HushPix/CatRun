@@ -28,6 +28,9 @@ scoreForNormal = 1
 scoreForHard = 1
 gameSpeed = 2.0
 
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+current = true
+
 [node name="scoreTimer" type="Timer" parent="."]
 wait_time = 0.4
 
