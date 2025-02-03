@@ -16,6 +16,7 @@ const SAVEFILE = "res://cat_run_save.sav" # change res to user before building
 @onready var scoreTimer: Timer = $scoreTimer
 @onready var player: Node2D = $Player
 @onready var ground_spawner: Node2D = $GroundSpawner
+@export var AudioManager: Node2D
 
 var random = RandomNumberGenerator.new()
 
@@ -135,7 +136,9 @@ func delete_save() -> void:
 func _ready() -> void:
 	if(deleteSave):
 		delete_save()
+		
 	player.playerDied.connect(on_game_over)
+	
 	load_score()
 	_changeDifficulty(level.IDLE)
 	player.disableInput()
@@ -171,6 +174,8 @@ func _gamePaused() -> void:
 func on_game_over() -> void:
 	setHighScore()
 	save_score()	
+	AudioManager.gameOverAudio()
+	
 
 
 func _on_pause_button_pressed() -> void:

@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+
 @onready var player: Player = $"../Player"
 @onready var gameplay: Node2D = $".."
 @onready var main_menu: Control = $MainMenu

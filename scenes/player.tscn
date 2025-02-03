@@ -1,11 +1,10 @@
-[gd_scene load_steps=37 format=3 uid="uid://dr24hb7d2yjjl"]
+[gd_scene load_steps=36 format=3 uid="uid://dr24hb7d2yjjl"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_ctbvp"]
 [ext_resource type="Script" path="res://scripts/player_animator.gd" id="2_2gxwj"]
 [ext_resource type="Texture2D" uid="uid://b10r22xi31ich" path="res://sprites/playerSprite.png" id="2_casxf"]
 [ext_resource type="AudioStream" uid="uid://o46htektrb33" path="res://sfx/hit.wav" id="4_i6v5e"]
 [ext_resource type="AudioStream" uid="uid://dtcov8w8ww4cs" path="res://sfx/jump.wav" id="4_o72y7"]
-[ext_resource type="AudioStream" uid="uid://w5q84u5fjqlt" path="res://sfx/fail.wav" id="5_5u31d"]
 [ext_resource type="AudioStream" uid="uid://5cpb1ib4nren" path="res://sfx/meowButAngry.wav" id="6_7mhyq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_cqp0x"]
@@ -147,14 +146,10 @@ tracks/5/keys = {
 "end_offset": 0.0,
 "start_offset": 0.0,
 "stream": ExtResource("4_i6v5e")
-}, {
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource("5_5u31d")
 }],
-"times": PackedFloat32Array(0, 0.1)
+"times": PackedFloat32Array(0)
 }
-tracks/5/use_blend = true
+tracks/5/use_blend = false
 tracks/6/type = "audio"
 tracks/6/imported = false
 tracks/6/enabled = true
@@ -169,7 +164,7 @@ tracks/6/keys = {
 }],
 "times": PackedFloat32Array(0.0333333)
 }
-tracks/6/use_blend = true
+tracks/6/use_blend = false
 
 [sub_resource type="Animation" id="Animation_0urml"]
 resource_name = "fall"
@@ -230,7 +225,7 @@ tracks/1/keys = {
 }],
 "times": PackedFloat32Array(0)
 }
-tracks/1/use_blend = true
+tracks/1/use_blend = false
 
 [sub_resource type="Animation" id="Animation_0onb0"]
 resource_name = "Run"

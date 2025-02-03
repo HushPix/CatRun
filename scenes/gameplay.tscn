@@ -1,14 +1,17 @@
-[gd_scene load_steps=15 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=18 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" path="res://scripts/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
 [ext_resource type="Script" path="res://scripts/gameplay.gd" id="1_opprc"]
+[ext_resource type="Script" path="res://scripts/audio_manager.gd" id="2_k5gxe"]
 [ext_resource type="Script" path="res://scripts/GroundSpawner.gd" id="3_2rtxb"]
 [ext_resource type="PackedScene" uid="uid://6j8fdpsikfqn" path="res://scenes/background.tscn" id="3_q2xm3"]
 [ext_resource type="LabelSettings" uid="uid://cah3ii4hvydr" path="res://LabelSettings/pixelTextoutline.tres" id="3_xlalq"]
 [ext_resource type="Script" path="res://scripts/parallaxEffect.gd" id="4_0a36o"]
+[ext_resource type="PackedScene" uid="uid://cm62d5sve3fxx" path="res://UiPrefabs/button_preset.tscn" id="4_07t3o"]
 [ext_resource type="Texture2D" uid="uid://b2uhko5fji2d0" path="res://sprites/bgGround.png" id="4_q3l51"]
 [ext_resource type="Texture2D" uid="uid://dg4tagav82avf" path="res://sprites/skyBG.png" id="5_00ins"]
+[ext_resource type="AudioStream" uid="uid://vmav5skg1gen" path="res://sfx/ok.wav" id="5_vixde"]
 [ext_resource type="Texture2D" uid="uid://b8n7c56ggpfef" path="res://sprites/cloudsBG.png" id="6_mpir8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
@@ -22,14 +25,28 @@ size = Vector2(164, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5e380"]
 size = Vector2(49.5, 178.25)
 
-[node name="Gameplay" type="Node2D"]
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("AudioManager")]
 script = ExtResource("1_opprc")
+AudioManager = NodePath("AudioManager")
 scoreForNormal = 1
 scoreForHard = 1
 gameSpeed = 2.0
 
-[node name="AudioListener2D" type="AudioListener2D" parent="."]
+[node name="AudioManager" type="Node2D" parent="." node_paths=PackedStringArray("audioListener", "musicPlayer")]
+process_mode = 3
+script = ExtResource("2_k5gxe")
+audioListener = NodePath("sceneAudioListener")
+musicPlayer = NodePath("globalMusicPlayer")
+
+[node name="sceneAudioListener" type="AudioListener2D" parent="AudioManager"]
 current = true
+
+[node name="globalSfxPlayer" type="AudioStreamPlayer" parent="AudioManager"]
+bus = &"sfx"
+
+[node name="globalMusicPlayer" type="AudioStreamPlayer" parent="AudioManager"]
+autoplay = true
+bus = &"music"
 
 [node name="scoreTimer" type="Timer" parent="."]
 wait_time = 0.4
@@ -45,30 +62,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StartButton" type="Button" parent="CanvasLayer/MainMenu"]
+[node name="StartButton" parent="CanvasLayer/MainMenu" instance=ExtResource("4_07t3o")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 flat = true
-
-[node name="Label" type="Label" parent="CanvasLayer/MainMenu/StartButton"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "CLICK TO START"
-label_settings = ExtResource("3_xlalq")
+pressSound = ExtResource("5_vixde")
+buttonText = " Click To Start"
 
 [node name="GameplayHud" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -173,30 +171,12 @@ text = "000"
 label_settings = ExtResource("3_xlalq")
 horizontal_alignment = 1
 
-[node name="retryButton" type="Button" parent="CanvasLayer/gameOverScreen"]
+[node name="RetryButton" parent="CanvasLayer/gameOverScreen" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("4_07t3o")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 flat = true
-
-[node name="Label" type="Label" parent="CanvasLayer/gameOverScreen/retryButton"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -336.0
-offset_top = -172.0
-offset_right = 336.0
-offset_bottom = -124.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Click to retry"
-label_settings = ExtResource("3_xlalq")
+buttonText = " Click To Retry"
+buttonAudioPlayer = NodePath("../../../AudioManager/globalSfxPlayer")
+textOffset = Vector2(0, 200)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(131.075, 4)
@@ -296,7 +276,7 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 [connection signal="pressed" from="CanvasLayer/GameplayHud/pauseButton" to="CanvasLayer" method="_on_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/unPauseButton" to="." method="_on_un_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/unPauseButton" to="CanvasLayer" method="_on_un_pause_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/gameOverScreen/retryButton" to="." method="_on_retry_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/gameOverScreen/RetryButton" to="." method="_on_retry_button_pressed"]
 [connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
 [connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]
 [connection signal="area_entered" from="deathBarrier" to="Player" method="_on_death_barrier_area_entered"]
