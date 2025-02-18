@@ -30,6 +30,7 @@ enabled=PackedStringArray("res://addons/script-ide/plugin.cfg")
 [global_group]
 
 enemy=""
+collectible=""
 
 [input]
 
@@ -47,3 +48,4 @@ jumpClick={
 2d_physics/layer_3="Triggers"
 2d_physics/layer_4="UI"
 2d_physics/layer_5="Enemy"
+2d_physics/layer_6="Interactables"

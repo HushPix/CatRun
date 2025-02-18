@@ -42,11 +42,9 @@ musicPlayer = NodePath("globalMusicPlayer")
 current = true
 
 [node name="globalSfxPlayer" type="AudioStreamPlayer" parent="AudioManager"]
-bus = &"sfx"
 
 [node name="globalMusicPlayer" type="AudioStreamPlayer" parent="AudioManager"]
 autoplay = true
-bus = &"music"
 
 [node name="scoreTimer" type="Timer" parent="."]
 wait_time = 0.4

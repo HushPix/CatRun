@@ -377,7 +377,6 @@ label_settings = SubResource("LabelSettings_cqp0x")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
 max_polyphony = 3
-bus = &"sfx"
 
 [node name="playerAnimator" type="Node" parent="." node_paths=PackedStringArray("animation_tree")]
 script = ExtResource("2_2gxwj")
