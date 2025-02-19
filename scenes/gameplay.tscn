@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=19 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" path="res://scripts/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
 [ext_resource type="Script" path="res://scripts/gameplay.gd" id="1_opprc"]
+[ext_resource type="Script" path="res://scenes/collectible_manager.gd" id="2_1xsq2"]
 [ext_resource type="Script" path="res://scripts/audio_manager.gd" id="2_k5gxe"]
 [ext_resource type="Script" path="res://scripts/GroundSpawner.gd" id="3_2rtxb"]
 [ext_resource type="PackedScene" uid="uid://6j8fdpsikfqn" path="res://scenes/background.tscn" id="3_q2xm3"]
@@ -31,6 +32,9 @@ AudioManager = NodePath("AudioManager")
 scoreForNormal = 1
 scoreForHard = 1
 gameSpeed = 2.0
+
+[node name="CollectibleManager" type="Node" parent="."]
+script = ExtResource("2_1xsq2")
 
 [node name="AudioManager" type="Node2D" parent="." node_paths=PackedStringArray("audioListener", "musicPlayer")]
 process_mode = 3
