@@ -1,16 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://bnav5yjf6lrw4"]
+[gd_scene load_steps=4 format=3 uid="uid://bnav5yjf6lrw4"]
 
-[ext_resource type="Script" path="res://scripts/collectible.gd" id="1_jlmvj"]
-[ext_resource type="Texture2D" uid="uid://386itt5iukmy" path="res://sprites/playerTest.png" id="1_mqoiw"]
-[ext_resource type="AudioStream" uid="uid://x420sg115idv" path="res://sfx/bleep.wav" id="2_j2eyk"]
+[ext_resource type="Script" path="res://scripts/collectible/collectible.gd" id="1_jlmvj"]
+[ext_resource type="Resource" uid="uid://bx2rsxmi1t2er" path="res://objects/collectibleDataPresets/coinData.tres" id="2_vwyi6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tm3hh"]
 size = Vector2(16, 16)
 
 [node name="collectible" type="Node2D" groups=["collectible"]]
 script = ExtResource("1_jlmvj")
-sprite = ExtResource("1_mqoiw")
-sound = ExtResource("2_j2eyk")
+data = ExtResource("2_vwyi6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 

@@ -1,18 +1,31 @@
-[gd_scene load_steps=3 format=4 uid="uid://b3h2nvemuhx2g"]
+[gd_scene load_steps=7 format=4 uid="uid://b3h2nvemuhx2g"]
 
 [ext_resource type="TileSet" uid="uid://dfv5jo3lk4pca" path="res://tilesets/ground_tiles.tres" id="1_l610w"]
-[ext_resource type="PackedScene" uid="uid://bnav5yjf6lrw4" path="res://scenes/coin.tscn" id="2_3ds20"]
+[ext_resource type="PackedScene" uid="uid://bnav5yjf6lrw4" path="res://scenes/collectible.tscn" id="2_iu1wa"]
+[ext_resource type="Script" path="res://scripts/collectible/collectibleData.gd" id="3_3inmp"]
+[ext_resource type="AudioStream" uid="uid://jchgmsoc6b4e" path="res://sfx/deny.wav" id="4_j65p1"]
+[ext_resource type="Texture2D" uid="uid://b3tdan6fpnblw" path="res://sprites/foodTest.png" id="5_m8ihc"]
+
+[sub_resource type="Resource" id="Resource_ymi4m"]
+script = ExtResource("3_3inmp")
+sprite = ExtResource("5_m8ihc")
+sound = ExtResource("4_j65p1")
+points = 200
+type = 1
 
 [node name="Ground" type="TileMapLayer"]
 texture_filter = 1
 tile_map_data = PackedByteArray("AAAAAAkAAAABAAAAAAATAAkAAAABAAAAAAABAAkAAAABAAAAAAACAAkAAAABAAAAAAADAAkAAAABAAAAAAAEAAkAAAABAAAAAAAFAAkAAAABAAAAAAAGAAkAAAABAAAAAAAHAAkAAAABAAAAAAAIAAkAAAABAAAAAAAJAAkAAAABAAAAAAAKAAkAAAABAAAAAAALAAkAAAABAAAAAAAMAAkAAAABAAAAAAANAAkAAAABAAAAAAAOAAkAAAABAAAAAAAPAAkAAAABAAAAAAAQAAkAAAABAAAAAAARAAkAAAABAAAAAAASAAkAAAABAAAAAAAAAAoAAAABAAEAAAABAAoAAAABAAEAAAACAAoAAAABAAEAAAADAAoAAAABAAEAAAAEAAoAAAABAAEAAAAFAAoAAAABAAEAAAAGAAoAAAABAAEAAAAHAAoAAAABAAEAAAAIAAoAAAABAAEAAAAJAAoAAAABAAEAAAAKAAoAAAABAAEAAAALAAoAAAABAAEAAAAMAAoAAAABAAEAAAANAAoAAAABAAEAAAAOAAoAAAABAAEAAAAPAAoAAAABAAEAAAAQAAoAAAABAAEAAAARAAoAAAABAAEAAAASAAoAAAABAAEAAAATAAoAAAABAAEAAAAAAAsAAAABAAIAAAABAAsAAAABAAIAAAACAAsAAAABAAIAAAADAAsAAAABAAIAAAAEAAsAAAABAAIAAAAFAAsAAAABAAIAAAAGAAsAAAABAAIAAAAHAAsAAAABAAIAAAAIAAsAAAABAAIAAAAJAAsAAAABAAIAAAAKAAsAAAABAAIAAAALAAsAAAABAAIAAAAMAAsAAAABAAIAAAANAAsAAAABAAIAAAAOAAsAAAABAAIAAAAPAAsAAAABAAIAAAAQAAsAAAABAAIAAAARAAsAAAABAAIAAAASAAsAAAABAAIAAAATAAsAAAABAAIAAAAUAAoAAAABAAEAAAAVAAoAAAABAAEAAAAWAAoAAAABAAEAAAAUAAsAAAABAAIAAAAVAAsAAAABAAIAAAAWAAsAAAABAAIAAAAUAAkAAAABAAAAAAAVAAkAAAABAAAAAAAWAAkAAAABAAAAAAAXAAkAAAABAAAAAAAYAAkAAAABAAAAAAAZAAkAAAABAAAAAAAXAAoAAAABAAEAAAAYAAoAAAABAAEAAAAZAAoAAAABAAEAAAAXAAsAAAABAAIAAAAYAAsAAAABAAIAAAAZAAsAAAABAAIAAAAFAAgAAQAAAAAAAAAGAAgAAQACAAAAAAAHAAgAAQACAAAAAAAIAAgAAQABAAAAAAAPAAgAAQADAAAAAAACAAgAAQADAAAAAAAXAAgAAQABAAAAAAAWAAgAAQAAAAAAAAA=")
 tile_set = ExtResource("1_l610w")
 
-[node name="Coin" parent="." instance=ExtResource("2_3ds20")]
-position = Vector2(160, 128)
+[node name="Node" type="Node2D" parent="."]
 
-[node name="Coin3" parent="." instance=ExtResource("2_3ds20")]
-position = Vector2(224, 128)
+[node name="collectible" parent="Node" instance=ExtResource("2_iu1wa")]
+position = Vector2(288, 120)
 
-[node name="Coin2" parent="." instance=ExtResource("2_3ds20")]
-position = Vector2(192, 128)
+[node name="collectible2" parent="Node" instance=ExtResource("2_iu1wa")]
+position = Vector2(232, 120)
+data = SubResource("Resource_ymi4m")
+
+[node name="collectible3" parent="Node" instance=ExtResource("2_iu1wa")]
+position = Vector2(176, 120)
