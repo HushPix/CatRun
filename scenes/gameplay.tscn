@@ -40,9 +40,10 @@ gameSpeed = 2.0
 
 [node name="Managers" type="Node" parent="."]
 
-[node name="CollectibleManager" type="Node" parent="Managers" node_paths=PackedStringArray("player")]
+[node name="CollectibleManager" type="Node" parent="Managers" node_paths=PackedStringArray("player", "score_timer")]
 script = ExtResource("2_1xsq2")
 player = NodePath("../../Player")
+score_timer = NodePath("scoreTimer")
 
 [node name="scoreTimer" type="Timer" parent="Managers/CollectibleManager"]
 wait_time = 0.4

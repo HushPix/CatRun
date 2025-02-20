@@ -4,7 +4,7 @@ class_name AudioButton
 @export var pressSound: AudioStreamWAV
 @export var buttonText: String = " "
 @export var buttonAudioPlayer: AudioStreamPlayer
-@onready var buttonLabel: Label = $ButtonText
+@export var buttonLabel: Label 
 @export var textStyle: LabelSettings
 @export var textOffset: Vector2
 

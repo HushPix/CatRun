@@ -2,7 +2,7 @@ class_name  CollectibleManager
 extends Node
 
 @export var player: Player
-@onready var score_timer: Timer = $scoreTimer
+@export var score_timer: Timer
 
 var currentCoins = 0
 var score = 0

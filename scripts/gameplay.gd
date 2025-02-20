@@ -20,8 +20,6 @@ enum level {
 
 var random = RandomNumberGenerator.new()
 
-
-
 @export var deleteSave: bool
 @export var scoreForNormal: int #minimum score for normal difficulty
 @export var scoreForHard: int  #minimum score for hard difficulty

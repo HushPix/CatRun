@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-
 @export var player: Player
 @export var gameplay: Gameplay 
 @export var collectibleManager: CollectibleManager
