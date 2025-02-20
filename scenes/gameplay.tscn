@@ -26,15 +26,20 @@ size = Vector2(164, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5e380"]
 size = Vector2(49.5, 178.25)
 
-[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("AudioManager")]
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("AudioManager", "collectibleManager")]
 script = ExtResource("1_opprc")
 AudioManager = NodePath("AudioManager")
+collectibleManager = NodePath("CollectibleManager")
 scoreForNormal = 1
 scoreForHard = 1
 gameSpeed = 2.0
 
-[node name="CollectibleManager" type="Node" parent="."]
+[node name="CollectibleManager" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("2_1xsq2")
+player = NodePath("../Player")
+
+[node name="scoreTimer" type="Timer" parent="CollectibleManager"]
+wait_time = 0.4
 
 [node name="AudioManager" type="Node2D" parent="." node_paths=PackedStringArray("audioListener", "musicPlayer")]
 process_mode = 3
@@ -50,11 +55,11 @@ current = true
 [node name="globalMusicPlayer" type="AudioStreamPlayer" parent="AudioManager"]
 autoplay = true
 
-[node name="scoreTimer" type="Timer" parent="."]
-wait_time = 0.4
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("player", "gameplay", "collectibleManager")]
 script = ExtResource("1_1sayb")
+player = NodePath("../Player")
+gameplay = NodePath("..")
+collectibleManager = NodePath("../CollectibleManager")
 
 [node name="MainMenu" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -271,7 +276,7 @@ shape = SubResource("RectangleShape2D_5e380")
 debug_color = Color(0.932447, 0.260223, 0, 0.42)
 
 [connection signal="ready" from="." to="CanvasLayer" method="_on_gameplay_ready"]
-[connection signal="timeout" from="scoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="CollectibleManager/scoreTimer" to="CollectibleManager" method="_on_score_timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="CanvasLayer" method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/GameplayHud/pauseButton" to="." method="_on_pause_button_pressed"]

@@ -1,8 +1,10 @@
 extends CanvasLayer
 
 
-@onready var player: Player = $"../Player"
-@onready var gameplay: Node2D = $".."
+@export var player: Player
+@export var gameplay: Gameplay 
+@export var collectibleManager: CollectibleManager
+
 @onready var main_menu: Control = $MainMenu
 @onready var gameplay_hud: Control = $GameplayHud
 @onready var score_label: Label = $GameplayHud/scoreLabel
@@ -19,9 +21,9 @@ func _ready() -> void:
 
 func _updateScore(label: Label, isHiScore: bool) -> void: #updates the score every frame
 	if(isHiScore):
-		label.text = "BEST:" + str(gameplay.getHighScore())
+		label.text = "BEST:" + str(collectibleManager.getHighScore())
 	else:
-		label.text = str(gameplay.getScore())
+		label.text = str(collectibleManager.getScore())
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

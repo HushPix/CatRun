@@ -33,9 +33,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	collectible_audio.play()
 	
 	sprite_2d.visible = false
-	area_2d.monitoring = false
-	area_2d.set_deferred("monitorable", false)
-
+	area_2d.set_deferred("monitoring", false)
+	
+	SignalManager.passColectible.emit(self)
 	
 	await collectible_audio.finished
 	queue_free()
