@@ -14,8 +14,8 @@ func _ready() -> void:
 func set_coins(coins) -> void:
 	currentCoins = coins
 
-func add_coins(coins) -> void:
-	currentCoins += coins
+func add_coins(coinsToAdd) -> void:
+	currentCoins += coinsToAdd
 	
 func get_coins() -> int:
 	return currentCoins
@@ -26,6 +26,9 @@ func getScore() -> int:
 	
 func setScore(currScore: int) -> void:
 	score = currScore
+	
+func addScore(scoreToAdd: int) -> void:
+	score += scoreToAdd
 	
 #Returns High Score
 func getHighScore() -> int:
@@ -42,8 +45,9 @@ func setHighScore(newScore: int) -> void:
 func onCollectible(collectible: Collectible) -> void:
 	if collectible.type == CollectibleType.Type.coin:
 		add_coins(1)
+		addScore(collectible.get_points())
 	else:
-		pass
+		addScore(collectible.get_points())
 		
 # This is used to count score
 func _on_score_timer_timeout() -> void:
