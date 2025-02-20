@@ -1,3 +1,4 @@
+class_name GroundSpawner
 extends Node2D
 var groundScene = preload("res://scenes/ground.tscn")
 @onready var ground_spawner: Node2D = $"."

@@ -11,15 +11,12 @@ enum level {
 	IDLE
 }
 
-const SAVEFILE = "res://cat_run_save.sav" # change res to user before building
-
 #References to objects on scene
-@onready var scoreTimer: Timer = $scoreTimer
-@onready var player: Node2D = $Player
-@onready var ground_spawner: Node2D = $GroundSpawner
+@export var player: Player
+@export var ground_spawner: GroundSpawner
 @export var AudioManager: Node2D
-@onready var gameplay: Node2D = $"."
 @export var collectibleManager: CollectibleManager 
+@export var saveManager: SaveManager
 
 var random = RandomNumberGenerator.new()
 
@@ -108,33 +105,18 @@ func _changeDifficulty(newDifficulty: level) -> void:
 	loadLevelsIn(getDifficulty())
 	addLevelsToMemory(groundTypes[getDifficulty()])
 	
-#This function is used to modify the savedata (will change name to something more expansive)
-#func save_score() -> void:
-	#var file = FileAccess.open(SAVEFILE, FileAccess.WRITE_READ)
-	#file.store_64(hiScore)
 
-#This is used to load in the saveData
-#func load_score() -> void:
-	#var file = FileAccess.open(SAVEFILE, FileAccess.READ)
-	#if(FileAccess.file_exists(SAVEFILE)):
-		#hiScore = file.get_64()
-		
-#This is a quick way to reset the save data		
-#func delete_save() -> void:
-	#collectibleManager.setHighScore(0)
-	#collectibleManager.setScore(0)
-	#save_score()
 	
 #Called when the node enters the scene
 func _ready() -> void:
-	#if(deleteSave):
-		#delete_save()
+	if(deleteSave):
+		saveManager.delete_save()
 		
 	player.playerDied.connect(on_game_over)
 	
-	#load_score()
-	#_changeDifficulty(level.IDLE)
-	#player.disableInput()
+	saveManager.load_score()
+	_changeDifficulty(level.IDLE)
+	player.disableInput()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -162,8 +144,8 @@ func _gamePaused() -> void:
 
 #When the cat fails :(
 func on_game_over() -> void:
-	collectibleManager.setHighScore()
-	#save_score()	
+	collectibleManager.findAndSetHighScore()
+	saveManager.save_score()	
 	AudioManager.gameOverAudio()
 	
 

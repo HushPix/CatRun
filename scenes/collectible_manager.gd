@@ -32,9 +32,12 @@ func getHighScore() -> int:
 	return hiScore
 	
 #This function changes the high score	
-func setHighScore() -> void:
+func findAndSetHighScore() -> void:
 	if(score > hiScore):
 		hiScore = score
+
+func setHighScore(newScore: int) -> void:
+	hiScore = newScore
 
 func onCollectible(collectible: Collectible) -> void:
 	if collectible.type == CollectibleType.Type.coin:

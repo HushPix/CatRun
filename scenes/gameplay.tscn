@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=20 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" path="res://scripts/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
@@ -10,6 +10,7 @@
 [ext_resource type="LabelSettings" uid="uid://cah3ii4hvydr" path="res://LabelSettings/pixelTextoutline.tres" id="3_xlalq"]
 [ext_resource type="Script" path="res://scripts/parallaxEffect.gd" id="4_0a36o"]
 [ext_resource type="PackedScene" uid="uid://cm62d5sve3fxx" path="res://UiPrefabs/button_preset.tscn" id="4_07t3o"]
+[ext_resource type="Script" path="res://scenes/save_manager.gd" id="4_fobus"]
 [ext_resource type="Texture2D" uid="uid://b2uhko5fji2d0" path="res://sprites/bgGround.png" id="4_q3l51"]
 [ext_resource type="Texture2D" uid="uid://dg4tagav82avf" path="res://sprites/skyBG.png" id="5_00ins"]
 [ext_resource type="AudioStream" uid="uid://vmav5skg1gen" path="res://sfx/ok.wav" id="5_vixde"]
@@ -26,40 +27,49 @@ size = Vector2(164, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5e380"]
 size = Vector2(49.5, 178.25)
 
-[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("AudioManager", "collectibleManager")]
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "AudioManager", "collectibleManager", "saveManager")]
 script = ExtResource("1_opprc")
-AudioManager = NodePath("AudioManager")
-collectibleManager = NodePath("CollectibleManager")
+player = NodePath("Player")
+ground_spawner = NodePath("GroundSpawner")
+AudioManager = NodePath("Managers/AudioManager")
+collectibleManager = NodePath("Managers/CollectibleManager")
+saveManager = NodePath("Managers/SaveManager")
 scoreForNormal = 1
 scoreForHard = 1
 gameSpeed = 2.0
 
-[node name="CollectibleManager" type="Node" parent="." node_paths=PackedStringArray("player")]
-script = ExtResource("2_1xsq2")
-player = NodePath("../Player")
+[node name="Managers" type="Node" parent="."]
 
-[node name="scoreTimer" type="Timer" parent="CollectibleManager"]
+[node name="CollectibleManager" type="Node" parent="Managers" node_paths=PackedStringArray("player")]
+script = ExtResource("2_1xsq2")
+player = NodePath("../../Player")
+
+[node name="scoreTimer" type="Timer" parent="Managers/CollectibleManager"]
 wait_time = 0.4
 
-[node name="AudioManager" type="Node2D" parent="." node_paths=PackedStringArray("audioListener", "musicPlayer")]
+[node name="AudioManager" type="Node2D" parent="Managers" node_paths=PackedStringArray("audioListener", "musicPlayer")]
 process_mode = 3
 script = ExtResource("2_k5gxe")
 audioListener = NodePath("sceneAudioListener")
 musicPlayer = NodePath("globalMusicPlayer")
 
-[node name="sceneAudioListener" type="AudioListener2D" parent="AudioManager"]
+[node name="sceneAudioListener" type="AudioListener2D" parent="Managers/AudioManager"]
 current = true
 
-[node name="globalSfxPlayer" type="AudioStreamPlayer" parent="AudioManager"]
+[node name="globalSfxPlayer" type="AudioStreamPlayer" parent="Managers/AudioManager"]
 
-[node name="globalMusicPlayer" type="AudioStreamPlayer" parent="AudioManager"]
+[node name="globalMusicPlayer" type="AudioStreamPlayer" parent="Managers/AudioManager"]
 autoplay = true
+
+[node name="SaveManager" type="Node" parent="Managers" node_paths=PackedStringArray("collectibleManager")]
+script = ExtResource("4_fobus")
+collectibleManager = NodePath("../CollectibleManager")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("player", "gameplay", "collectibleManager")]
 script = ExtResource("1_1sayb")
 player = NodePath("../Player")
 gameplay = NodePath("..")
-collectibleManager = NodePath("../CollectibleManager")
+collectibleManager = NodePath("../Managers/CollectibleManager")
 
 [node name="MainMenu" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -182,7 +192,7 @@ horizontal_alignment = 1
 layout_mode = 1
 flat = true
 buttonText = " Click To Retry"
-buttonAudioPlayer = NodePath("../../../AudioManager/globalSfxPlayer")
+buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
 textOffset = Vector2(0, 200)
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -276,7 +286,7 @@ shape = SubResource("RectangleShape2D_5e380")
 debug_color = Color(0.932447, 0.260223, 0, 0.42)
 
 [connection signal="ready" from="." to="CanvasLayer" method="_on_gameplay_ready"]
-[connection signal="timeout" from="CollectibleManager/scoreTimer" to="CollectibleManager" method="_on_score_timer_timeout"]
+[connection signal="timeout" from="Managers/CollectibleManager/scoreTimer" to="Managers/CollectibleManager" method="_on_score_timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="CanvasLayer" method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/GameplayHud/pauseButton" to="." method="_on_pause_button_pressed"]
