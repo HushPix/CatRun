@@ -6,40 +6,23 @@ extends CanvasLayer
 @export var player: Player
 @export var gameplay: Gameplay 
 @export var collectibleManager: CollectibleManager
-
-func _hideMenu(menu: Menu_Data) -> void:
-	if menu.currentMenuState == Menu_Data.menu_state.shown:
-		menu.hide()
-	
-
-
-#@onready var main_menu: Control = $MainMenu
-#@onready var gameplay_hud: Control = $GameplayHud
-#@onready var score_label: Label = $GameplayHud/scoreLabel
-#@onready var pause_menu: Control = $PauseMenu
-#@onready var game_over_screen: Control = $gameOverScreen
-#@onready var score_label_2: Label = $gameOverScreen/scoreLabel2
-#@onready var hi_score_label: Label = $GameplayHud/hiScoreLabel
-#@onready var hi_score_label_menu: Label = $MainMenu/hiScoreLabelMenu
-#@onready var start_button: AudioButton = $MainMenu/StartButton
-
+@export var gameplayHud: Canvas_Menu
+@export var mainMenu: Canvas_Menu
+@export var pauseMenu: Canvas_Menu
+@export var gameOverMenu: Canvas_Menu
 
 # Called when the node enters the scene tree for the first time.
-#func _ready() -> void:
-	#player.playerDied.connect(on_game_over)
-	#pause_menu.hide()
+func _ready() -> void:
+	player.playerDied.connect(on_game_over)
+	pause_menu.hide()
 #
-#func _updateScore(label: Label, isHiScore: bool) -> void: #updates the score every frame
-	#if(isHiScore):
-		#label.text = "BEST:" + str(collectibleManager.getHighScore())
-	#else:
-		#label.text = str(collectibleManager.getScore())
-#
+
+
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-	#if player._isPlayerAlive():
-		#_updateScore(score_label, false)
-#
+func _process(delta: float) -> void:
+	if player._isPlayerAlive():
+		_updateScore(score_label, false)
+
 ## Hides the main menu and shows hud, when player starts the game
 #func _on_start_button_pressed() -> void: ## When player is ready
 	#main_menu.hide()
@@ -70,3 +53,16 @@ func _hideMenu(menu: Menu_Data) -> void:
 	#if event.is_action_pressed("uiButtonAccept"):
 		#if main_menu.visible:
 			#start_button.emit_signal("pressed")
+
+
+
+func _on_start_button_pressed() -> void:
+	mainMenu.hide()
+	gameplayHud.show()
+
+
+func _on_pause_button_pressed() -> void:
+	gameplayHud.hide()
+
+func _on_un_pause_button_pressed() -> void:
+	gameplayHud.show()
