@@ -40,22 +40,20 @@ size = Vector2(164, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5e380"]
 size = Vector2(49.5, 178.25)
 
-[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "AudioManager", "collectibleManager", "saveManager")]
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "AudioManager", "collectibleManager")]
 script = ExtResource("1_opprc")
 player = NodePath("Player")
 ground_spawner = NodePath("GroundSpawner")
 AudioManager = NodePath("Managers/AudioManager")
 collectibleManager = NodePath("Managers/CollectibleManager")
-saveManager = NodePath("Managers/SaveManager")
 scoreForNormal = 1
 scoreForHard = 1
 gameSpeed = 2.0
 
 [node name="Managers" type="Node" parent="."]
 
-[node name="SaveManager" type="Node" parent="Managers" node_paths=PackedStringArray("collectibleManager")]
+[node name="SaveManager" type="Node" parent="Managers"]
 script = ExtResource("4_fobus")
-collectibleManager = NodePath("../CollectibleManager")
 
 [node name="CollectibleManager" type="Node" parent="Managers" node_paths=PackedStringArray("player", "score_timer")]
 script = ExtResource("2_1xsq2")

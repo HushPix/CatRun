@@ -53,10 +53,6 @@ gameSpeed = 2.0
 
 [node name="Managers" type="Node" parent="."]
 
-[node name="SaveManager" type="Node" parent="Managers" node_paths=PackedStringArray("collectibleManager")]
-script = ExtResource("4_fobus")
-collectibleManager = NodePath("../CollectibleManager")
-
 [node name="CollectibleManager" type="Node" parent="Managers" node_paths=PackedStringArray("player", "score_timer")]
 script = ExtResource("2_1xsq2")
 player = NodePath("../../Player")
@@ -79,6 +75,10 @@ current = true
 [node name="globalMusicPlayer" type="AudioStreamPlayer" parent="Managers/AudioManager"]
 autoplay = true
 
+[node name="SaveManager" type="Node" parent="Managers" node_paths=PackedStringArray("collectibleManager")]
+script = ExtResource("4_fobus")
+collectibleManager = NodePath("../CollectibleManager")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("player", "gameplay", "collectibleManager", "gameplayHud", "mainMenu", "pauseMenu", "gameOverMenu")]
 script = ExtResource("1_1sayb")
 player = NodePath("../Player")
@@ -90,7 +90,6 @@ pauseMenu = NodePath("PauseMenu")
 gameOverMenu = NodePath("gameOverScreen")
 
 [node name="MainMenu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("startButton", "highScoreLabelMenu", "collectibleManager")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -349,9 +348,9 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 
 [connection signal="ready" from="." to="CanvasLayer" method="_on_gameplay_ready"]
 [connection signal="timeout" from="Managers/CollectibleManager/scoreTimer" to="Managers/CollectibleManager" method="_on_score_timer_timeout"]
+[connection signal="visibility_changed" from="CanvasLayer/MainMenu" to="CanvasLayer/MainMenu" method="_on_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/StartButton" to="CanvasLayer" method="_on_start_button_pressed"]
-[connection signal="visibility_changed" from="CanvasLayer/GameplayHud" to="CanvasLayer/GameplayHud" method="_on_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/GameplayHud/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/GameplayHud/PauseButton" to="CanvasLayer" method="_on_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/unPauseButton" to="." method="_on_un_pause_button_pressed"]

@@ -103,16 +103,13 @@ func _changeDifficulty(newDifficulty: level) -> void:
 	loadLevelsIn(getDifficulty())
 	addLevelsToMemory(groundTypes[getDifficulty()])
 	
-
-	
 #Called when the node enters the scene
 func _ready() -> void:
 	if(deleteSave):
 		saveManager.delete_save()
-		
-	player.playerDied.connect(on_game_over)
-	
 	saveManager.load_score()
+	
+	player.playerDied.connect(on_game_over)
 	_changeDifficulty(level.IDLE)
 	player.disableInput()
 

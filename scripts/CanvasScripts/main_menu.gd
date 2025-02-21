@@ -1,11 +1,12 @@
 extends Canvas_Menu
 
 @export var startButton: AudioButton
+@export var highScoreLabelMenu: Label
+@export var collectibleManager: CollectibleManager
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	_showMenu(self)
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

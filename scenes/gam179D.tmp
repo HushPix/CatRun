@@ -53,10 +53,6 @@ gameSpeed = 2.0
 
 [node name="Managers" type="Node" parent="."]
 
-[node name="SaveManager" type="Node" parent="Managers" node_paths=PackedStringArray("collectibleManager")]
-script = ExtResource("4_fobus")
-collectibleManager = NodePath("../CollectibleManager")
-
 [node name="CollectibleManager" type="Node" parent="Managers" node_paths=PackedStringArray("player", "score_timer")]
 script = ExtResource("2_1xsq2")
 player = NodePath("../../Player")
@@ -78,6 +74,10 @@ current = true
 
 [node name="globalMusicPlayer" type="AudioStreamPlayer" parent="Managers/AudioManager"]
 autoplay = true
+
+[node name="SaveManager" type="Node" parent="Managers" node_paths=PackedStringArray("collectibleManager")]
+script = ExtResource("4_fobus")
+collectibleManager = NodePath("../CollectibleManager")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("player", "gameplay", "collectibleManager", "gameplayHud", "mainMenu", "pauseMenu", "gameOverMenu")]
 script = ExtResource("1_1sayb")

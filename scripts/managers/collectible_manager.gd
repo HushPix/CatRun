@@ -8,6 +8,7 @@ var currentCoins = 0
 var score = 0
 var hiScore: int = 0
 
+
 func _ready() -> void:
 	SignalManager.passColectible.connect(onCollectible)
 

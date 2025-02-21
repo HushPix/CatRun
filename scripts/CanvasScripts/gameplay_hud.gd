@@ -7,15 +7,14 @@ extends Canvas_Menu
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	_hideMenu(self)
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if self.visible:
+		_updateScore(scoreLabel, false, collectibleManager)
 
-func _updateScore(label: Label, isHiScore: bool) -> void: #updates the score every frame
-	if(isHiScore):
-		label.text = "BEST:" + str(collectibleManager.getHighScore())
-	else:
-		label.text = str(collectibleManager.getScore())
+
+func _on_visibility_changed() -> void:
+	_updateScore(hiScoreLabel, true, collectibleManager)
