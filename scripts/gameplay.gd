@@ -106,8 +106,8 @@ func _changeDifficulty(newDifficulty: level) -> void:
 #Called when the node enters the scene
 func _ready() -> void:
 	if(deleteSave):
-		saveManager.delete_save()
-	saveManager.load_score()
+		SaveManager.deleteSave()
+	SaveManager.loadFile()
 	
 	player.playerDied.connect(on_game_over)
 	_changeDifficulty(level.IDLE)
@@ -139,8 +139,8 @@ func _gamePaused() -> void:
 
 #When the cat fails :(
 func on_game_over() -> void:
-	collectibleManager.findAndSetHighScore()
-	saveManager.save_score()	
+	await collectibleManager.findAndSetHighScore()
+	SaveManager.saveFile()	
 	AudioManager.gameOverAudio()
 	
 

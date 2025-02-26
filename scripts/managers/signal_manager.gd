@@ -5,6 +5,8 @@ extends Node
 # it's position in tree
 
 signal passColectible(currCollectible: Collectible)
+signal saveCollectibles()
+signal loadCollectibles()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

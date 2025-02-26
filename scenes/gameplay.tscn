@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=26 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
@@ -10,7 +10,6 @@
 [ext_resource type="LabelSettings" uid="uid://cah3ii4hvydr" path="res://LabelSettings/pixelTextoutline.tres" id="3_xlalq"]
 [ext_resource type="Script" path="res://scripts/parallaxEffect.gd" id="4_0a36o"]
 [ext_resource type="PackedScene" uid="uid://cm62d5sve3fxx" path="res://UiPrefabs/button_preset.tscn" id="4_07t3o"]
-[ext_resource type="Script" path="res://scripts/managers/save_manager.gd" id="4_fobus"]
 [ext_resource type="Texture2D" uid="uid://b2uhko5fji2d0" path="res://sprites/bgGround.png" id="4_q3l51"]
 [ext_resource type="Texture2D" uid="uid://dg4tagav82avf" path="res://sprites/skyBG.png" id="5_00ins"]
 [ext_resource type="AudioStream" uid="uid://vmav5skg1gen" path="res://sfx/ok.wav" id="5_vixde"]
@@ -40,22 +39,17 @@ size = Vector2(164, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5e380"]
 size = Vector2(49.5, 178.25)
 
-[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "AudioManager", "collectibleManager", "saveManager")]
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "AudioManager", "collectibleManager")]
 script = ExtResource("1_opprc")
 player = NodePath("Player")
 ground_spawner = NodePath("GroundSpawner")
 AudioManager = NodePath("Managers/AudioManager")
 collectibleManager = NodePath("Managers/CollectibleManager")
-saveManager = NodePath("Managers/SaveManager")
 scoreForNormal = 1
 scoreForHard = 1
 gameSpeed = 2.0
 
 [node name="Managers" type="Node" parent="."]
-
-[node name="SaveManager" type="Node" parent="Managers" node_paths=PackedStringArray("collectibleManager")]
-script = ExtResource("4_fobus")
-collectibleManager = NodePath("../CollectibleManager")
 
 [node name="CollectibleManager" type="Node" parent="Managers" node_paths=PackedStringArray("player", "score_timer")]
 script = ExtResource("2_1xsq2")
@@ -204,7 +198,7 @@ offset_bottom = 42.0
 mouse_default_cursor_shape = 3
 text = "pause"
 
-[node name="gameOverScreen" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("gameOverLabel", "scoreLabelGameOver", "retryButton")]
+[node name="gameOverScreen" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("gameOverLabel", "scoreLabelGameOver", "retryButton", "collectibleManager")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -216,6 +210,7 @@ script = ExtResource("14_4kqt4")
 gameOverLabel = NodePath("gameOverLabel")
 scoreLabelGameOver = NodePath("scoreLabel2")
 retryButton = NodePath("RetryButton")
+collectibleManager = NodePath("../../Managers/CollectibleManager")
 
 [node name="gameOverLabel" type="Label" parent="CanvasLayer/gameOverScreen"]
 layout_mode = 1
@@ -252,6 +247,13 @@ horizontal_alignment = 1
 
 [node name="RetryButton" parent="CanvasLayer/gameOverScreen" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("4_07t3o")]
 layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 flat = true
 buttonText = " Click To Retry"
 buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
@@ -356,6 +358,7 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 [connection signal="pressed" from="CanvasLayer/GameplayHud/PauseButton" to="CanvasLayer" method="_on_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/unPauseButton" to="." method="_on_un_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/unPauseButton" to="CanvasLayer" method="_on_un_pause_button_pressed"]
+[connection signal="visibility_changed" from="CanvasLayer/gameOverScreen/scoreLabel2" to="CanvasLayer/gameOverScreen" method="_on_score_label_2_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/gameOverScreen/RetryButton" to="." method="_on_retry_button_pressed"]
 [connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
 [connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]

@@ -1,4 +1,7 @@
 class_name SaveData
 extends Node
 
-var highScore: int
+var data: Dictionary = {
+	"coins" : 0,
+	"high_score" : 0,
+}

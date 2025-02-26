@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 SignalManager="*res://scripts/managers/signal_manager.gd"
+SaveManager="*res://scripts/managers/save_manager.gd"
 
 [display]
 
