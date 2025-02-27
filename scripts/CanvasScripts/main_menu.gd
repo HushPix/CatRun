@@ -16,3 +16,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("uiButtonAccept"):
 		if visible:
 			startButton.emit_signal("pressed")
+
+func _on_hi_score_label_menu_draw() -> void:
+	_updateScore(highScoreLabelMenu, true, collectibleManager)
