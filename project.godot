@@ -37,6 +37,10 @@ enabled=PackedStringArray("res://addons/script-ide/plugin.cfg")
 enemy=""
 collectible=""
 
+[gui]
+
+theme/custom="res://themes/button/uiTheme.tres"
+
 [input]
 
 jumpClick={

@@ -32,6 +32,8 @@ func _on_start_button_pressed() -> void:
 
 func _on_pause_button_pressed() -> void:
 	gameplayHud.hide()
+	pauseMenu.show()
 
 func _on_un_pause_button_pressed() -> void:
+	pauseMenu.hide()
 	gameplayHud.show()

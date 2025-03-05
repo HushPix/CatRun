@@ -1,7 +1,25 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bgrytsv2b4845"]
+[gd_resource type="Theme" load_steps=17 format=3 uid="uid://bgrytsv2b4845"]
 
 [ext_resource type="FontFile" uid="uid://d2pxofocmaupd" path="res://fonts/PressStart2P.ttf" id="1_rfpwo"]
 [ext_resource type="Texture2D" uid="uid://bdu1ofd5nc0i" path="res://sprites/Ui/uiTiles.png" id="1_w4l7c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1t3or"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fw3a1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6gipo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p5s35"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i451g"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_moutu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yftwd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pgaxl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j4oom"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i8ufe"]
 content_margin_left = 4.0
@@ -40,6 +58,25 @@ texture_margin_right = 1.0
 region_rect = Rect2(32, 0, 32, 16)
 
 [resource]
+BlankButton/base_type = &"Button"
+BlankButton/colors/font_color = Color(1, 1, 1, 1)
+BlankButton/colors/font_disabled_color = Color(1, 1, 1, 1)
+BlankButton/colors/font_focus_color = Color(1, 1, 1, 1)
+BlankButton/colors/font_hover_color = Color(1, 1, 1, 1)
+BlankButton/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+BlankButton/colors/font_outline_color = Color(0, 0, 0, 1)
+BlankButton/colors/font_pressed_color = Color(1, 1, 1, 1)
+BlankButton/colors/icon_disabled_color = Color(1, 1, 1, 1)
+BlankButton/constants/outline_size = 11
+BlankButton/styles/disabled = SubResource("StyleBoxEmpty_1t3or")
+BlankButton/styles/disabled_mirrored = SubResource("StyleBoxEmpty_fw3a1")
+BlankButton/styles/focus = SubResource("StyleBoxEmpty_6gipo")
+BlankButton/styles/hover = SubResource("StyleBoxEmpty_p5s35")
+BlankButton/styles/hover_mirrored = SubResource("StyleBoxEmpty_i451g")
+BlankButton/styles/hover_pressed = SubResource("StyleBoxEmpty_moutu")
+BlankButton/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_yftwd")
+BlankButton/styles/normal = SubResource("StyleBoxEmpty_pgaxl")
+BlankButton/styles/pressed = SubResource("StyleBoxEmpty_j4oom")
 Button/colors/font_color = Color(0.588235, 0.403922, 0.211765, 1)
 Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 Button/colors/font_focus_color = Color(0.588235, 0.403922, 0.211765, 1)
