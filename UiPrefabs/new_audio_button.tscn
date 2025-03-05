@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://6tr7fw4vbnrv"]
+
+[ext_resource type="Theme" uid="uid://bgrytsv2b4845" path="res://themes/button/uiTheme.tres" id="1_p0mv6"]
+[ext_resource type="Script" path="res://scripts/AudioButton.gd" id="2_jt2p5"]
+
+[node name="NewAudioButton" type="Button" node_paths=PackedStringArray("buttonAudioPlayer")]
+texture_filter = 1
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 196.0
+offset_bottom = 100.0
+theme = ExtResource("1_p0mv6")
+text = "PAUSE"
+script = ExtResource("2_jt2p5")
+buttonAudioPlayer = NodePath("")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

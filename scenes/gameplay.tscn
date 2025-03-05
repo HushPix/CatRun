@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=25 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
@@ -15,18 +15,11 @@
 [ext_resource type="AudioStream" uid="uid://vmav5skg1gen" path="res://sfx/ok.wav" id="5_vixde"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/main_menu.gd" id="6_kersf"]
 [ext_resource type="Texture2D" uid="uid://b8n7c56ggpfef" path="res://sprites/cloudsBG.png" id="6_mpir8"]
+[ext_resource type="PackedScene" uid="uid://6tr7fw4vbnrv" path="res://UiPrefabs/new_audio_button.tscn" id="10_4c78n"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/gameplay_hud.gd" id="10_kmgvv"]
-[ext_resource type="AudioStream" uid="uid://ddkoh6a3o0k6f" path="res://sfx/swirl.wav" id="12_87odw"]
-[ext_resource type="FontFile" uid="uid://d2pxofocmaupd" path="res://fonts/PressStart2P.ttf" id="12_ck85o"]
+[ext_resource type="AudioStream" uid="uid://o46htektrb33" path="res://sfx/hit.wav" id="11_m0es0"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/pause_menu.gd" id="13_jt4cw"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/game_over_screen.gd" id="14_4kqt4"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_njsq1"]
-font = ExtResource("12_ck85o")
-font_size = 26
-outline_size = 10
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
 size = Vector2(9, 20)
@@ -125,7 +118,7 @@ text = "BEST:000"
 label_settings = ExtResource("3_xlalq")
 horizontal_alignment = 2
 
-[node name="GameplayHud" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("scoreLabel", "hiScoreLabel", "pauseButton", "collectibleManager")]
+[node name="GameplayHud" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("scoreLabel", "hiScoreLabel", "collectibleManager")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -137,7 +130,6 @@ mouse_filter = 1
 script = ExtResource("10_kmgvv")
 scoreLabel = NodePath("scoreLabel")
 hiScoreLabel = NodePath("hiScoreLabel")
-pauseButton = NodePath("PauseButton")
 collectibleManager = NodePath("../../Managers/CollectibleManager")
 
 [node name="scoreLabel" type="Label" parent="CanvasLayer/GameplayHud"]
@@ -167,17 +159,10 @@ text = "BEST:000"
 label_settings = ExtResource("3_xlalq")
 horizontal_alignment = 2
 
-[node name="PauseButton" parent="CanvasLayer/GameplayHud" instance=ExtResource("4_07t3o")]
-layout_mode = 1
-offset_left = 17.0
-offset_top = 8.0
-offset_right = 105.0
-offset_bottom = 39.0
-theme_type_variation = &"FlatButton"
-flat = true
-pressSound = ExtResource("12_87odw")
-buttonText = " PAUSE"
-textStyle = SubResource("LabelSettings_njsq1")
+[node name="PauseButton" parent="CanvasLayer/GameplayHud" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
+layout_mode = 0
+pressSound = ExtResource("11_m0es0")
+buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
 
 [node name="PauseMenu" type="Control" parent="CanvasLayer"]
 process_mode = 2

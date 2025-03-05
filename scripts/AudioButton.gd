@@ -15,10 +15,12 @@ func _init() -> void:
 
 		
 func _ready() -> void:
-	buttonLabel.text = buttonText
-	buttonLabel.label_settings = textStyle
-	buttonLabel.set_position(buttonLabel.position + textOffset)
-	
+	if buttonLabel != null:
+		buttonLabel.text = buttonText
+		buttonLabel.label_settings = textStyle
+		buttonLabel.set_position(buttonLabel.position + textOffset)
+
+
 func _on_pressed() -> void:
 	buttonAudioPlayer.stream = pressSound
 	buttonAudioPlayer.play()
