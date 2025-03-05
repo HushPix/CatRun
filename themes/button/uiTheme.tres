@@ -1,7 +1,8 @@
-[gd_resource type="Theme" load_steps=17 format=3 uid="uid://bgrytsv2b4845"]
+[gd_resource type="Theme" load_steps=19 format=3 uid="uid://bgrytsv2b4845"]
 
 [ext_resource type="FontFile" uid="uid://d2pxofocmaupd" path="res://fonts/PressStart2P.ttf" id="1_rfpwo"]
 [ext_resource type="Texture2D" uid="uid://bdu1ofd5nc0i" path="res://sprites/Ui/uiTiles.png" id="1_w4l7c"]
+[ext_resource type="StyleBox" uid="uid://b7c8s6u2qqigx" path="res://themes/panel/new_style_box_texture.tres" id="3_b064a"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1t3or"]
 
@@ -57,6 +58,8 @@ texture_margin_left = 1.0
 texture_margin_right = 1.0
 region_rect = Rect2(32, 0, 32, 16)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pfp3t"]
+
 [resource]
 BlankButton/base_type = &"Button"
 BlankButton/colors/font_color = Color(1, 1, 1, 1)
@@ -101,3 +104,7 @@ Button/styles/focus = SubResource("StyleBoxEmpty_c7576")
 Button/styles/hover = SubResource("StyleBoxTexture_gdxw8")
 Button/styles/normal = SubResource("StyleBoxTexture_co76e")
 Button/styles/pressed = SubResource("StyleBoxTexture_03gu1")
+InvinsiblePanelContainer/base_type = &"PanelContainer"
+InvinsiblePanelContainer/styles/panel = SubResource("StyleBoxEmpty_pfp3t")
+Panel/styles/panel = ExtResource("3_b064a")
+PanelContainer/styles/panel = ExtResource("3_b064a")

@@ -26,6 +26,7 @@ SaveManager="*res://scripts/managers/save_manager.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/resizable=false
+window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
 
 [editor_plugins]
@@ -63,3 +64,7 @@ uiButtonAccept={
 2d_physics/layer_4="UI"
 2d_physics/layer_5="Enemy"
 2d_physics/layer_6="Interactables"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
