@@ -84,7 +84,7 @@ pauseMenu = NodePath("PauseMenu")
 gameOverMenu = NodePath("gameOverScreen")
 countDownMenu = NodePath("CountDown")
 
-[node name="MainMenu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("highScoreLabelMenu", "collectibleManager")]
+[node name="MainMenu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("startButton", "highScoreLabelMenu", "collectibleManager")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -92,6 +92,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("6_kersf")
+startButton = NodePath("PanelContainer/MarginContainer/VBoxContainer/play")
 highScoreLabelMenu = NodePath("hiScoreLabelMenu")
 collectibleManager = NodePath("../../Managers/CollectibleManager")
 
@@ -301,6 +302,7 @@ grow_vertical = 2
 text = "PRESS TO RESUME"
 label_settings = ExtResource("3_xlalq")
 script = ExtResource("13_7ormu")
+blinkSpeed = 0.2
 
 [node name="gameOverScreen" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("gameOverLabel", "scoreLabelGameOver", "retryButton", "collectibleManager")]
 visible = false

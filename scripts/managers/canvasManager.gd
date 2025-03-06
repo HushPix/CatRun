@@ -29,7 +29,7 @@ func on_game_over() -> void:
 func _on_start_button_pressed() -> void:
 	mainMenu.hide()
 	countDownMenu.show()
-	await gameplay.begin_countdown(gameplay.countDownTime)
+	await gameplay.countDownTimer.timeout
 	countDownMenu.hide()
 	gameplayHud.show()
 

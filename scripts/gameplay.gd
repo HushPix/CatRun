@@ -26,6 +26,7 @@ var random = RandomNumberGenerator.new()
 @export var scoreForHard: int  #minimum score for hard difficulty
 @export var gameSpeed: float
 @export var countDownTime: float
+@export var skipCountDown: bool = false
 
 var difficulty: level = level.IDLE
 
@@ -131,7 +132,7 @@ func _compareCurrentScore() -> void:
 
 #This should be in canvas manager but i'll move it later (i forgor why tho)
 func _on_start_button_pressed() -> void:
-	await begin_countdown(countDownTime)
+	await begin_countdown(countDownTime, skipCountDown)
 	gameStarted()
 	player.enableInput()
 	print("game started")
@@ -147,9 +148,11 @@ func on_game_over() -> void:
 	SaveManager.saveFile()	
 	AudioManager.gameOverAudio()
 	
-func begin_countdown(delay: float) -> void:
+func begin_countdown(delay: float, skip: bool) -> void:
 	countDownTimer.start(countDownTime)
-	await countDownTimer.timeout
+	if(skip == false):
+		await countDownTimer.timeout
+	countDownTimer.stop()
 
 func _on_pause_button_pressed() -> void:
 	_gamePaused()
