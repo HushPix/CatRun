@@ -17,6 +17,7 @@ enum level {
 @export var AudioManager: Node2D
 @export var collectibleManager: CollectibleManager 
 @export var saveManager: SaveManager
+@export var countDownTimer: Timer
 
 var random = RandomNumberGenerator.new()
 
@@ -24,8 +25,10 @@ var random = RandomNumberGenerator.new()
 @export var scoreForNormal: int #minimum score for normal difficulty
 @export var scoreForHard: int  #minimum score for hard difficulty
 @export var gameSpeed: float
+@export var countDownTime: float
 
 var difficulty: level = level.IDLE
+
 
 #This could probably be done better but for me it was the easiest to make individual arrays for each level category
 var easyLevels: Array
@@ -128,6 +131,7 @@ func _compareCurrentScore() -> void:
 
 #This should be in canvas manager but i'll move it later (i forgor why tho)
 func _on_start_button_pressed() -> void:
+	await begin_countdown(countDownTime)
 	gameStarted()
 	player.enableInput()
 	print("game started")
@@ -143,7 +147,9 @@ func on_game_over() -> void:
 	SaveManager.saveFile()	
 	AudioManager.gameOverAudio()
 	
-
+func begin_countdown(delay: float) -> void:
+	countDownTimer.start(countDownTime)
+	await countDownTimer.timeout
 
 func _on_pause_button_pressed() -> void:
 	_gamePaused()
@@ -154,3 +160,7 @@ func _on_un_pause_button_pressed() -> void:
 
 func _on_retry_button_pressed() -> void:
 	get_tree().reload_current_scene()
+
+
+func _on_exit_pressed() -> void:
+	get_tree().quit()

@@ -10,6 +10,7 @@ extends CanvasLayer
 @export var mainMenu: Canvas_Menu
 @export var pauseMenu: Canvas_Menu
 @export var gameOverMenu: Canvas_Menu
+@export var countDownMenu: Canvas_Menu
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -27,6 +28,9 @@ func on_game_over() -> void:
 
 func _on_start_button_pressed() -> void:
 	mainMenu.hide()
+	countDownMenu.show()
+	await gameplay.begin_countdown(gameplay.countDownTime)
+	countDownMenu.hide()
 	gameplayHud.show()
 
 
