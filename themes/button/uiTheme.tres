@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=19 format=3 uid="uid://bgrytsv2b4845"]
+[gd_resource type="Theme" load_steps=30 format=3 uid="uid://bgrytsv2b4845"]
 
 [ext_resource type="FontFile" uid="uid://d2pxofocmaupd" path="res://fonts/PressStart2P.ttf" id="1_rfpwo"]
 [ext_resource type="Texture2D" uid="uid://bdu1ofd5nc0i" path="res://sprites/Ui/uiTiles.png" id="1_w4l7c"]
@@ -60,6 +60,46 @@ region_rect = Rect2(32, 0, 32, 16)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pfp3t"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kgjdl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y6scn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oie1g"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_prvkq"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 8.0
+texture = ExtResource("1_w4l7c")
+region_rect = Rect2(64, 0, 16, 16)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nqjbh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_htghk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rsn56"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_prail"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 8.0
+texture = ExtResource("1_w4l7c")
+region_rect = Rect2(64, 0, 16, 16)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j0tbl"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qtirx"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+texture = ExtResource("1_w4l7c")
+region_rect = Rect2(80, 0, 16, 16)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ys7qj"]
+
 [resource]
 BlankButton/base_type = &"Button"
 BlankButton/colors/font_color = Color(1, 1, 1, 1)
@@ -108,3 +148,15 @@ InvinsiblePanelContainer/base_type = &"PanelContainer"
 InvinsiblePanelContainer/styles/panel = SubResource("StyleBoxEmpty_pfp3t")
 Panel/styles/panel = ExtResource("3_b064a")
 PanelContainer/styles/panel = ExtResource("3_b064a")
+SmallButton/base_type = &"Button"
+SmallButton/styles/disabled = SubResource("StyleBoxEmpty_kgjdl")
+SmallButton/styles/disabled_mirrored = SubResource("StyleBoxEmpty_y6scn")
+SmallButton/styles/focus = SubResource("StyleBoxEmpty_oie1g")
+SmallButton/styles/hover = SubResource("StyleBoxTexture_prvkq")
+SmallButton/styles/hover_mirrored = SubResource("StyleBoxEmpty_nqjbh")
+SmallButton/styles/hover_pressed = SubResource("StyleBoxEmpty_htghk")
+SmallButton/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_rsn56")
+SmallButton/styles/normal = SubResource("StyleBoxTexture_prail")
+SmallButton/styles/normal_mirrored = SubResource("StyleBoxEmpty_j0tbl")
+SmallButton/styles/pressed = SubResource("StyleBoxTexture_qtirx")
+SmallButton/styles/pressed_mirrored = SubResource("StyleBoxEmpty_ys7qj")

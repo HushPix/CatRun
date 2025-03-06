@@ -111,3 +111,7 @@ func _on_obstacle_detection_body_entered(body: Node2D) -> void:
 
 func _on_death_barrier_area_entered(area: Area2D) -> void:
 	gameOver()
+
+
+func _on_exit_button_pressed() -> void:
+	pass # Replace with function body.

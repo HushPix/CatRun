@@ -8,5 +8,5 @@
 script = ExtResource("1_fun2m")
 sprite = ExtResource("3_jwktb")
 sound = ExtResource("2_djqcu")
-points = 100
+points = 1
 type = 0

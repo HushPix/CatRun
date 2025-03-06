@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=31 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
@@ -15,6 +15,7 @@
 [ext_resource type="Theme" uid="uid://bgrytsv2b4845" path="res://themes/button/uiTheme.tres" id="6_jxq1o"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/main_menu.gd" id="6_kersf"]
 [ext_resource type="Texture2D" uid="uid://b8n7c56ggpfef" path="res://sprites/cloudsBG.png" id="6_mpir8"]
+[ext_resource type="FontFile" uid="uid://d2pxofocmaupd" path="res://fonts/PressStart2P.ttf" id="6_njlph"]
 [ext_resource type="Texture2D" uid="uid://dpkqxb3fd85gn" path="res://sprites/Ui/uiPanel2X.png" id="7_iubke"]
 [ext_resource type="PackedScene" uid="uid://6tr7fw4vbnrv" path="res://UiPrefabs/new_audio_button.tscn" id="10_4c78n"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/gameplay_hud.gd" id="10_kmgvv"]
@@ -23,6 +24,20 @@
 [ext_resource type="Script" path="res://scripts/CanvasScripts/blinkingText.gd" id="13_7ormu"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/pause_menu.gd" id="13_jt4cw"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/game_over_screen.gd" id="14_4kqt4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7x2nf"]
+font = ExtResource("6_njlph")
+font_size = 35
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_lvjx4"]
+font = ExtResource("6_njlph")
+font_size = 48
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
 size = Vector2(9, 20)
@@ -46,8 +61,10 @@ scoreForNormal = 1
 scoreForHard = 1
 gameSpeed = 2.0
 countDownTime = 3.0
+skipCountDown = true
 
 [node name="countDownTimer" type="Timer" parent="."]
+wait_time = 0.5
 
 [node name="Managers" type="Node" parent="."]
 
@@ -85,6 +102,7 @@ gameOverMenu = NodePath("gameOverScreen")
 countDownMenu = NodePath("CountDown")
 
 [node name="MainMenu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("startButton", "highScoreLabelMenu", "collectibleManager")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,6 +113,37 @@ script = ExtResource("6_kersf")
 startButton = NodePath("PanelContainer/MarginContainer/VBoxContainer/play")
 highScoreLabelMenu = NodePath("hiScoreLabelMenu")
 collectibleManager = NodePath("../../Managers/CollectibleManager")
+
+[node name="credits" type="Label" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -37.0
+offset_right = 607.0
+offset_bottom = -2.0
+grow_vertical = 0
+text = "A GAME BY HUSHPIX"
+label_settings = SubResource("LabelSettings_7x2nf")
+
+[node name="hiScoreLabelMenu" type="Label" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -529.0
+offset_top = -53.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 8
+text = "BEST:000000"
+label_settings = SubResource("LabelSettings_lvjx4")
+horizontal_alignment = 1
+vertical_alignment = 2
+text_overrun_behavior = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MainMenu"]
 layout_mode = 1
@@ -167,22 +216,6 @@ text = "EXIT"
 pressSound = ExtResource("11_m0es0")
 buttonAudioPlayer = NodePath("../../../../../../Managers/AudioManager/globalSfxPlayer")
 
-[node name="hiScoreLabelMenu" type="Label" parent="CanvasLayer/MainMenu"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -458.0
-offset_top = -64.0
-offset_right = -74.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "BEST:000"
-label_settings = ExtResource("3_xlalq")
-horizontal_alignment = 2
-
 [node name="CountDown" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("countLabel", "timer")]
 visible = false
 layout_mode = 3
@@ -253,9 +286,9 @@ horizontal_alignment = 2
 
 [node name="PauseButton" parent="CanvasLayer/GameplayHud" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
 layout_mode = 0
-offset_left = 0.0
+offset_left = 21.0
 offset_top = 0.0
-offset_right = 192.0
+offset_right = 213.0
 offset_bottom = 96.0
 pressSound = ExtResource("11_m0es0")
 buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
@@ -303,6 +336,18 @@ text = "PRESS TO RESUME"
 label_settings = ExtResource("3_xlalq")
 script = ExtResource("13_7ormu")
 blinkSpeed = 0.2
+
+[node name="exitButton" parent="CanvasLayer/PauseMenu" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 0.0
+offset_right = 129.0
+offset_bottom = 96.0
+theme_type_variation = &"SmallButton"
+theme_override_font_sizes/font_size = 48
+text = "X"
+pressSound = ExtResource("11_m0es0")
+buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
 
 [node name="gameOverScreen" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("gameOverLabel", "scoreLabelGameOver", "retryButton", "collectibleManager")]
 visible = false
@@ -361,6 +406,7 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 flat = true
+pressSound = ExtResource("11_m0es0")
 buttonText = " Click To Retry"
 buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
 textOffset = Vector2(0, 200)
@@ -457,15 +503,16 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 
 [connection signal="ready" from="." to="CanvasLayer" method="_on_gameplay_ready"]
 [connection signal="timeout" from="Managers/CollectibleManager/scoreTimer" to="Managers/CollectibleManager" method="_on_score_timer_timeout"]
+[connection signal="draw" from="CanvasLayer/MainMenu/hiScoreLabelMenu" to="CanvasLayer/MainMenu" method="_on_hi_score_label_menu_draw"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/play" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/play" to="CanvasLayer" method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/exit" to="." method="_on_exit_pressed"]
-[connection signal="draw" from="CanvasLayer/MainMenu/hiScoreLabelMenu" to="CanvasLayer/MainMenu" method="_on_hi_score_label_menu_draw"]
 [connection signal="visibility_changed" from="CanvasLayer/GameplayHud" to="CanvasLayer/GameplayHud" method="_on_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/GameplayHud/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/GameplayHud/PauseButton" to="CanvasLayer" method="_on_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/unpauseButton" to="." method="_on_un_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/unpauseButton" to="CanvasLayer" method="_on_un_pause_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/exitButton" to="." method="_on_retry_button_pressed"]
 [connection signal="visibility_changed" from="CanvasLayer/gameOverScreen/scoreLabel2" to="CanvasLayer/gameOverScreen" method="_on_score_label_2_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/gameOverScreen/RetryButton" to="." method="_on_retry_button_pressed"]
 [connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]

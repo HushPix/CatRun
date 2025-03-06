@@ -149,9 +149,11 @@ func on_game_over() -> void:
 	AudioManager.gameOverAudio()
 	
 func begin_countdown(delay: float, skip: bool) -> void:
-	countDownTimer.start(countDownTime)
 	if(skip == false):
-		await countDownTimer.timeout
+		countDownTimer.start(countDownTime)
+	else:
+		countDownTimer.start(0.01)
+	await countDownTimer.timeout
 	countDownTimer.stop()
 
 func _on_pause_button_pressed() -> void:
@@ -162,6 +164,7 @@ func _on_un_pause_button_pressed() -> void:
 
 
 func _on_retry_button_pressed() -> void:
+	get_tree().paused = false
 	get_tree().reload_current_scene()
 
 
