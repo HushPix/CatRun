@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=4 uid="uid://b3h2nvemuhx2g"]
+[gd_scene load_steps=2 format=4 uid="uid://b3h2nvemuhx2g"]
 
 [ext_resource type="TileSet" uid="uid://dfv5jo3lk4pca" path="res://tilesets/ground_tiles.tres" id="1_l610w"]
-[ext_resource type="PackedScene" uid="uid://bnav5yjf6lrw4" path="res://objects/collectible.tscn" id="2_iu1wa"]
-[ext_resource type="Resource" uid="uid://c6pguoq7txy42" path="res://objects/collectibleDataPresets/testFoodData.tres" id="3_oh5fv"]
 
 [node name="Ground" type="TileMapLayer"]
 texture_filter = 1
@@ -10,13 +8,3 @@ tile_map_data = PackedByteArray("AAAAAAkAAAABAAAAAAATAAkAAAABAAAAAAABAAkAAAABAAA
 tile_set = ExtResource("1_l610w")
 
 [node name="Node" type="Node2D" parent="."]
-
-[node name="collectible" parent="Node" instance=ExtResource("2_iu1wa")]
-position = Vector2(288, 120)
-
-[node name="collectible2" parent="Node" instance=ExtResource("2_iu1wa")]
-position = Vector2(232, 120)
-data = ExtResource("3_oh5fv")
-
-[node name="collectible3" parent="Node" instance=ExtResource("2_iu1wa")]
-position = Vector2(176, 120)

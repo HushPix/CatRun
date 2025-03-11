@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=32 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
@@ -24,6 +24,7 @@
 [ext_resource type="Script" path="res://scripts/CanvasScripts/blinkingText.gd" id="13_7ormu"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/pause_menu.gd" id="13_jt4cw"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/game_over_screen.gd" id="14_4kqt4"]
+[ext_resource type="Script" path="res://scenes/coin_spawner.gd" id="25_5gpb1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7x2nf"]
 font = ExtResource("6_njlph")
@@ -487,6 +488,11 @@ shape = SubResource("RectangleShape2D_2l0u6")
 [node name="Player" parent="." instance=ExtResource("1_d3ts3")]
 physics_interpolation_mode = 1
 position = Vector2(102, 136)
+
+[node name="CoinSpawner" type="Node2D" parent="." node_paths=PackedStringArray("gameplay")]
+position = Vector2(331, 0)
+script = ExtResource("25_5gpb1")
+gameplay = NodePath("..")
 
 [node name="deathBarrier" type="Area2D" parent="."]
 collision_layer = 4
