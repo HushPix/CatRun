@@ -15,6 +15,7 @@ extends CanvasLayer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	player.playerDied.connect(on_game_over)
+	_disableAllLayouts()
 	mainMenu.show()
 	
 func on_game_over() -> void:
@@ -43,3 +44,7 @@ func _on_pause_button_pressed() -> void:
 func _on_un_pause_button_pressed() -> void:
 	pauseMenu.hide()
 	gameplayHud.show()
+
+func _disableAllLayouts() -> void:
+	for i in $".".get_children():
+		i.hide()

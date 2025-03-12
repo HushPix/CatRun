@@ -1,0 +1,14 @@
+[gd_resource type="LabelSettings" load_steps=3 format=3 uid="uid://bh10wtrohv2gp"]
+
+[ext_resource type="FontFile" uid="uid://bsv38llym7cdo" path="res://fonts/8-bit-hud.ttf" id="1_w25tv"]
+
+[sub_resource type="FontVariation" id="FontVariation_jb4wi"]
+base_font = ExtResource("1_w25tv")
+spacing_glyph = 1
+
+[resource]
+font = SubResource("FontVariation_jb4wi")
+font_size = 10
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0

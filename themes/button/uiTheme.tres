@@ -1,7 +1,8 @@
-[gd_resource type="Theme" load_steps=30 format=3 uid="uid://bgrytsv2b4845"]
+[gd_resource type="Theme" load_steps=29 format=3 uid="uid://bgrytsv2b4845"]
 
 [ext_resource type="FontFile" uid="uid://d2pxofocmaupd" path="res://fonts/PressStart2P.ttf" id="1_rfpwo"]
 [ext_resource type="Texture2D" uid="uid://bdu1ofd5nc0i" path="res://sprites/Ui/uiTiles.png" id="1_w4l7c"]
+[ext_resource type="StyleBox" uid="uid://bpt8r3yltlirx" path="res://UiPrefabs/buttonNormalStyleBox.tres" id="2_4u1cq"]
 [ext_resource type="StyleBox" uid="uid://b7c8s6u2qqigx" path="res://themes/panel/new_style_box_texture.tres" id="3_b064a"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1t3or"]
@@ -36,22 +37,8 @@ corner_detail = 5
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c7576"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gdxw8"]
-content_margin_bottom = 8.0
-texture = ExtResource("1_w4l7c")
-texture_margin_left = 1.0
-texture_margin_right = 1.0
-region_rect = Rect2(0, 0, 32, 16)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_co76e"]
-content_margin_bottom = 8.0
-texture = ExtResource("1_w4l7c")
-texture_margin_left = 1.0
-texture_margin_right = 1.0
-region_rect = Rect2(0, 0, 32, 16)
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_03gu1"]
-content_margin_top = 8.0
+content_margin_top = 6.0
 content_margin_bottom = 0.0
 texture = ExtResource("1_w4l7c")
 texture_margin_left = 1.0
@@ -67,10 +54,7 @@ region_rect = Rect2(32, 0, 32, 16)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oie1g"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_prvkq"]
-content_margin_left = 8.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 8.0
+content_margin_left = 2.0
 texture = ExtResource("1_w4l7c")
 region_rect = Rect2(64, 0, 16, 16)
 
@@ -81,20 +65,15 @@ region_rect = Rect2(64, 0, 16, 16)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rsn56"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_prail"]
-content_margin_left = 8.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 8.0
+content_margin_left = 2.0
 texture = ExtResource("1_w4l7c")
 region_rect = Rect2(64, 0, 16, 16)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j0tbl"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qtirx"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
+content_margin_left = 2.0
+content_margin_top = 6.0
 texture = ExtResource("1_w4l7c")
 region_rect = Rect2(80, 0, 16, 16)
 
@@ -137,12 +116,12 @@ Button/constants/align_to_largest_stylebox = 0
 Button/constants/h_separation = 4
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 4
-Button/font_sizes/font_size = 32
+Button/font_sizes/font_size = 8
 Button/fonts/font = ExtResource("1_rfpwo")
 Button/styles/disabled = SubResource("StyleBoxFlat_i8ufe")
 Button/styles/focus = SubResource("StyleBoxEmpty_c7576")
-Button/styles/hover = SubResource("StyleBoxTexture_gdxw8")
-Button/styles/normal = SubResource("StyleBoxTexture_co76e")
+Button/styles/hover = ExtResource("2_4u1cq")
+Button/styles/normal = ExtResource("2_4u1cq")
 Button/styles/pressed = SubResource("StyleBoxTexture_03gu1")
 InvinsiblePanelContainer/base_type = &"PanelContainer"
 InvinsiblePanelContainer/styles/panel = SubResource("StyleBoxEmpty_pfp3t")
