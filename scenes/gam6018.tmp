@@ -485,14 +485,12 @@ shape = SubResource("RectangleShape2D_2l0u6")
 physics_interpolation_mode = 1
 position = Vector2(102, 136)
 
-[node name="CoinSpawner" type="Node2D" parent="." node_paths=PackedStringArray("coinParent", "gameplay", "coinCollisionChecker")]
+[node name="CoinSpawner" type="Node2D" parent="." node_paths=PackedStringArray("gameplay", "coinCollisionChecker")]
 position = Vector2(331, -9)
 script = ExtResource("25_5gpb1")
-coinParent = NodePath(".")
 collectibleTypes = Array[ExtResource("26_kf058")]([ExtResource("27_7yhwd"), ExtResource("28_0fgne")])
 gameplay = NodePath("..")
 coinCollisionChecker = NodePath("CoinCollisionChecker")
-collectibleObjectPath = "res://Objects/collectible.tscn"
 
 [node name="CoinCollisionChecker" type="Area2D" parent="CoinSpawner"]
 
