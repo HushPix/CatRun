@@ -14,9 +14,8 @@ enum level {
 #References to objects on scene
 @export var player: Player
 @export var ground_spawner: GroundSpawner
-@export var AudioManager: Node2D
+@export var audioManager: AudioManager
 @export var collectibleManager: CollectibleManager 
-@export var saveManager: SaveManager
 @export var countDownTimer: Timer
 
 var random = RandomNumberGenerator.new()
@@ -146,7 +145,7 @@ func _gamePaused() -> void:
 func on_game_over() -> void:
 	await collectibleManager.findAndSetHighScore()
 	SaveManager.saveFile()	
-	AudioManager.gameOverAudio()
+	audioManager.gameOverAudio()
 	
 func begin_countdown(delay: float, skip: bool) -> void:
 	if(skip == false):
@@ -164,9 +163,11 @@ func _on_un_pause_button_pressed() -> void:
 
 
 func _on_retry_button_pressed() -> void:
+	await audioManager.waitForSfx()
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 
 
 func _on_exit_pressed() -> void:
+	await audioManager.waitForSfx()
 	get_tree().quit()

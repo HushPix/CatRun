@@ -4,7 +4,6 @@ class_name AudioButton
 @export var pressSound: AudioStreamWAV
 @export var buttonText: String = " "
 @export var buttonAudioPlayer: AudioStreamPlayer
-@onready var buttonLabel: Label = $ButtonText
 @export var textStyle: LabelSettings
 @export var textOffset: Vector2
 
@@ -15,10 +14,7 @@ func _init() -> void:
 
 		
 func _ready() -> void:
-	if buttonLabel != null:
-		buttonLabel.text = buttonText
-		buttonLabel.label_settings = textStyle
-		buttonLabel.set_position(buttonLabel.position + textOffset)
+	pass
 
 
 func _on_pressed() -> void:

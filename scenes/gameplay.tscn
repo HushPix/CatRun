@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=33 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
@@ -9,9 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://6j8fdpsikfqn" path="res://scenes/background.tscn" id="3_q2xm3"]
 [ext_resource type="LabelSettings" uid="uid://cah3ii4hvydr" path="res://LabelSettings/pixelTextoutline.tres" id="3_xlalq"]
 [ext_resource type="Script" path="res://scripts/parallaxEffect.gd" id="4_0a36o"]
-[ext_resource type="PackedScene" uid="uid://cm62d5sve3fxx" path="res://UiPrefabs/button_preset.tscn" id="4_07t3o"]
 [ext_resource type="Texture2D" uid="uid://b2uhko5fji2d0" path="res://sprites/bgGround.png" id="4_q3l51"]
-[ext_resource type="Texture2D" uid="uid://dg4tagav82avf" path="res://sprites/skyBG.png" id="5_00ins"]
 [ext_resource type="Theme" uid="uid://bgrytsv2b4845" path="res://themes/button/uiTheme.tres" id="6_jxq1o"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/main_menu.gd" id="6_kersf"]
 [ext_resource type="Texture2D" uid="uid://b8n7c56ggpfef" path="res://sprites/cloudsBG.png" id="6_mpir8"]
@@ -25,6 +23,7 @@
 [ext_resource type="Script" path="res://scripts/CanvasScripts/pause_menu.gd" id="13_jt4cw"]
 [ext_resource type="LabelSettings" uid="uid://bh10wtrohv2gp" path="res://LabelSettings/8bitHudoutline.tres" id="14_0df8h"]
 [ext_resource type="Script" path="res://scripts/CanvasScripts/game_over_screen.gd" id="14_4kqt4"]
+[ext_resource type="Texture2D" uid="uid://qkk8afpuy1ll" path="res://sprites/skyBGNew.png" id="21_xqp20"]
 [ext_resource type="Script" path="res://scenes/coin_spawner.gd" id="25_5gpb1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7x2nf"]
@@ -55,11 +54,11 @@ size = Vector2(164, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5e380"]
 size = Vector2(49.5, 178.25)
 
-[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "AudioManager", "collectibleManager", "countDownTimer")]
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "audioManager", "collectibleManager", "countDownTimer")]
 script = ExtResource("1_opprc")
 player = NodePath("Player")
 ground_spawner = NodePath("GroundSpawner")
-AudioManager = NodePath("Managers/AudioManager")
+audioManager = NodePath("Managers/AudioManager")
 collectibleManager = NodePath("Managers/CollectibleManager")
 countDownTimer = NodePath("countDownTimer")
 scoreForNormal = 1
@@ -81,11 +80,12 @@ score_timer = NodePath("scoreTimer")
 [node name="scoreTimer" type="Timer" parent="Managers/CollectibleManager"]
 wait_time = 0.4
 
-[node name="AudioManager" type="Node2D" parent="Managers" node_paths=PackedStringArray("audioListener", "musicPlayer")]
+[node name="AudioManager" type="Node2D" parent="Managers" node_paths=PackedStringArray("audioListener", "musicPlayer", "sfxPlayer")]
 process_mode = 3
 script = ExtResource("2_k5gxe")
 audioListener = NodePath("sceneAudioListener")
 musicPlayer = NodePath("globalMusicPlayer")
+sfxPlayer = NodePath("globalSfxPlayer")
 
 [node name="sceneAudioListener" type="AudioListener2D" parent="Managers/AudioManager"]
 current = true
@@ -139,8 +139,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -149.0
+offset_left = -151.0
 offset_top = -11.0
+offset_right = -2.0
 offset_bottom = -1.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -335,9 +336,13 @@ blinkSpeed = 0.2
 
 [node name="exitButton" parent="CanvasLayer/PauseMenu" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
 custom_minimum_size = Vector2(32, 32)
-layout_mode = 0
-offset_left = 33.0
-offset_right = 65.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_right = 16.0
+grow_horizontal = 2
 theme_type_variation = &"SmallButton"
 theme_override_font_sizes/font_size = 16
 text = "X"
@@ -354,8 +359,20 @@ grow_vertical = 2
 script = ExtResource("14_4kqt4")
 gameOverLabel = NodePath("gameOverLabel")
 scoreLabelGameOver = NodePath("scoreLabel2")
-retryButton = NodePath("RetryButton")
+retryButton = NodePath("")
 collectibleManager = NodePath("../../Managers/CollectibleManager")
+
+[node name="retryButton" parent="CanvasLayer/gameOverScreen" instance=ExtResource("10_4c78n")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"BlankButton"
+text = ""
 
 [node name="gameOverLabel" type="Label" parent="CanvasLayer/gameOverScreen"]
 layout_mode = 1
@@ -390,27 +407,6 @@ text = "000"
 label_settings = ExtResource("3_xlalq")
 horizontal_alignment = 1
 
-[node name="RetryButton" parent="CanvasLayer/gameOverScreen" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("4_07t3o")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 2
-flat = true
-pressSound = ExtResource("11_m0es0")
-buttonText = " Click To Retry"
-buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
-textOffset = Vector2(0, 200)
-
-[node name="Camera2D" type="Camera2D" parent="."]
-scale = Vector2(131.075, 4)
-offset = Vector2(159.815, 90.315)
-enabled = false
-zoom = Vector2(4, 4)
-
 [node name="Background" parent="." instance=ExtResource("3_q2xm3")]
 script = ExtResource("4_0a36o")
 
@@ -425,7 +421,7 @@ ignore_camera_scroll = true
 [node name="Sprite2D" type="Sprite2D" parent="Background/skyBG"]
 texture_filter = 1
 texture_repeat = 2
-texture = ExtResource("5_00ins")
+texture = ExtResource("21_xqp20")
 offset = Vector2(384, 0)
 
 [node name="groundBG" type="Parallax2D" parent="Background"]
@@ -519,8 +515,8 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 [connection signal="pressed" from="CanvasLayer/PauseMenu/unpauseButton" to="." method="_on_un_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/unpauseButton" to="CanvasLayer" method="_on_un_pause_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/exitButton" to="." method="_on_retry_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/gameOverScreen/retryButton" to="." method="_on_retry_button_pressed"]
 [connection signal="visibility_changed" from="CanvasLayer/gameOverScreen/scoreLabel2" to="CanvasLayer/gameOverScreen" method="_on_score_label_2_visibility_changed"]
-[connection signal="pressed" from="CanvasLayer/gameOverScreen/RetryButton" to="." method="_on_retry_button_pressed"]
 [connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
 [connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]
 [connection signal="area_entered" from="deathBarrier" to="Player" method="_on_death_barrier_area_entered"]
