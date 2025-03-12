@@ -37,3 +37,5 @@ shape = SubResource("RectangleShape2D_tm3hh")
 [node name="collectibleAudio" type="AudioStreamPlayer" parent="AnimatableBody2D"]
 
 [connection signal="body_entered" from="AnimatableBody2D/playerArea" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="AnimatableBody2D/groundArea" to="." method="_on_ground_area_body_entered"]
+[connection signal="body_exited" from="AnimatableBody2D/groundArea" to="." method="_on_ground_area_body_exited"]

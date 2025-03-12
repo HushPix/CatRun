@@ -25,11 +25,12 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	print(isInGround)
-	move()
-
+	pass
+	
 func _physics_process(delta: float) -> void:
 	animatableBody.move_and_collide(Vector2(-speed, 0))
+	move()
+
 
 func get_type() -> CollectibleType.Type:
 	return type
@@ -52,5 +53,13 @@ func _on_area_2d_body_entered(body) -> void:
 	collectCoin()
 
 func move() -> void :
-	
-		position.y -= 1
+	if isInGround:
+		position.y -= 16
+
+
+func _on_ground_area_body_entered(body: Node2D) -> void:
+	isInGround = true
+
+
+func _on_ground_area_body_exited(body: Node2D) -> void:
+	isInGround = false

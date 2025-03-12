@@ -517,10 +517,6 @@ position = Vector2(-58, 90)
 shape = SubResource("RectangleShape2D_5e380")
 debug_color = Color(0.932447, 0.260223, 0, 0.42)
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(331, 172)
-zoom = Vector2(0.45, 0.45)
-
 [connection signal="ready" from="." to="CanvasLayer" method="_on_gameplay_ready"]
 [connection signal="timeout" from="Managers/CollectibleManager/scoreTimer" to="Managers/CollectibleManager" method="_on_score_timer_timeout"]
 [connection signal="draw" from="CanvasLayer/MainMenu/hiScoreLabelMenu" to="CanvasLayer/MainMenu" method="_on_hi_score_label_menu_draw"]
