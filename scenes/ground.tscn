@@ -5,9 +5,10 @@
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_673l0"]
 b = Vector2(0, 21.5517)
 
-[node name="Ground" type="Node2D"]
+[node name="Ground" type="Node2D" node_paths=PackedStringArray("animatable_body_2d", "area_2d")]
 script = ExtResource("1_8e22n")
-speed = 2
+animatable_body_2d = NodePath("AnimatableBody2D")
+area_2d = NodePath("Area2D")
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(414.48, 144)
