@@ -364,7 +364,7 @@ states/Run/position = Vector2(263, 63)
 states/Start/position = Vector2(96, 128)
 transitions = ["Start", "Run", SubResource("AnimationNodeStateMachineTransition_htfua"), "Run", "Jump", SubResource("AnimationNodeStateMachineTransition_kt5tb"), "Jump", "Fall", SubResource("AnimationNodeStateMachineTransition_ed6ct"), "Fall", "Run", SubResource("AnimationNodeStateMachineTransition_3bck6"), "Jump", "Run", SubResource("AnimationNodeStateMachineTransition_hc87s"), "Run", "Fall", SubResource("AnimationNodeStateMachineTransition_5nggn"), "Fall", "Fail", SubResource("AnimationNodeStateMachineTransition_ttg5e"), "Jump", "Fail", SubResource("AnimationNodeStateMachineTransition_m6j6r"), "Run", "Fail", SubResource("AnimationNodeStateMachineTransition_3njcu")]
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node2D" groups=["player"]]
 script = ExtResource("1_ctbvp")
 
 [node name="debug" type="Label" parent="."]
@@ -382,7 +382,7 @@ max_polyphony = 3
 script = ExtResource("2_2gxwj")
 animation_tree = NodePath("../CharacterBody2D/AnimationTree")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." groups=["player"]]
 collision_mask = 2
 floor_constant_speed = true
 floor_max_angle = 0.802851

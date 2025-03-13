@@ -21,7 +21,7 @@ func setCollectibleData(data: CollectibleData):
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	setCollectibleData(data)
-	print("coinSpawned")
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -49,14 +49,19 @@ func collectCoin() -> void:
 	await collectible_audio.finished
 	queue_free()
 
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area.is_in_group("despawnTrigger"):
+		queue_free()
+
+
 func _on_area_2d_body_entered(body) -> void:
-	collectCoin()
+	if body.is_in_group("player"):
+		collectCoin()
 
 func move() -> void :
-	if isInGround:
+	if groundDetector.has_overlapping_bodies():
 		position.y -= 16
-
-
+		
 func _on_ground_area_body_entered(body: Node2D) -> void:
 	isInGround = true
 
