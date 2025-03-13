@@ -17,6 +17,7 @@ enum level {
 @export var audioManager: AudioManager
 @export var collectibleManager: CollectibleManager 
 @export var countDownTimer: Timer
+@export var coinSpawner: CoinSpawner
 
 var random = RandomNumberGenerator.new()
 
@@ -99,6 +100,7 @@ func gameStarted() -> void:
 	_changeDifficulty(level.EASY)
 	collectibleManager.startScoreTimer()
 	player.isControlable = true
+	#coinSpawner.startDelayTimer()
 
 #This function changes the difficulty
 func _changeDifficulty(newDifficulty: level) -> void:

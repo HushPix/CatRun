@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=35 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
@@ -48,22 +48,20 @@ size = Vector2(9, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2l0u6"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_62e16"]
-size = Vector2(16, 16)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28yds"]
 size = Vector2(164, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5e380"]
 size = Vector2(49.5, 178.25)
 
-[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "audioManager", "collectibleManager", "countDownTimer")]
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "audioManager", "collectibleManager", "countDownTimer", "coinSpawner")]
 script = ExtResource("1_opprc")
 player = NodePath("Player")
 ground_spawner = NodePath("GroundSpawner")
 audioManager = NodePath("Managers/AudioManager")
 collectibleManager = NodePath("Managers/CollectibleManager")
 countDownTimer = NodePath("countDownTimer")
+coinSpawner = NodePath("CoinSpawner")
 scoreForNormal = 1
 scoreForHard = 1
 gameSpeed = 2.0
@@ -490,7 +488,7 @@ spawnDelay = 5
 coinParent = NodePath(".")
 collectibleTypes = Array[ExtResource("26_kf058")]([ExtResource("27_7yhwd"), ExtResource("28_0fgne")])
 gameplay = NodePath("..")
-spawnCheck = NodePath("spawnCheck")
+spawnCheck = NodePath("RayCast2D")
 collectibleObjectPath = "res://Objects/collectible.tscn"
 
 [node name="spawnDelay" type="Timer" parent="CoinSpawner"]
@@ -499,15 +497,10 @@ process_thread_group_order = 0
 process_thread_messages = 0
 physics_interpolation_mode = 1
 process_callback = 0
-autostart = true
 
-[node name="spawnCheck" type="Area2D" parent="CoinSpawner"]
-collision_layer = 4
+[node name="RayCast2D" type="RayCast2D" parent="CoinSpawner"]
+target_position = Vector2(0, -16)
 collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CoinSpawner/spawnCheck"]
-shape = SubResource("RectangleShape2D_62e16")
 
 [node name="Player" parent="." instance=ExtResource("1_d3ts3")]
 physics_interpolation_mode = 1
@@ -543,6 +536,4 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 [connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
 [connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]
 [connection signal="timeout" from="CoinSpawner/spawnDelay" to="CoinSpawner" method="_on_spawn_delay_timeout"]
-[connection signal="body_entered" from="CoinSpawner/spawnCheck" to="CoinSpawner" method="_on_spawn_check_body_entered"]
-[connection signal="body_exited" from="CoinSpawner/spawnCheck" to="CoinSpawner" method="_on_spawn_check_body_exited"]
 [connection signal="area_entered" from="deathBarrier" to="Player" method="_on_death_barrier_area_entered"]

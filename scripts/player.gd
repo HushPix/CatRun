@@ -57,7 +57,7 @@ func gameOver() -> void:
 	alive = false
 	disableInput()
 	emit_signal("playerDied")
-	character_body_2d.hide()
+	character_body_2d.set_collision_layer_value(1, false)
 	
 #This makes the player go back to the initial position it spawned in, in case the cat gets pushed back
 func goBackToInitialPos() -> void:
