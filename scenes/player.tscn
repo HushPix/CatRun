@@ -1,7 +1,7 @@
 [gd_scene load_steps=36 format=3 uid="uid://dr24hb7d2yjjl"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_ctbvp"]
-[ext_resource type="Script" path="res://scripts/player_animator.gd" id="2_2gxwj"]
+[ext_resource type="Script" uid="uid://nbw3cyuk1w2n" path="res://scripts/player.gd" id="1_ctbvp"]
+[ext_resource type="Script" uid="uid://c6r2dod324ids" path="res://scripts/player_animator.gd" id="2_2gxwj"]
 [ext_resource type="Texture2D" uid="uid://b10r22xi31ich" path="res://sprites/playerSprite.png" id="2_casxf"]
 [ext_resource type="AudioStream" uid="uid://o46htektrb33" path="res://sfx/hit.wav" id="4_i6v5e"]
 [ext_resource type="AudioStream" uid="uid://dtcov8w8ww4cs" path="res://sfx/jump.wav" id="4_o72y7"]
@@ -257,11 +257,11 @@ tracks/1/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1a5lp"]
 _data = {
-"RESET": SubResource("Animation_gl77f"),
-"fail": SubResource("Animation_wkflr"),
-"fall": SubResource("Animation_0urml"),
-"jump": SubResource("Animation_yg682"),
-"run": SubResource("Animation_0onb0")
+&"RESET": SubResource("Animation_gl77f"),
+&"fail": SubResource("Animation_wkflr"),
+&"fall": SubResource("Animation_0urml"),
+&"jump": SubResource("Animation_yg682"),
+&"run": SubResource("Animation_0onb0")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bh5yc"]
