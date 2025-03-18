@@ -100,7 +100,7 @@ func gameStarted() -> void:
 	_changeDifficulty(level.EASY)
 	collectibleManager.startScoreTimer()
 	player.isControlable = true
-	#coinSpawner.startDelayTimer()
+	coinSpawner.startDelayTimer()
 
 #This function changes the difficulty
 func _changeDifficulty(newDifficulty: level) -> void:

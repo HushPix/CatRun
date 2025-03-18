@@ -48,12 +48,10 @@ func collectCoin() -> void:
 	
 	await collectible_audio.finished
 	SignalManager.emit_signal("deleteInstanceOfCollectible")
-	queue_free()
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("despawnTrigger"):
 		SignalManager.emit_signal("deleteInstanceOfCollectible")
-		queue_free()
 		
 
 

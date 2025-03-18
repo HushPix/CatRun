@@ -12,9 +12,9 @@ class_name CoinSpawner
 var collectibleObject: PackedScene
 var spawnedCollectible : Collectible
 var maxCollectibles: int = 5
-var activeCollectibles = []
+@export var activeCollectibles = []
 var maxCollectiblesPerSpawn: int = 0
-var spawnChance: float = 13.8  #23.8
+var spawnChance: float = 1.8  #23.8
 var currentChance: float = 0
 var offset: float 
 var tempOffset: float
@@ -26,6 +26,7 @@ func _ready() -> void:
 	SignalManager.connect("deleteInstanceOfCollectible", deleteInstanceOfCollectible)
 	randomize()
 	spawnDelayTimer.wait_time = spawnDelay
+	activeCollectibles.clear()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -34,7 +35,8 @@ func _process(delta: float) -> void:
 				tempOffset += (16 * 2)*offset
 				if getGroupSize("collectible") < maxCollectiblesPerSpawn:
 					spawnCoin(tempOffset)
-		if(spawnDelayTimer.is_stopped() and getGroupSize("collectible") == 0):
+					print(activeCollectibles)
+		if(spawnDelayTimer.is_stopped() and activeCollectibles.size() == 0):
 			spawnDelayTimer.start(spawnDelay)
 			
 	#print(str(getGroupSize("collectible")) + "/" + str(maxCollectiblesPerSpawn) + "timer:" + str(spawnDelayTimer.time_left))
@@ -45,9 +47,9 @@ func spawnCoin(offset: float = 0) -> void:
 	spawnedCollectible.data = collectibleTypes[randomizeCollectibleData()]
 	spawnedCollectible.speed = gameplay.getSpeed()
 	spawnedCollectible.position.x += offset
-	activeCollectibles.append(spawnedCollectible)
+	activeCollectibles.push_front(spawnedCollectible)
 	
-	coinParent.add_child(spawnedCollectible)
+	coinParent.add_child(activeCollectibles.front(), true)
 	
 func getGroupSize(name: String) -> int:
 	return get_tree().get_nodes_in_group(name).size()
@@ -71,5 +73,10 @@ func randomizeCollectibleData() -> int:
 	return randi_range(0, DataAmount - 1)
 	
 func deleteInstanceOfCollectible() -> void:
-	activeCollectibles[0].queue_free()
-	activeCollectibles.back()
+	if activeCollectibles[0] != null:
+		var node_at_index = coinParent.get_child(2)
+		activeCollectibles.remove_at(0)
+		node_at_index.queue_free()
+		coinParent.remove_child(node_at_index)
+		
+	print(activeCollectibles)
