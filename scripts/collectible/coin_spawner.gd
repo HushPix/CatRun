@@ -12,11 +12,10 @@ class_name CoinSpawner
 var collectibleObject: PackedScene
 var spawnedCollectible : Collectible
 var maxCollectibles: int = 5
-@export var activeCollectibles = []
 var maxCollectiblesPerSpawn: int = 0
 var spawnChance: float = 1.8  #23.8
 var currentChance: float = 0
-var offset: float 
+var offset: float = 16
 var previousOffset: float
 
 var rng = RandomNumberGenerator.new()
@@ -26,7 +25,6 @@ func _ready() -> void:
 	SignalManager.connect("deleteInstanceOfCollectible", deleteInstanceOfCollectible)
 	randomize()
 	spawnDelayTimer.wait_time = spawnDelay
-	activeCollectibles.clear()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -35,12 +33,10 @@ func _process(delta: float) -> void:
 	#print(str(getGroupSize("collectible")) + "/" + str(maxCollectiblesPerSpawn) + "timer:" + str(spawnDelayTimer.time_left))
 
 func spawnCoin() -> void:
-	if(gameplay.getDifficulty() != gameplay.level.IDLE):
-		if(currentChance > spawnChance):
-				if getGroupSize("collectible") < maxCollectiblesPerSpawn:
-					for n in range(maxCollectiblesPerSpawn):	
-						var coin = createCoin()
-						coinParent.add_child(coin)
+	if currentChance > spawnChance and  getGroupSize("collectible") < maxCollectiblesPerSpawn:
+		for n in range(maxCollectiblesPerSpawn):	
+			var coin = createCoin()
+			coinParent.add_child(coin)
 		#if(spawnDelayTimer.is_stopped() and activeCollectibles.size() == 0):
 			#spawnDelayTimer.start(spawnDelay)
 
@@ -52,7 +48,6 @@ func createCoin() -> Collectible:
 	spawnedCollectible.position.x += previousOffset + offset
 	previousOffset += offset
 	#activeCollectibles.push_front(spawnedCollectible)
-	
 	#coinParent.add_child(spawnedCollectible, true)
 	return spawnedCollectible
 	
@@ -66,8 +61,7 @@ func calculateSpawnProbability() -> void:
 	currentChance = (randf_range(0, 100)  / 3.5) + randi_range(0, 1)
 	maxCollectiblesPerSpawn = rng.randi_range(0, maxCollectibles)
 	previousOffset = 0
-	offset = 16 * rng.randf_range(1, 2)
-
+	offset = 16 * rng.randf_range(1, 4)
 
 func _on_spawn_delay_timeout() -> void:
 	await calculateSpawnProbability()
@@ -86,5 +80,3 @@ func deleteInstanceOfCollectible(collectible: Collectible) -> void:
 		#coinParent.remove_child(node_at_index)
 	coinParent.remove_child(collectible)
 	collectible.queue_free()
-		
-	print(collectible.name)

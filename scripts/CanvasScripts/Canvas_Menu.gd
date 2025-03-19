@@ -23,3 +23,6 @@ func _updateScore(label: Label, isHiScore: bool, collectibleManager: Collectible
 		label.text = "BEST:" + str(collectibleManager.getHighScore())
 	else:
 		label.text = str(collectibleManager.getScore())
+
+func _displayNumsWithEquals(label: Label, input: int) -> void:
+	label.text = "= " + str(input)
