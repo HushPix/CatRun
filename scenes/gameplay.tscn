@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=42 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" uid="uid://cjalew5an6hsx" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
@@ -24,6 +24,11 @@
 [ext_resource type="Script" uid="uid://coc8u45pe0hl6" path="res://scripts/CanvasScripts/game_over_screen.gd" id="14_4kqt4"]
 [ext_resource type="LabelSettings" uid="uid://dshgnep8ojn6j" path="res://LabelSettings/smallOutlineds.tres" id="14_jhs7r"]
 [ext_resource type="Texture2D" uid="uid://b3tdan6fpnblw" path="res://sprites/foodTest.png" id="15_28f34"]
+[ext_resource type="Texture2D" uid="uid://hoa0e07p6ejd" path="res://sprites/individualSprites/coinIndividualFrames/coin1.png" id="15_67d6o"]
+[ext_resource type="Texture2D" uid="uid://d1cds1dn1yg5l" path="res://sprites/individualSprites/coinIndividualFrames/coin2.png" id="16_5vu4g"]
+[ext_resource type="Texture2D" uid="uid://c61xhs2i8vc56" path="res://sprites/individualSprites/coinIndividualFrames/coin4.png" id="17_s6y8e"]
+[ext_resource type="Texture2D" uid="uid://ca1eqjhtluljm" path="res://sprites/individualSprites/coinIndividualFrames/coin5.png" id="18_s1tv7"]
+[ext_resource type="Texture2D" uid="uid://decochawq02i4" path="res://sprites/individualSprites/coinIndividualFrames/coin6.png" id="19_37dvx"]
 [ext_resource type="Texture2D" uid="uid://qkk8afpuy1ll" path="res://sprites/skyBGNew.png" id="21_xqp20"]
 [ext_resource type="Script" uid="uid://cumskuhwwllm0" path="res://scripts/collectible/coin_spawner.gd" id="25_5gpb1"]
 [ext_resource type="Script" uid="uid://skqnkcie26mx" path="res://scripts/collectible/collectibleData.gd" id="26_kf058"]
@@ -43,6 +48,19 @@ font_size = 8
 outline_size = 8
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 0
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_p5dy6"]
+frames = 5
+speed_scale = 12.5
+frame_0/texture = ExtResource("15_67d6o")
+frame_1/texture = ExtResource("16_5vu4g")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("17_s6y8e")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("18_s1tv7")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("19_37dvx")
+frame_4/duration = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
 size = Vector2(9, 20)
@@ -312,7 +330,7 @@ theme_override_constants/separation = 4
 
 [node name="coinIcon" type="TextureRect" parent="CanvasLayer/GameplayHud/coinContainer"]
 layout_mode = 2
-texture = ExtResource("15_28f34")
+texture = SubResource("AnimatedTexture_p5dy6")
 stretch_mode = 3
 
 [node name="coinAmountLabel" type="Label" parent="CanvasLayer/GameplayHud/coinContainer"]

@@ -21,6 +21,9 @@ sync_to_physics = false
 
 [node name="Sprite2D" type="Sprite2D" parent="AnimatableBody2D"]
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatableBody2D"]
+root_node = NodePath("../Sprite2D")
+
 [node name="Area2D" type="Area2D" parent="AnimatableBody2D"]
 collision_layer = 32
 collision_mask = 5
