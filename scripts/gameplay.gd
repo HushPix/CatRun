@@ -98,6 +98,7 @@ func setDifficulty(newDifficulty: level) -> void:
 #When player starts the game
 func gameStarted() -> void:
 	_changeDifficulty(level.EASY)
+	player.enableInput()
 	collectibleManager.startScoreTimer()
 	player.isControlable = true
 	coinSpawner.startDelayTimer()
@@ -135,7 +136,6 @@ func _compareCurrentScore() -> void:
 func _on_start_button_pressed() -> void:
 	await begin_countdown(countDownTime, skipCountDown)
 	gameStarted()
-	player.enableInput()
 	print("game started")
 
 #I love how simple it is to pause the game in godot

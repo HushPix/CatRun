@@ -6,6 +6,7 @@
 size = Vector2(16, 16)
 
 [node name="collectible" type="Node2D" node_paths=PackedStringArray("sprite_2d", "playerDetector", "groundDetector", "collectible_audio", "animatableBody") groups=["collectible"]]
+editor_description = "Basic collectible template"
 script = ExtResource("1_jlmvj")
 sprite_2d = NodePath("AnimatableBody2D/Sprite2D")
 playerDetector = NodePath("AnimatableBody2D/Area2D")

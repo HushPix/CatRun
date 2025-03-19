@@ -7,7 +7,7 @@ extends Node
 signal passColectible(currCollectible: Collectible)
 signal saveCollectibles()
 signal loadCollectibles()
-signal deleteInstanceOfCollectible()
+signal deleteInstanceOfCollectible(currCollectible: Collectible)
 
 
 # Called when the node enters the scene tree for the first time.

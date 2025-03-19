@@ -47,12 +47,11 @@ func collectCoin() -> void:
 	SignalManager.passColectible.emit(self)
 	
 	await collectible_audio.finished
-	SignalManager.emit_signal("deleteInstanceOfCollectible")
+	SignalManager.deleteInstanceOfCollectible.emit(self)
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("despawnTrigger"):
-		SignalManager.emit_signal("deleteInstanceOfCollectible")
-		
+		SignalManager.deleteInstanceOfCollectible.emit(self)
 
 
 func _on_area_2d_body_entered(body) -> void:
