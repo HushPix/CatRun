@@ -1,3 +1,4 @@
+class_name Gameplay
 extends Node2D
 
 ## This class is for managing the main gameplay scene
@@ -11,18 +12,24 @@ enum level {
 }
 
 #References to objects on scene
-@onready var scoreTimer: Timer = $scoreTimer
-@onready var player: Node2D = $Player
-@onready var ground_spawner: Node2D = $GroundSpawner
+@export var player: Player
+@export var ground_spawner: GroundSpawner
+@export var audioManager: AudioManager
+@export var collectibleManager: CollectibleManager 
+@export var countDownTimer: Timer
+@export var coinSpawner: CoinSpawner
 
 var random = RandomNumberGenerator.new()
 
+@export var deleteSave: bool
 @export var scoreForNormal: int #minimum score for normal difficulty
 @export var scoreForHard: int  #minimum score for hard difficulty
 @export var gameSpeed: float
+@export var countDownTime: float
+@export var skipCountDown: bool = false
 
 var difficulty: level = level.IDLE
-var score: int 
+
 
 #This could probably be done better but for me it was the easiest to make individual arrays for each level category
 var easyLevels: Array
@@ -39,12 +46,12 @@ var groundTypes = {
 }
 
 #This array contains currenlty loaded ground prefabs. By default it has ground0 loaded in to prevent crashes
-var levelsInMemory: Array = ["res://groundPrefabs/idle/ground0.tscn"]
+var levelsInMemory: Array = ["res://groundPrefabs/idle/groundIdle1.tscn"]
 	
 #This function is used to load all level prefabs from the game's files	
 func loadLevelsIn(level, debug = false) -> void:
 	var folderName: String
-	var path = "res://groundPrefabs/"
+	var path = "res://groundPrefabs/" #looks for all the prefabs here
 	var fileName
 	match level:
 		0: folderName = "easy"
@@ -54,11 +61,12 @@ func loadLevelsIn(level, debug = false) -> void:
 	path += folderName
 	var dir = DirAccess.open(path)
 	if dir:
-		dir.list_dir_begin()
-		fileName = dir.get_next()
+		dir.list_dir_begin() #opens up the file stream
+		fileName = dir.get_next()  #looks for another file in the folder
 		while fileName != "":
-			groundTypes[level].append(path+"/"+fileName)
+			groundTypes[level].append(path+"/"+fileName) #adds levels to specific array
 			fileName = dir.get_next()
+		dir.list_dir_end() #closes the file stream
 		if debug:
 			print(groundTypes[level])
 	else:
@@ -68,28 +76,20 @@ func loadLevelsIn(level, debug = false) -> void:
 func addLevelsToMemory(inputArray: Array) -> void:
 	levelsInMemory.append_array(inputArray)
 	
-#Depracated - used for testing
-#func getBaseTileset() -> String:
-	#return "res://groundPrefabs/idle/ground0.tscn"
-	
 func getLevelFromMemory() -> String:
 	var index = random.randi_range(0, levelsInMemory.size() - 1)
-	#print("Here is my index " + str(index))
-#	if(index < 0 ):
-#		return "res://groundPrefabs/idle/ground0.tscn"
 	return levelsInMemory[index]
 
-# This functions returns the current player score
-func getScore() -> int:
-	return score
 
-#This return current game speed
+
+#This returns current game speed
 func getSpeed() -> float:
 	return gameSpeed
 	
-# This function returns the current difficulty
+#This function returns the current difficulty
 func getDifficulty() -> level:
 	return difficulty
+	
 	
 #This sets the game's difficulty to the value of newDifficulty
 func setDifficulty(newDifficulty: level) -> void:
@@ -98,18 +98,24 @@ func setDifficulty(newDifficulty: level) -> void:
 #When player starts the game
 func gameStarted() -> void:
 	_changeDifficulty(level.EASY)
-	scoreTimer.start()
+	player.enableInput()
+	collectibleManager.startScoreTimer()
 	player.isControlable = true
+	coinSpawner.startDelayTimer()
 
-# This function changes the difficulty
+#This function changes the difficulty
 func _changeDifficulty(newDifficulty: level) -> void:
 	setDifficulty(newDifficulty)
 	loadLevelsIn(getDifficulty())
 	addLevelsToMemory(groundTypes[getDifficulty()])
 	
-
-# Called when the node enters the scen
+#Called when the node enters the scene
 func _ready() -> void:
+	if(deleteSave):
+		SaveManager.deleteSave()
+	SaveManager.loadFile()
+	
+	player.playerDied.connect(on_game_over)
 	_changeDifficulty(level.IDLE)
 	player.disableInput()
 
@@ -117,30 +123,53 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_compareCurrentScore()
 
-# This is used to count score
-func _on_score_timer_timeout() -> void:
-	if (player._isPlayerAlive()):
-		score+=1
 
-# This compares the current score, and changes difficulty according to made progress
+
+#This compares the current score, and changes difficulty according to made progress
 func _compareCurrentScore() -> void:
-	if score > scoreForNormal and getDifficulty() == level.EASY:
+	if collectibleManager.getScore() > scoreForNormal and getDifficulty() == level.EASY:
 		_changeDifficulty(level.MEDIUM)
-	if score > scoreForHard and getDifficulty() == level.MEDIUM:
+	if collectibleManager.getScore() > scoreForHard and getDifficulty() == level.MEDIUM:
 		_changeDifficulty(level.HARD)
 
-# This should be in canvas manager but i'll move it later
+#This should be in canvas manager but i'll move it later (i forgor why tho)
 func _on_start_button_pressed() -> void:
+	await begin_countdown(countDownTime, skipCountDown)
 	gameStarted()
-	player.enableInput()
 	print("game started")
 
-# Prepares objects for game over status
-func gameOver() -> void:
-	player.gameOver()
-	scoreTimer.stop()
-	print("game over")
+#I love how simple it is to pause the game in godot
+func _gamePaused() -> void:
+	var isPaused: bool = get_tree().paused
+	get_tree().paused = !isPaused
+
+#When the cat fails :(
+func on_game_over() -> void:
+	await collectibleManager.findAndSetHighScore()
+	SaveManager.saveFile()	
+	audioManager.gameOverAudio()
 	
-# Triggers game over
-func _on_death_barrier_player_entered(player) -> void:
-	gameOver()
+func begin_countdown(delay: float, skip: bool) -> void:
+	if(skip == false):
+		countDownTimer.start(countDownTime)
+	else:
+		countDownTimer.start(0.01)
+	await countDownTimer.timeout
+	countDownTimer.stop()
+
+func _on_pause_button_pressed() -> void:
+	_gamePaused()
+
+func _on_un_pause_button_pressed() -> void:
+	_gamePaused()
+
+
+func _on_retry_button_pressed() -> void:
+	await audioManager.waitForSfx()
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+
+func _on_exit_pressed() -> void:
+	await audioManager.waitForSfx()
+	get_tree().quit()

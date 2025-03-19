@@ -1,0 +1,525 @@
+[gd_scene load_steps=33 format=3 uid="uid://bkgsdlcelledb"]
+
+[ext_resource type="Script" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
+[ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
+[ext_resource type="Script" path="res://scripts/gameplay.gd" id="1_opprc"]
+[ext_resource type="Script" path="res://scripts/managers/collectible_manager.gd" id="2_1xsq2"]
+[ext_resource type="Script" path="res://scripts/managers/audio_manager.gd" id="2_k5gxe"]
+[ext_resource type="Script" path="res://scripts/GroundSpawner.gd" id="3_2rtxb"]
+[ext_resource type="PackedScene" uid="uid://6j8fdpsikfqn" path="res://scenes/background.tscn" id="3_q2xm3"]
+[ext_resource type="LabelSettings" uid="uid://cah3ii4hvydr" path="res://LabelSettings/pixelTextoutline.tres" id="3_xlalq"]
+[ext_resource type="Script" path="res://scripts/parallaxEffect.gd" id="4_0a36o"]
+[ext_resource type="Texture2D" uid="uid://b2uhko5fji2d0" path="res://sprites/bgGround.png" id="4_q3l51"]
+[ext_resource type="Theme" uid="uid://bgrytsv2b4845" path="res://themes/button/uiTheme.tres" id="6_jxq1o"]
+[ext_resource type="Script" path="res://scripts/CanvasScripts/main_menu.gd" id="6_kersf"]
+[ext_resource type="Texture2D" uid="uid://b8n7c56ggpfef" path="res://sprites/cloudsBG.png" id="6_mpir8"]
+[ext_resource type="FontFile" uid="uid://d2pxofocmaupd" path="res://fonts/PressStart2P.ttf" id="6_njlph"]
+[ext_resource type="Texture2D" uid="uid://bdu1ofd5nc0i" path="res://sprites/Ui/uiTiles.png" id="8_pkrmo"]
+[ext_resource type="PackedScene" uid="uid://6tr7fw4vbnrv" path="res://UiPrefabs/new_audio_button.tscn" id="10_4c78n"]
+[ext_resource type="Script" path="res://scripts/CanvasScripts/gameplay_hud.gd" id="10_kmgvv"]
+[ext_resource type="Script" path="res://scripts/CanvasScripts/count_down.gd" id="11_ika0k"]
+[ext_resource type="AudioStream" uid="uid://o46htektrb33" path="res://sfx/hit.wav" id="11_m0es0"]
+[ext_resource type="Script" path="res://scripts/CanvasScripts/blinkingText.gd" id="13_7ormu"]
+[ext_resource type="Script" path="res://scripts/CanvasScripts/pause_menu.gd" id="13_jt4cw"]
+[ext_resource type="LabelSettings" uid="uid://bh10wtrohv2gp" path="res://LabelSettings/8bitHudoutline.tres" id="14_0df8h"]
+[ext_resource type="Script" path="res://scripts/CanvasScripts/game_over_screen.gd" id="14_4kqt4"]
+[ext_resource type="Texture2D" uid="uid://qkk8afpuy1ll" path="res://sprites/skyBGNew.png" id="21_xqp20"]
+[ext_resource type="Script" path="res://scripts/collectible/coin_spawner.gd" id="25_5gpb1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7x2nf"]
+font = ExtResource("6_njlph")
+font_size = 8
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_lvjx4"]
+font = ExtResource("6_njlph")
+font_size = 8
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
+size = Vector2(9, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2l0u6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kgtne"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_28yds"]
+size = Vector2(164, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5e380"]
+size = Vector2(49.5, 178.25)
+
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "audioManager", "collectibleManager", "countDownTimer")]
+script = ExtResource("1_opprc")
+player = NodePath("Player")
+ground_spawner = NodePath("GroundSpawner")
+audioManager = NodePath("Managers/AudioManager")
+collectibleManager = NodePath("Managers/CollectibleManager")
+countDownTimer = NodePath("countDownTimer")
+scoreForNormal = 1
+scoreForHard = 1
+gameSpeed = 2.0
+countDownTime = 3.0
+skipCountDown = true
+
+[node name="countDownTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="Managers" type="Node" parent="."]
+
+[node name="CollectibleManager" type="Node" parent="Managers" node_paths=PackedStringArray("player", "score_timer")]
+script = ExtResource("2_1xsq2")
+player = NodePath("../../Player")
+score_timer = NodePath("scoreTimer")
+
+[node name="scoreTimer" type="Timer" parent="Managers/CollectibleManager"]
+wait_time = 0.4
+
+[node name="AudioManager" type="Node2D" parent="Managers" node_paths=PackedStringArray("audioListener", "musicPlayer", "sfxPlayer")]
+process_mode = 3
+script = ExtResource("2_k5gxe")
+audioListener = NodePath("sceneAudioListener")
+musicPlayer = NodePath("globalMusicPlayer")
+sfxPlayer = NodePath("globalSfxPlayer")
+
+[node name="sceneAudioListener" type="AudioListener2D" parent="Managers/AudioManager"]
+current = true
+
+[node name="globalSfxPlayer" type="AudioStreamPlayer" parent="Managers/AudioManager"]
+
+[node name="globalMusicPlayer" type="AudioStreamPlayer" parent="Managers/AudioManager"]
+autoplay = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("player", "gameplay", "collectibleManager", "gameplayHud", "mainMenu", "pauseMenu", "gameOverMenu", "countDownMenu")]
+script = ExtResource("1_1sayb")
+player = NodePath("../Player")
+gameplay = NodePath("..")
+collectibleManager = NodePath("../Managers/CollectibleManager")
+gameplayHud = NodePath("GameplayHud")
+mainMenu = NodePath("MainMenu")
+pauseMenu = NodePath("PauseMenu")
+gameOverMenu = NodePath("gameOverScreen")
+countDownMenu = NodePath("CountDown")
+
+[node name="MainMenu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("startButton", "highScoreLabelMenu", "collectibleManager")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_kersf")
+startButton = NodePath("PanelContainer/MarginContainer/VBoxContainer/play")
+highScoreLabelMenu = NodePath("hiScoreLabelMenu")
+collectibleManager = NodePath("../../Managers/CollectibleManager")
+
+[node name="credits" type="Label" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -9.0
+offset_right = 140.0
+offset_bottom = -1.0
+grow_vertical = 0
+text = "A GAME BY HUSHPIX"
+label_settings = SubResource("LabelSettings_7x2nf")
+
+[node name="hiScoreLabelMenu" type="Label" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -151.0
+offset_top = -11.0
+offset_right = -2.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 8
+text = "BEST:000000"
+label_settings = SubResource("LabelSettings_lvjx4")
+horizontal_alignment = 2
+vertical_alignment = 2
+text_overrun_behavior = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -89.0
+offset_top = -62.0
+offset_bottom = 68.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("6_jxq1o")
+theme_type_variation = &"InvinsiblePanelContainer"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MainMenu/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("8_pkrmo")
+region_rect = Rect2(0, 16, 48, 48)
+patch_margin_left = 32
+patch_margin_top = 32
+patch_margin_right = 32
+patch_margin_bottom = 32
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainMenu/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/PanelContainer/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="play" parent="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 8
+text = "PLAY
+"
+pressSound = ExtResource("11_m0es0")
+buttonAudioPlayer = NodePath("../../../../../../Managers/AudioManager/globalSfxPlayer")
+
+[node name="options" parent="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "OPTIONS
+"
+pressSound = ExtResource("11_m0es0")
+buttonAudioPlayer = NodePath("../../../../../../Managers/AudioManager/globalSfxPlayer")
+
+[node name="exit" parent="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "EXIT"
+pressSound = ExtResource("11_m0es0")
+buttonAudioPlayer = NodePath("../../../../../../Managers/AudioManager/globalSfxPlayer")
+
+[node name="CountDown" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("countLabel", "timer")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_ika0k")
+countLabel = NodePath("countLabel")
+timer = NodePath("../../countDownTimer")
+
+[node name="countLabel" type="Label" parent="CanvasLayer/CountDown"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.5
+offset_top = -8.0
+offset_right = 8.5
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "1"
+label_settings = ExtResource("3_xlalq")
+
+[node name="GameplayHud" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("scoreLabel", "hiScoreLabel", "collectibleManager")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("10_kmgvv")
+scoreLabel = NodePath("scoreLabel")
+hiScoreLabel = NodePath("hiScoreLabel")
+collectibleManager = NodePath("../../Managers/CollectibleManager")
+
+[node name="scoreLabel" type="Label" parent="CanvasLayer/GameplayHud"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -154.0
+offset_top = 16.0
+offset_bottom = 32.0
+grow_horizontal = 0
+text = "00000"
+label_settings = ExtResource("14_0df8h")
+horizontal_alignment = 2
+
+[node name="hiScoreLabel" type="Label" parent="CanvasLayer/GameplayHud"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -175.0
+offset_bottom = 16.0
+grow_horizontal = 0
+text = "BEST:000000"
+label_settings = ExtResource("14_0df8h")
+horizontal_alignment = 2
+clip_text = true
+
+[node name="PauseButton" parent="CanvasLayer/GameplayHud" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
+layout_mode = 0
+offset_left = 9.0
+offset_right = 73.0
+pressSound = ExtResource("11_m0es0")
+buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
+
+[node name="PauseMenu" type="Control" parent="CanvasLayer"]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("13_jt4cw")
+
+[node name="unpauseButton" parent="CanvasLayer/PauseMenu" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"BlankButton"
+text = ""
+buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
+
+[node name="animatedText" type="Label" parent="CanvasLayer/PauseMenu/unpauseButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -8.0
+offset_right = 120.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PRESS TO RESUME"
+label_settings = ExtResource("3_xlalq")
+script = ExtResource("13_7ormu")
+blinkSpeed = 0.2
+
+[node name="exitButton" parent="CanvasLayer/PauseMenu" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_right = 16.0
+grow_horizontal = 2
+theme_type_variation = &"SmallButton"
+theme_override_font_sizes/font_size = 16
+text = "X"
+pressSound = ExtResource("11_m0es0")
+buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
+
+[node name="gameOverScreen" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("gameOverLabel", "scoreLabelGameOver", "collectibleManager")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("14_4kqt4")
+gameOverLabel = NodePath("gameOverLabel")
+scoreLabelGameOver = NodePath("scoreLabel2")
+collectibleManager = NodePath("../../Managers/CollectibleManager")
+
+[node name="retryButton" parent="CanvasLayer/gameOverScreen" instance=ExtResource("10_4c78n")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"BlankButton"
+text = ""
+
+[node name="gameOverLabel" type="Label" parent="CanvasLayer/gameOverScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -8.0
+offset_right = 72.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME OVER"
+label_settings = ExtResource("3_xlalq")
+
+[node name="scoreLabel2" type="Label" parent="CanvasLayer/gameOverScreen"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -148.0
+offset_top = -58.0
+offset_right = 148.0
+offset_bottom = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "000"
+label_settings = ExtResource("3_xlalq")
+horizontal_alignment = 1
+
+[node name="Background" parent="." instance=ExtResource("3_q2xm3")]
+script = ExtResource("4_0a36o")
+
+[node name="skyBG" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0, 0)
+scroll_offset = Vector2(0, 84.24)
+repeat_size = Vector2(256, 0)
+repeat_times = 2
+follow_viewport = false
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/skyBG"]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("21_xqp20")
+offset = Vector2(384, 0)
+
+[node name="groundBG" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0, 0)
+scroll_offset = Vector2(0, 108.37)
+repeat_size = Vector2(256, 0)
+repeat_times = 2
+follow_viewport = false
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/groundBG"]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("4_q3l51")
+offset = Vector2(384, 0)
+
+[node name="cloudsBG" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0, 0)
+scroll_offset = Vector2(0, 72.105)
+repeat_size = Vector2(256, 0)
+repeat_times = 2
+follow_viewport = false
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Background/cloudsBG"]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("6_mpir8")
+offset = Vector2(384, 0)
+
+[node name="GroundSpawner" type="Node2D" parent="." node_paths=PackedStringArray("ground_spawner", "spawn_trigger", "despawn_trigger", "gameplayRoot")]
+script = ExtResource("3_2rtxb")
+ground_spawner = NodePath(".")
+spawn_trigger = NodePath("SpawnTrigger")
+despawn_trigger = NodePath("DespawnTrigger")
+gameplayRoot = NodePath("..")
+
+[node name="SpawnTrigger" type="Area2D" parent="GroundSpawner"]
+position = Vector2(322, 204)
+collision_layer = 4
+collision_mask = 4
+input_pickable = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/SpawnTrigger"]
+position = Vector2(-5.5, 0)
+shape = SubResource("RectangleShape2D_f2vle")
+
+[node name="DespawnTrigger" type="Area2D" parent="GroundSpawner"]
+position = Vector2(-5, 202)
+scale = Vector2(0.480001, 1)
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/DespawnTrigger"]
+shape = SubResource("RectangleShape2D_2l0u6")
+
+[node name="Player" parent="." instance=ExtResource("1_d3ts3")]
+physics_interpolation_mode = 1
+position = Vector2(102, 136)
+
+[node name="CoinSpawner" type="Node2D" parent="." node_paths=PackedStringArray("gameplay", "coinCollisionChecker")]
+position = Vector2(331, -9)
+script = ExtResource("25_5gpb1")
+gameplay = NodePath("..")
+coinCollisionChecker = NodePath("CoinCollisionChecker")
+
+[node name="CoinCollisionChecker" type="Area2D" parent="CoinSpawner"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CoinSpawner/CoinCollisionChecker"]
+shape = SubResource("RectangleShape2D_kgtne")
+
+[node name="deathBarrier" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="deathBarrier"]
+position = Vector2(53, 237)
+shape = SubResource("RectangleShape2D_28yds")
+debug_color = Color(0.932447, 0.260223, 0, 0.42)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="deathBarrier"]
+position = Vector2(-58, 90)
+shape = SubResource("RectangleShape2D_5e380")
+debug_color = Color(0.932447, 0.260223, 0, 0.42)
+
+[connection signal="ready" from="." to="CanvasLayer" method="_on_gameplay_ready"]
+[connection signal="timeout" from="Managers/CollectibleManager/scoreTimer" to="Managers/CollectibleManager" method="_on_score_timer_timeout"]
+[connection signal="draw" from="CanvasLayer/MainMenu/hiScoreLabelMenu" to="CanvasLayer/MainMenu" method="_on_hi_score_label_menu_draw"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/play" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/play" to="CanvasLayer" method="_on_start_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/exit" to="." method="_on_exit_pressed"]
+[connection signal="visibility_changed" from="CanvasLayer/GameplayHud" to="CanvasLayer/GameplayHud" method="_on_visibility_changed"]
+[connection signal="pressed" from="CanvasLayer/GameplayHud/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameplayHud/PauseButton" to="CanvasLayer" method="_on_pause_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/unpauseButton" to="." method="_on_un_pause_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/unpauseButton" to="CanvasLayer" method="_on_un_pause_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/exitButton" to="." method="_on_retry_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/gameOverScreen/retryButton" to="." method="_on_retry_button_pressed"]
+[connection signal="visibility_changed" from="CanvasLayer/gameOverScreen/scoreLabel2" to="CanvasLayer/gameOverScreen" method="_on_score_label_2_visibility_changed"]
+[connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
+[connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]
+[connection signal="area_entered" from="deathBarrier" to="Player" method="_on_death_barrier_area_entered"]

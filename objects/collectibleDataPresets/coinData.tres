@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CollectibleData" load_steps=4 format=3 uid="uid://bx2rsxmi1t2er"]
+
+[ext_resource type="Script" uid="uid://skqnkcie26mx" path="res://scripts/collectible/collectibleData.gd" id="1_fun2m"]
+[ext_resource type="AudioStream" uid="uid://bc41gdt86ys22" path="res://sfx/coinNew.wav" id="2_7qj0v"]
+[ext_resource type="Texture2D" uid="uid://hoa0e07p6ejd" path="res://sprites/individualSprites/coinIndividualFrames/coin1.png" id="3_74lfc"]
+
+[resource]
+script = ExtResource("1_fun2m")
+sprite = ExtResource("3_74lfc")
+sound = ExtResource("2_7qj0v")
+points = 1
+type = 0

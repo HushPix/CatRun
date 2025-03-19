@@ -1,19 +1,27 @@
+class_name GroundSpawner
 extends Node2D
-var groundScene = preload("res://ground.tscn")
-@onready var ground_spawner: Node2D = $"."
-@onready var spawn_trigger: Area2D = $SpawnTrigger
-@onready var despawn_trigger: Area2D = $DespawnTrigger
+var groundScene = preload("res://scenes/ground.tscn")
+@export var ground_spawner: GroundSpawner
+@export var spawn_trigger: Area2D
+@export var despawn_trigger: Area2D
+@export var gameplayRoot: Gameplay
 
 
 var maxPlatforms = 2
-var currGround: Node2D
-var lastGround: Node2D
+var currGround: Ground
+var lastGround: Ground
 var groundAmount = 0
 
-
-
+func loadTileset() -> TileMapLayer:
+	var tileSetPath = gameplayRoot.getLevelFromMemory() # This function provides random tileSets for each groundPrefab
+	var tileSet = load(tileSetPath)
+	return tileSet.instantiate()
+	
 func _spawnGround() -> void:
-	var currGround = groundScene.instantiate() as Node2D
+	currGround = groundScene.instantiate() as Ground
+	currGround.animatable_body_2d.add_child(loadTileset())
+	currGround.speed = gameplayRoot.getSpeed()
+	
 	if(groundAmount > 0):
 		currGround.position = Vector2(320,0)
 	ground_spawner.add_child(currGround)

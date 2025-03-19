@@ -1,0 +1,13 @@
+[gd_resource type="LabelSettings" load_steps=3 format=3 uid="uid://dshgnep8ojn6j"]
+
+[ext_resource type="FontFile" uid="uid://d2pxofocmaupd" path="res://fonts/PressStart2P.ttf" id="1_esvc8"]
+
+[sub_resource type="FontVariation" id="FontVariation_esvc8"]
+base_font = ExtResource("1_esvc8")
+spacing_space = -4
+
+[resource]
+font = SubResource("FontVariation_esvc8")
+font_size = 8
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)

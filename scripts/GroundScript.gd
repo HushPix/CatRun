@@ -1,23 +1,13 @@
 extends Node2D
-@onready var animatable_body_2d: AnimatableBody2D = $AnimatableBody2D
-@onready var area_2d: Area2D = $Area2D
-@onready var gameplayRoot = get_parent().get_parent() #It goes up two parent noods (exactly to the root node)
+class_name Ground
 
-
-@onready var speed = gameplayRoot.getSpeed()
-
-
+var speed: float
+@export var animatable_body_2d: AnimatableBody2D 
+@export var area_2d: Area2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var tileSet = gameplayRoot.getLevelFromMemory() # This function provides random tileSets for each groundPrefab
-	var groundPrefab = load(tileSet)
-	var newInstance = groundPrefab.instantiate()
-	animatable_body_2d.add_child(newInstance)
-
-#unused
-#func _destroy() -> void:
-	#queue_free()
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

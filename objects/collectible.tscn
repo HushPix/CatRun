@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnav5yjf6lrw4"]
+
+[ext_resource type="Script" uid="uid://bwt10jfurwdmn" path="res://scripts/collectible/collectible.gd" id="1_jlmvj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tm3hh"]
+size = Vector2(16, 16)
+
+[node name="collectible" type="Node2D" node_paths=PackedStringArray("sprite_2d", "playerDetector", "groundDetector", "collectible_audio", "animatableBody") groups=["collectible"]]
+editor_description = "Basic collectible template"
+script = ExtResource("1_jlmvj")
+sprite_2d = NodePath("AnimatableBody2D/Sprite2D")
+playerDetector = NodePath("AnimatableBody2D/Area2D")
+groundDetector = NodePath("AnimatableBody2D/groundArea")
+collectible_audio = NodePath("AnimatableBody2D/collectibleAudio")
+animatableBody = NodePath("AnimatableBody2D")
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+sync_to_physics = false
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimatableBody2D"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatableBody2D"]
+root_node = NodePath("../Sprite2D")
+
+[node name="Area2D" type="Area2D" parent="AnimatableBody2D"]
+collision_layer = 32
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D/Area2D"]
+shape = SubResource("RectangleShape2D_tm3hh")
+
+[node name="groundArea" type="Area2D" parent="AnimatableBody2D"]
+position = Vector2(0, -9)
+scale = Vector2(1, 2.12)
+collision_layer = 32
+collision_mask = 18
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D/groundArea"]
+shape = SubResource("RectangleShape2D_tm3hh")
+
+[node name="collectibleAudio" type="AudioStreamPlayer" parent="AnimatableBody2D"]
+
+[connection signal="area_entered" from="AnimatableBody2D/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="AnimatableBody2D/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="AnimatableBody2D/groundArea" to="." method="_on_ground_area_body_entered"]
+[connection signal="body_exited" from="AnimatableBody2D/groundArea" to="." method="_on_ground_area_body_exited"]
