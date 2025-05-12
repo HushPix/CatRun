@@ -80,7 +80,7 @@ func _ready() -> void:
 	initialPosition = character_body_2d.global_position.x
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	#debug.text = str(character_body_2d.global_position)+ "initialPos: " + str(initialPosition)+ " speed:" + str(character_body_2d.velocity.x)
 	pass
 
@@ -107,10 +107,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func player_exits_screen() -> void:
 	onScreen = false
 
-func _on_obstacle_detection_body_entered(body: Node2D) -> void:
+func _on_obstacle_detection_body_entered(_body: Node2D) -> void:
 	gameOver()
 
-func _on_death_barrier_area_entered(area: Area2D) -> void:
+func _on_death_barrier_area_entered(_area: Area2D) -> void:
 	gameOver()
 
 

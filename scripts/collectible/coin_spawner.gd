@@ -23,11 +23,12 @@ var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	SignalManager.connect("deleteInstanceOfCollectible", deleteInstanceOfCollectible)
+	print(SignalManager.emit_signal("accessGameplay"))
 	randomize()
 	spawnDelayTimer.wait_time = spawnDelay
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 			
 	#print(str(getGroupSize("collectible")) + "/" + str(maxCollectiblesPerSpawn) + "timer:" + str(spawnDelayTimer.time_left))
@@ -51,8 +52,8 @@ func createCoin() -> Collectible:
 	#coinParent.add_child(spawnedCollectible, true)
 	return spawnedCollectible
 	
-func getGroupSize(name: String) -> int:
-	return get_tree().get_nodes_in_group(name).size()
+func getGroupSize(groupName: String) -> int:
+	return get_tree().get_nodes_in_group(groupName).size()
 
 func startDelayTimer() -> void:
 	spawnDelayTimer.start(spawnDelay)
@@ -78,5 +79,6 @@ func deleteInstanceOfCollectible(collectible: Collectible) -> void:
 		#activeCollectibles.remove_at(0)
 		#node_at_index.queue_free()
 		#coinParent.remove_child(node_at_index)
-	coinParent.remove_child(collectible)
+	coinParent.call_deferred("remove_child", collectible)
+	#coinParent.remove_child(collectible)
 	collectible.queue_free()

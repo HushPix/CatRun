@@ -9,25 +9,25 @@ class_name Collectible extends Node2D
 
 var type: CollectibleType.Type
 var points: int
-var speed: float = 2
+var speed: float 
 var isInGround: bool
+var noGroundYet: bool = true
 
-func setCollectibleData(data: CollectibleData):
-	sprite_2d.texture = data.sprite
-	collectible_audio.stream = data.sound
-	points = data.points
-	type = data.type
+func setCollectibleData(collectibleData: CollectibleData):
+	sprite_2d.texture = collectibleData.sprite
+	collectible_audio.stream = collectibleData.sound
+	points =collectibleData.points
+	type = collectibleData.type
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	setCollectibleData(data)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	animatableBody.move_and_collide(Vector2(-speed, 0))
 	move()
 
@@ -43,7 +43,6 @@ func collectCoin() -> void:
 	
 	sprite_2d.visible = false
 	playerDetector.set_deferred("monitoring", false)
-	
 	SignalManager.passColectible.emit(self)
 	
 	await collectible_audio.finished
@@ -61,10 +60,12 @@ func _on_area_2d_body_entered(body) -> void:
 func move() -> void :
 	if groundDetector.has_overlapping_bodies():
 		position.y -= 16
-		
-func _on_ground_area_body_entered(body: Node2D) -> void:
+	elif noGroundYet and global_position.y > 60:
+		position.y -= 16
+func _on_ground_area_body_entered(_body: Node2D) -> void:
 	isInGround = true
+	noGroundYet = false
 
 
-func _on_ground_area_body_exited(body: Node2D) -> void:
+func _on_ground_area_body_exited(_body: Node2D) -> void:
 	isInGround = false

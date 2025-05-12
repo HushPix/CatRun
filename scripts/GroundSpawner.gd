@@ -24,7 +24,8 @@ func _spawnGround() -> void:
 	
 	if(groundAmount > 0):
 		currGround.position = Vector2(320,0)
-	ground_spawner.add_child(currGround)
+	ground_spawner.call_deferred("add_child", currGround)
+	#ground_spawner.add_child(currGround)
 	groundAmount+=1
 	
 func _despawnGround() -> void:
@@ -39,15 +40,15 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 
-func _on_spawn_trigger_area_entered(spawn_trigger) -> void:
+func _on_spawn_trigger_area_entered(_spawn_trigger) -> void:
 	#print("it's alive")
 	_spawnGround()
 
 
-func _on_despawn_trigger_area_entered(despawn_trigger) -> void:
+func _on_despawn_trigger_area_entered(_despawn_trigger) -> void:
 	#print("ded")
 	_despawnGround()

@@ -49,11 +49,11 @@ var groundTypes = {
 var levelsInMemory: Array = ["res://groundPrefabs/idle/groundIdle1.tscn"]
 	
 #This function is used to load all level prefabs from the game's files	
-func loadLevelsIn(level, debug = false) -> void:
+func loadLevelsIn(levelType, debug = false) -> void:
 	var folderName: String
 	var path = "res://groundPrefabs/" #looks for all the prefabs here
 	var fileName
-	match level:
+	match levelType:
 		0: folderName = "easy"
 		1: folderName = "medium"
 		2: folderName = "hard"
@@ -64,7 +64,7 @@ func loadLevelsIn(level, debug = false) -> void:
 		dir.list_dir_begin() #opens up the file stream
 		fileName = dir.get_next()  #looks for another file in the folder
 		while fileName != "":
-			groundTypes[level].append(path+"/"+fileName) #adds levels to specific array
+			groundTypes[levelType].append(path+"/"+fileName) #adds levels to specific array
 			fileName = dir.get_next()
 		dir.list_dir_end() #closes the file stream
 		if debug:
@@ -116,11 +116,12 @@ func _ready() -> void:
 	SaveManager.loadFile()
 	
 	player.playerDied.connect(on_game_over)
+	SignalManager.connect("accessGameplay", onAccessGameplay)
 	_changeDifficulty(level.IDLE)
 	player.disableInput()
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	_compareCurrentScore()
 
 
@@ -134,7 +135,7 @@ func _compareCurrentScore() -> void:
 
 #This should be in canvas manager but i'll move it later (i forgor why tho)
 func _on_start_button_pressed() -> void:
-	await begin_countdown(countDownTime, skipCountDown)
+	await begin_countdown(skipCountDown)
 	gameStarted()
 	print("game started")
 
@@ -149,7 +150,7 @@ func on_game_over() -> void:
 	SaveManager.saveFile()	
 	audioManager.gameOverAudio()
 	
-func begin_countdown(delay: float, skip: bool) -> void:
+func begin_countdown(skip: bool) -> void:
 	if(skip == false):
 		countDownTimer.start(countDownTime)
 	else:
@@ -173,3 +174,6 @@ func _on_retry_button_pressed() -> void:
 func _on_exit_pressed() -> void:
 	await audioManager.waitForSfx()
 	get_tree().quit()
+
+func onAccessGameplay() -> Gameplay:
+	return self

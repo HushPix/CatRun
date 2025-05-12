@@ -406,7 +406,7 @@ region_rect = Rect2(0, 0, 32, 32)
 [node name="playerAnimator" type="AnimationPlayer" parent="CharacterBody2D"]
 root_node = NodePath("../..")
 libraries = {
-"": SubResource("AnimationLibrary_1a5lp")
+&"": SubResource("AnimationLibrary_1a5lp")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="CharacterBody2D"]
