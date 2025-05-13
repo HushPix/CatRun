@@ -532,27 +532,14 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/DespawnTrigger"]
 shape = SubResource("RectangleShape2D_2l0u6")
 
-[node name="CoinSpawner" type="Node2D" parent="." node_paths=PackedStringArray("spawnDelayTimer", "coinParent", "gameplay", "spawnCheck")]
+[node name="CoinSpawner" type="Node2D" parent="." node_paths=PackedStringArray("coinParent", "gameplay")]
 position = Vector2(331, 172)
 script = ExtResource("25_5gpb1")
-spawnDelayTimer = NodePath("_spawnDelay")
 spawnDelay = 5
 coinParent = NodePath(".")
 collectibleTypes = Array[ExtResource("26_kf058")]([ExtResource("27_7yhwd"), ExtResource("28_0fgne")])
 gameplay = NodePath("..")
-spawnCheck = NodePath("RayCast2D")
 collectibleObjectPath = "res://Objects/collectible.tscn"
-
-[node name="_spawnDelay" type="Timer" parent="CoinSpawner"]
-process_thread_group = 1
-process_thread_group_order = 0
-process_thread_messages = 0
-physics_interpolation_mode = 1
-process_callback = 0
-
-[node name="RayCast2D" type="RayCast2D" parent="CoinSpawner"]
-target_position = Vector2(0, -100)
-collision_mask = 2
 
 [node name="Player" parent="." instance=ExtResource("1_d3ts3")]
 physics_interpolation_mode = 1
@@ -587,5 +574,4 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 [connection signal="visibility_changed" from="CanvasLayer/gameOverScreen/scoreLabel2" to="CanvasLayer/gameOverScreen" method="_on_score_label_2_visibility_changed"]
 [connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
 [connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]
-[connection signal="timeout" from="CoinSpawner/_spawnDelay" to="CoinSpawner" method="_on_spawn_delay_timeout"]
 [connection signal="area_entered" from="deathBarrier" to="Player" method="_on_death_barrier_area_entered"]

@@ -98,10 +98,10 @@ func setDifficulty(newDifficulty: level) -> void:
 #When player starts the game
 func gameStarted() -> void:
 	_changeDifficulty(level.EASY)
+	coinSpawner.toggleComponent(true)
 	player.enableInput()
 	collectibleManager.startScoreTimer()
 	player.isControlable = true
-	coinSpawner.startDelayTimer()
 
 #This function changes the difficulty
 func _changeDifficulty(newDifficulty: level) -> void:
@@ -116,7 +116,6 @@ func _ready() -> void:
 	SaveManager.loadFile()
 	
 	player.playerDied.connect(on_game_over)
-	SignalManager.connect("accessGameplay", onAccessGameplay)
 	_changeDifficulty(level.IDLE)
 	player.disableInput()
 	coinSpawner.toggleComponent(false)
@@ -138,7 +137,6 @@ func _compareCurrentScore() -> void:
 func _on_start_button_pressed() -> void:
 	await begin_countdown(skipCountDown)
 	gameStarted()
-	coinSpawner.toggleComponent(true)
 	print("game started")
 
 #I love how simple it is to pause the game in godot
@@ -177,6 +175,3 @@ func _on_retry_button_pressed() -> void:
 func _on_exit_pressed() -> void:
 	await audioManager.waitForSfx()
 	get_tree().quit()
-
-func onAccessGameplay() -> Gameplay:
-	return self

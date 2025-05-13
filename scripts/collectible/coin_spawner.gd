@@ -1,12 +1,11 @@
 extends Node2D
 class_name CoinSpawner
 
-@export var spawnDelayTimer: Timer
+#@export var spawnDelayTimer: Timer
 @export var spawnDelay: int
 @export var coinParent: Node2D
 @export var collectibleTypes: Array[CollectibleData] = []
 @export var gameplay: Gameplay
-@export var spawnCheck: RayCast2D
 @export_file("*tscn") var collectibleObjectPath = "res://objects/"
 
 var collectibleObject: PackedScene
@@ -40,10 +39,11 @@ func _process(_delta: float) -> void:
 	#print(str(getGroupSize("collectible")) + "/" + str(maxCollectiblesPerSpawn) + "timer:" + str(spawnDelayTimer.time_left))
 
 func spawnCoin() -> void:
-	if currentChance > spawnChance and  getGroupSize("collectible") < maxCollectiblesPerSpawn:
-		for n in range(maxCollectiblesPerSpawn):	
+	var groupSize = getGroupSize("collectible")
+	if currentChance > spawnChance and  groupSize < maxCollectiblesPerSpawn:
+		for n in range(maxCollectiblesPerSpawn - groupSize):	
 			var coin = createCoin()
-			coinParent.add_child(coin)
+			coinParent.call_deferred("add_child", coin)
 		#if(spawnDelayTimer.is_stopped() and activeCollectibles.size() == 0):
 			#spawnDelayTimer.start(spawnDelay)
 
@@ -53,6 +53,7 @@ func createCoin() -> Collectible:
 	spawnedCollectible.data = collectibleTypes[randomizeCollectibleData()]
 	spawnedCollectible.speed = gameplay.getSpeed()
 	spawnedCollectible.position.x += previousOffset + offset
+	spawnedCollectible.safetyOffset = previousOffset + offset * 2
 	previousOffset += offset
 	#activeCollectibles.push_front(spawnedCollectible)
 	#coinParent.add_child(spawnedCollectible, true)
@@ -61,8 +62,8 @@ func createCoin() -> Collectible:
 func getGroupSize(groupName: String) -> int:
 	return get_tree().get_nodes_in_group(groupName).size()
 
-func startDelayTimer() -> void:
-	spawnDelayTimer.start(spawnDelay)
+#func startDelayTimer() -> void:
+	#spawnDelayTimer.start(spawnDelay)
 
 func calculateSpawnProbability() -> void:
 	currentChance = (randf_range(0, 100)  / 3.5) + randi_range(0, 1)
