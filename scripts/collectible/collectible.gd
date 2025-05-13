@@ -10,7 +10,7 @@ class_name Collectible extends Node2D
 var type: CollectibleType.Type
 var points: int
 var speed: float 
-var isInGround: bool
+var _isInGround: bool
 var noGroundYet: bool = true
 
 func setCollectibleData(collectibleData: CollectibleData):
@@ -60,12 +60,13 @@ func _on_area_2d_body_entered(body) -> void:
 func move() -> void :
 	if groundDetector.has_overlapping_bodies():
 		position.y -= 16
-	elif noGroundYet and global_position.y > 60:
+	elif noGroundYet:
 		position.y -= 16
+
+
 func _on_ground_area_body_entered(_body: Node2D) -> void:
-	isInGround = true
 	noGroundYet = false
 
 
 func _on_ground_area_body_exited(_body: Node2D) -> void:
-	isInGround = false
+	pass

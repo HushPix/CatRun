@@ -24,9 +24,10 @@ func _spawnGround() -> void:
 	
 	if(groundAmount > 0):
 		currGround.position = Vector2(320,0)
-	ground_spawner.call_deferred("add_child", currGround)
-	#ground_spawner.add_child(currGround)
 	groundAmount+=1
+	ground_spawner.call_deferred("add_child", currGround)
+	SignalManager.emit_signal("groundHasSpawned")
+	
 	
 func _despawnGround() -> void:
 	lastGround = ground_spawner.get_child(2)

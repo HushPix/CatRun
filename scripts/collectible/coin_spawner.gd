@@ -17,15 +17,21 @@ var spawnChance: float = 1.8  #23.8
 var currentChance: float = 0
 var offset: float = 16
 var previousOffset: float
+var enabled: bool
 
 var rng = RandomNumberGenerator.new()
+
+func on_new_ground_spawn() -> void:
+	if enabled:
+		await calculateSpawnProbability()
+		spawnCoin()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	SignalManager.connect("deleteInstanceOfCollectible", deleteInstanceOfCollectible)
-	print(SignalManager.emit_signal("accessGameplay"))
+	SignalManager.connect("groundHasSpawned", on_new_ground_spawn)
 	randomize()
-	spawnDelayTimer.wait_time = spawnDelay
+	#spawnDelayTimer.wait_time = spawnDelay
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -64,10 +70,10 @@ func calculateSpawnProbability() -> void:
 	previousOffset = 0
 	offset = 16 * rng.randf_range(1, 4)
 
-func _on_spawn_delay_timeout() -> void:
-	await calculateSpawnProbability()
-	spawnCoin()
-	#spawnDelayTimer.stop()
+#func _on_spawn_delay_timeout() -> void:
+	#await calculateSpawnProbability()
+	#spawnCoin()
+	##spawnDelayTimer.stop()
 
 func randomizeCollectibleData() -> int:
 	var DataAmount = collectibleTypes.size()
@@ -82,3 +88,9 @@ func deleteInstanceOfCollectible(collectible: Collectible) -> void:
 	coinParent.call_deferred("remove_child", collectible)
 	#coinParent.remove_child(collectible)
 	collectible.queue_free()
+
+func toggleComponent(switch: bool) -> void:
+	enabled = switch
+
+#func checkSpawnPosition() -> bool:
+	#if spawnCheck.collide_with_bodies

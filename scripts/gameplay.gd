@@ -119,6 +119,7 @@ func _ready() -> void:
 	SignalManager.connect("accessGameplay", onAccessGameplay)
 	_changeDifficulty(level.IDLE)
 	player.disableInput()
+	coinSpawner.toggleComponent(false)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -137,6 +138,7 @@ func _compareCurrentScore() -> void:
 func _on_start_button_pressed() -> void:
 	await begin_countdown(skipCountDown)
 	gameStarted()
+	coinSpawner.toggleComponent(true)
 	print("game started")
 
 #I love how simple it is to pause the game in godot
@@ -146,6 +148,7 @@ func _gamePaused() -> void:
 
 #When the cat fails :(
 func on_game_over() -> void:
+	#coinSpawner.toggleComponent(false) #uncomment later
 	await collectibleManager.findAndSetHighScore()
 	SaveManager.saveFile()	
 	audioManager.gameOverAudio()
