@@ -16,6 +16,7 @@ var isControlable: bool
 var currentState: playerInputState
 var initialPosition: float 
 var maxSpeed: float = 50
+var isSlowedDown: bool
 
 var currentTileMap: TileMapLayer
 
@@ -24,6 +25,10 @@ enum playerInputState {
 	BlockInput
 }
 
+var tileValue = {
+	"spike": 1,
+	"mud": 2
+}
 #getters
 func _isPlayerAlive() -> bool:
 	return alive
@@ -93,12 +98,13 @@ func _physics_process(delta: float) -> void:
 		character_body_2d.velocity += character_body_2d.get_gravity() * delta
 	
 	#If the player isn't colliding with any walls, they will start running back
-	if(!character_body_2d.is_on_wall()):
+	if(!character_body_2d.is_on_wall() and !isSlowedDown):
 		goBackToInitialPos()
 	
 	# Handle jump.
 	if(alive):
 		character_body_2d.move_and_slide()
+		
 
 # Used for player input, does not collide with ui elements
 func _unhandled_input(event: InputEvent) -> void:
@@ -114,7 +120,10 @@ func _on_death_barrier_area_entered(_area: Area2D) -> void:
 	gameOver()
 
 func applySlowness() -> void:
-	print("slowdown")
+	print("slow" + str(isSlowedDown))
+	isSlowedDown = true
+	character_body_2d.velocity.x -= 15
+
 
 func _on_exit_button_pressed() -> void:
 	pass # Replace with function body.
