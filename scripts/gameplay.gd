@@ -8,7 +8,8 @@ enum level {
 	EASY,
 	MEDIUM,
 	HARD,
-	IDLE
+	IDLE,
+	TEST
 }
 
 #References to objects on scene
@@ -27,6 +28,8 @@ var random = RandomNumberGenerator.new()
 @export var gameSpeed: float
 @export var countDownTime: float
 @export var skipCountDown: bool = false
+@export var playTestMode: bool = false
+@export var playTestScene: PackedScene
 
 var difficulty: level = level.IDLE
 
@@ -42,7 +45,8 @@ var groundTypes = {
 	level.EASY: easyLevels,
 	level.MEDIUM: mediumLevels,
 	level.HARD: hardLevels,
-	level.IDLE: idleLevels
+	level.IDLE: idleLevels,
+	level.TEST: easyLevels
 }
 
 #This array contains currenlty loaded ground prefabs. By default it has ground0 loaded in to prevent crashes
@@ -58,6 +62,7 @@ func loadLevelsIn(levelType, debug = false) -> void:
 		1: folderName = "medium"
 		2: folderName = "hard"
 		3: folderName = "idle"
+		4: folderName = "Test"
 	path += folderName
 	var dir = DirAccess.open(path)
 	if dir:
@@ -97,7 +102,11 @@ func setDifficulty(newDifficulty: level) -> void:
 	
 #When player starts the game
 func gameStarted() -> void:
-	_changeDifficulty(level.EASY)
+	if playTestMode:
+		levelsInMemory.clear()
+		_changeDifficulty(level.TEST)
+	else:
+		_changeDifficulty(level.EASY)
 	coinSpawner.toggleComponent(true)
 	player.enableInput()
 	collectibleManager.startScoreTimer()

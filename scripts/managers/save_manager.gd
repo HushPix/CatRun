@@ -45,8 +45,9 @@ func loadFile() -> void:
 			saveData.data[key] = value
 		
 		file.close()
-		SignalManager.emit_signal("loadCollectibles")
 		debugFile()
+		SignalManager.emit_signal("loadCollectibles")
+		
 
 #This is a quick way to reset the save data		
 func deleteSave() -> void:
@@ -55,3 +56,4 @@ func deleteSave() -> void:
 func debugFile() -> void:
 	for i in saveData.data:
 		print(saveData.data[i])
+	print("loaded")

@@ -1,10 +1,11 @@
-[gd_scene load_steps=43 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=44 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" uid="uid://cjalew5an6hsx" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
 [ext_resource type="Script" uid="uid://dc0oi0au87j3p" path="res://scripts/gameplay.gd" id="1_opprc"]
 [ext_resource type="Script" uid="uid://creudqlpp8co4" path="res://scripts/managers/collectible_manager.gd" id="2_1xsq2"]
 [ext_resource type="Script" uid="uid://4cbe5bvmupvr" path="res://scripts/managers/audio_manager.gd" id="2_k5gxe"]
+[ext_resource type="PackedScene" uid="uid://dql00skuqd5in" path="res://groundPrefabs/Test/playTestScene.tscn" id="2_s6y8e"]
 [ext_resource type="Script" uid="uid://jd0tl44vp28j" path="res://scripts/GroundSpawner.gd" id="3_2rtxb"]
 [ext_resource type="PackedScene" uid="uid://6j8fdpsikfqn" path="res://scenes/background.tscn" id="3_q2xm3"]
 [ext_resource type="LabelSettings" uid="uid://cah3ii4hvydr" path="res://LabelSettings/pixelTextoutline.tres" id="3_xlalq"]
@@ -87,6 +88,8 @@ scoreForHard = 1
 gameSpeed = 2.0
 countDownTime = 3.0
 skipCountDown = true
+playTestMode = true
+playTestScene = ExtResource("2_s6y8e")
 
 [node name="countDownTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -559,7 +562,7 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 
 [connection signal="ready" from="." to="CanvasLayer" method="_on_gameplay_ready"]
 [connection signal="timeout" from="Managers/CollectibleManager/scoreTimer" to="Managers/CollectibleManager" method="_on_score_timer_timeout"]
-[connection signal="draw" from="CanvasLayer/MainMenu/hiScoreLabelMenu" to="CanvasLayer/MainMenu" method="_on_hi_score_label_menu_draw"]
+[connection signal="visibility_changed" from="CanvasLayer/MainMenu/hiScoreLabelMenu" to="CanvasLayer/MainMenu" method="_on_hi_score_label_menu_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/play" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/play" to="CanvasLayer" method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/exit" to="." method="_on_exit_pressed"]

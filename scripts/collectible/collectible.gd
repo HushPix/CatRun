@@ -73,16 +73,20 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 func _on_area_2d_body_entered(body) -> void:
 	if body.is_in_group("player"):
 		collectCoin()
+	if body.is_in_group("collectible"):
+		safelyOffset()
 
 func move() -> void :
 	if noGroundYet or groundDetector.has_overlapping_bodies():
 		position.y -= 16
 		
 	if global_position.y  < 30:
-		noGroundYet = true
-		global_position.y = spawnPos.y
-		global_position.x += safetyOffset
+		safelyOffset()
 		
+func safelyOffset() -> void:
+	noGroundYet = true
+	global_position.y = spawnPos.y
+	global_position.x += safetyOffset
 
 func _on_ground_area_body_entered(_body: Node2D) -> void:
 	noGroundYet = false
