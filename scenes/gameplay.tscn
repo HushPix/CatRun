@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=43 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" uid="uid://cjalew5an6hsx" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
@@ -34,6 +34,7 @@
 [ext_resource type="Script" uid="uid://skqnkcie26mx" path="res://scripts/collectible/collectibleData.gd" id="26_kf058"]
 [ext_resource type="Resource" uid="uid://bx2rsxmi1t2er" path="res://objects/collectibleDataPresets/coinData.tres" id="27_7yhwd"]
 [ext_resource type="Resource" uid="uid://c6pguoq7txy42" path="res://objects/collectibleDataPresets/testFoodData.tres" id="28_0fgne"]
+[ext_resource type="Resource" uid="uid://dkttfyqdqrr8f" path="res://objects/collectibleDataPresets/chicken.tres" id="34_5vu4g"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7x2nf"]
 font = ExtResource("6_njlph")
@@ -537,7 +538,7 @@ position = Vector2(331, 172)
 script = ExtResource("25_5gpb1")
 spawnDelay = 5
 coinParent = NodePath(".")
-collectibleTypes = Array[ExtResource("26_kf058")]([ExtResource("27_7yhwd"), ExtResource("28_0fgne")])
+collectibleTypes = Array[ExtResource("26_kf058")]([ExtResource("27_7yhwd"), ExtResource("28_0fgne"), ExtResource("34_5vu4g")])
 gameplay = NodePath("..")
 collectibleObjectPath = "res://Objects/collectible.tscn"
 

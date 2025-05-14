@@ -1,11 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://bnav5yjf6lrw4"]
+[gd_scene load_steps=4 format=3 uid="uid://bnav5yjf6lrw4"]
 
 [ext_resource type="Script" uid="uid://bwt10jfurwdmn" path="res://scripts/collectible/collectible.gd" id="1_jlmvj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tm3hh"]
 size = Vector2(16, 16)
 
-[node name="collectible" type="Node2D" node_paths=PackedStringArray("sprite_2d", "playerDetector", "groundDetector", "collectible_audio", "animatableBody", "animationPlayer") groups=["collectible"]]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_foiqg"]
+lifetime_randomness = 0.8
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+flatness = 0.019
+initial_velocity_min = 23.71
+initial_velocity_max = 46.03
+gravity = Vector3(0, 70, 0)
+color = Color(1, 0, 0.0392157, 1)
+
+[node name="collectible" type="Node2D" node_paths=PackedStringArray("sprite_2d", "playerDetector", "groundDetector", "collectible_audio", "animatableBody", "animationPlayer", "particleEmitter") groups=["collectible"]]
 editor_description = "Basic collectible template"
 script = ExtResource("1_jlmvj")
 sprite_2d = NodePath("AnimatableBody2D/Sprite2D")
@@ -14,6 +25,7 @@ groundDetector = NodePath("AnimatableBody2D/groundArea")
 collectible_audio = NodePath("AnimatableBody2D/collectibleAudio")
 animatableBody = NodePath("AnimatableBody2D")
 animationPlayer = NodePath("AnimationPlayer")
+particleEmitter = NodePath("AnimatableBody2D/GPUParticles2D")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
@@ -41,6 +53,16 @@ collision_mask = 18
 shape = SubResource("RectangleShape2D_tm3hh")
 
 [node name="collectibleAudio" type="AudioStreamPlayer" parent="AnimatableBody2D"]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AnimatableBody2D"]
+emitting = false
+amount = 10
+lifetime = 1.11
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 15
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_foiqg")
 
 [connection signal="area_entered" from="AnimatableBody2D/Collider" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="AnimatableBody2D/Collider" to="." method="_on_area_2d_body_entered"]

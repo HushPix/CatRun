@@ -14,3 +14,4 @@ points = 3
 type = 1
 idleAnim = ExtResource("2_hjj0x")
 getAnim = ExtResource("1_y03vi")
+particleColor = Color(0.4, 0.1696, 0.016, 1)

@@ -7,6 +7,7 @@ class_name CollectibleData extends Resource
 @export var type: CollectibleType.Type
 @export var idleAnim: Animation
 @export var getAnim: Animation
+@export var particleColor: Color
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

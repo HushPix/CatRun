@@ -7,6 +7,7 @@ class_name Collectible extends Node2D
 @export var animatableBody: AnimatableBody2D
 @export var data: CollectibleData
 @export var animationPlayer: AnimationPlayer
+@export var particleEmitter: GPUParticles2D
 
 var type: CollectibleType.Type
 var points: int
@@ -21,11 +22,13 @@ func setCollectibleData(collectibleData: CollectibleData):
 	collectible_audio.stream = collectibleData.sound
 	points =collectibleData.points
 	type = collectibleData.type
+	particleEmitter.process_material = particleEmitter.process_material.duplicate()
+	particleEmitter.process_material.color = collectibleData.particleColor
+	
 	anim_lib = AnimationLibrary.new()
 	anim_lib.add_animation("idleAnim", collectibleData.idleAnim)
 	anim_lib.add_animation("getAnim", collectibleData.getAnim)	
 	animationPlayer.add_animation_library("collectibleAnims", anim_lib)
-	print(anim_lib.get_animation_list())
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -54,6 +57,9 @@ func collectCoin() -> void:
 	collectible_audio.play()
 	animationPlayer.play("collectibleAnims/getAnim")
 	
+	if type == CollectibleType.Type.food:
+		particleEmitter.restart()
+		particleEmitter.emitting = true	
 	
 	await animationPlayer.animation_finished
 	sprite_2d.visible = false
