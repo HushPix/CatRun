@@ -65,6 +65,7 @@ uiButtonAccept={
 2d_physics/layer_5="obstacle"
 2d_physics/layer_6="Interactables"
 2d_physics/layer_7="enemy"
+2d_physics/layer_8="mud"
 
 [rendering]
 

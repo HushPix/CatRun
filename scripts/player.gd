@@ -17,6 +17,8 @@ var currentState: playerInputState
 var initialPosition: float 
 var maxSpeed: float = 50
 
+var currentTileMap: TileMapLayer
+
 enum playerInputState {
 	AllowInput,
 	BlockInput
@@ -86,6 +88,7 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
+	
 	if not character_body_2d.is_on_floor():
 		character_body_2d.velocity += character_body_2d.get_gravity() * delta
 	
@@ -107,12 +110,30 @@ func _unhandled_input(event: InputEvent) -> void:
 func player_exits_screen() -> void:
 	onScreen = false
 
-func _on_obstacle_detection_body_entered(_body: Node2D) -> void:
-	gameOver()
-
 func _on_death_barrier_area_entered(_area: Area2D) -> void:
 	gameOver()
 
+func applySlowness() -> void:
+	print("slowdown")
 
 func _on_exit_button_pressed() -> void:
 	pass # Replace with function body.
+
+func processTileTypes(body: Node2D, bodyRid: RID) -> void:
+	currentTileMap = body
+	var collidedTilePos = currentTileMap.get_coords_for_body_rid(bodyRid)
+
+	var tileData = currentTileMap.get_cell_tile_data(collidedTilePos)
+	
+	var tileType = tileData.get_custom_data_by_layer_id(0)
+	
+	if tileType == "spike":
+		gameOver()
+	if tileType == "mud":
+		applySlowness()
+
+func _on_obstacle_detection_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	if body is TileMapLayer:
+		processTileTypes(body, body_rid)
+	
+	

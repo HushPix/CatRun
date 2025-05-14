@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CollectibleData" load_steps=6 format=3 uid="uid://dkttfyqdqrr8f"]
 
-[ext_resource type="Animation" uid="uid://cn6xl4ar1tdks" path="res://animations/collectibleAnims/collectibleGet.tres" id="1_4yv20"]
-[ext_resource type="Animation" uid="uid://8k6hd2mompn7" path="res://animations/collectibleAnims/collectibleIdle.res" id="2_mi540"]
+[ext_resource type="Animation" uid="uid://b3uk2fe0rqxft" path="res://animations/collectibleAnims/foodGet.res" id="1_4yv20"]
+[ext_resource type="Animation" uid="uid://b7m71wfr2wpne" path="res://animations/collectibleAnims/foodIdle.res" id="2_mi540"]
 [ext_resource type="Script" uid="uid://skqnkcie26mx" path="res://scripts/collectible/collectibleData.gd" id="3_i2pwj"]
 [ext_resource type="AudioStream" uid="uid://jchgmsoc6b4e" path="res://sfx/deny.wav" id="4_sv76a"]
 [ext_resource type="Texture2D" uid="uid://386itt5iukmy" path="res://sprites/playerTest.png" id="5_4yv20"]
