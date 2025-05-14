@@ -1,52 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bnav5yjf6lrw4"]
+[gd_scene load_steps=3 format=3 uid="uid://bnav5yjf6lrw4"]
 
 [ext_resource type="Script" uid="uid://bwt10jfurwdmn" path="res://scripts/collectible/collectible.gd" id="1_jlmvj"]
-[ext_resource type="Texture2D" uid="uid://hoa0e07p6ejd" path="res://sprites/individualSprites/coinIndividualFrames/coin1.png" id="2_y87ni"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_y87ni"]
-animation = &"collectibleIdle"
-
-[sub_resource type="Animation" id="Animation_pxj7a"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatableBody2D/Sprite2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, -0.943241)]
-}
-
-[sub_resource type="Animation" id="Animation_il458"]
-resource_name = "collectibleIdle"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatableBody2D/Sprite2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.466667, 0.966667),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, -0.943241), Vector2(0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_nsctf"]
-_data = {
-&"RESET": SubResource("Animation_pxj7a"),
-&"collectibleIdle": SubResource("Animation_il458")
-}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tm3hh"]
 size = Vector2(16, 16)
 
-[node name="collectible" type="Node2D" node_paths=PackedStringArray("sprite_2d", "playerDetector", "groundDetector", "collectible_audio", "animatableBody") groups=["collectible"]]
+[node name="collectible" type="Node2D" node_paths=PackedStringArray("sprite_2d", "playerDetector", "groundDetector", "collectible_audio", "animatableBody", "animationPlayer") groups=["collectible"]]
 editor_description = "Basic collectible template"
 script = ExtResource("1_jlmvj")
 sprite_2d = NodePath("AnimatableBody2D/Sprite2D")
@@ -54,15 +13,9 @@ playerDetector = NodePath("AnimatableBody2D/Collider")
 groundDetector = NodePath("AnimatableBody2D/groundArea")
 collectible_audio = NodePath("AnimatableBody2D/collectibleAudio")
 animatableBody = NodePath("AnimatableBody2D")
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource("AnimationNodeAnimation_y87ni")
-anim_player = NodePath("../AnimationPlayer")
+animationPlayer = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_nsctf")
-}
 
 [node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
 collision_layer = 0
@@ -70,8 +23,6 @@ collision_mask = 0
 sync_to_physics = false
 
 [node name="Sprite2D" type="Sprite2D" parent="AnimatableBody2D"]
-position = Vector2(0, -0.943241)
-texture = ExtResource("2_y87ni")
 
 [node name="Collider" type="Area2D" parent="AnimatableBody2D"]
 collision_layer = 32

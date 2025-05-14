@@ -1,7 +1,9 @@
-[gd_resource type="Resource" script_class="CollectibleData" load_steps=4 format=3 uid="uid://c6pguoq7txy42"]
+[gd_resource type="Resource" script_class="CollectibleData" load_steps=6 format=3 uid="uid://c6pguoq7txy42"]
 
 [ext_resource type="Script" uid="uid://skqnkcie26mx" path="res://scripts/collectible/collectibleData.gd" id="1_286o3"]
+[ext_resource type="Animation" uid="uid://cn6xl4ar1tdks" path="res://animations/collectibleAnims/collectibleGet.tres" id="1_y03vi"]
 [ext_resource type="AudioStream" uid="uid://jchgmsoc6b4e" path="res://sfx/deny.wav" id="2_62at0"]
+[ext_resource type="Animation" uid="uid://8k6hd2mompn7" path="res://animations/collectibleAnims/collectibleIdle.res" id="2_hjj0x"]
 [ext_resource type="Texture2D" uid="uid://b3tdan6fpnblw" path="res://sprites/foodTest.png" id="3_hbg1j"]
 
 [resource]
@@ -10,3 +12,5 @@ sprite = ExtResource("3_hbg1j")
 sound = ExtResource("2_62at0")
 points = 3
 type = 1
+idleAnim = ExtResource("2_hjj0x")
+getAnim = ExtResource("1_y03vi")
