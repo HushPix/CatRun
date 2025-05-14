@@ -17,6 +17,7 @@ var currentState: playerInputState
 var initialPosition: float 
 var maxSpeed: float = 50
 var isSlowedDown: bool = false
+@export var slowDownValue: int = 10
 
 var currentTileMap: TileMapLayer
 
@@ -70,7 +71,7 @@ func clampSpeedX() -> void:
 
 func applySlowness() -> void:
 	isSlowedDown = true
-	character_body_2d.velocity.x -= 15
+	character_body_2d.velocity.x -= slowDownValue
 	
 #This makes the player go back to the initial position it spawned in, in case the cat gets pushed back
 func goBackToInitialPos() -> void:
