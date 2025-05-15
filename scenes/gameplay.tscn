@@ -86,6 +86,7 @@ coinSpawner = NodePath("CoinSpawner")
 scoreForNormal = 1
 scoreForHard = 1
 gameSpeed = 2.0
+maxGameSpeed = 2.0
 countDownTime = 3.0
 skipCountDown = true
 playTestMode = true
@@ -515,18 +516,17 @@ despawn_trigger = NodePath("DespawnTrigger")
 gameplayRoot = NodePath("..")
 
 [node name="SpawnTrigger" type="Area2D" parent="GroundSpawner"]
-position = Vector2(322, 204)
+position = Vector2(316.235, 204)
 collision_layer = 4
 collision_mask = 4
 input_pickable = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/SpawnTrigger"]
-position = Vector2(-5.5, 0)
 shape = SubResource("RectangleShape2D_f2vle")
 
 [node name="DespawnTrigger" type="Area2D" parent="GroundSpawner"]
-position = Vector2(-5, 202)
+position = Vector2(-99, 203)
 scale = Vector2(0.480001, 1)
 collision_layer = 4
 collision_mask = 4
@@ -543,9 +543,10 @@ collectibleTypes = Array[ExtResource("26_kf058")]([ExtResource("27_7yhwd"), ExtR
 gameplay = NodePath("..")
 collectibleObjectPath = "res://Objects/collectible.tscn"
 
-[node name="Player" parent="." instance=ExtResource("1_d3ts3")]
+[node name="Player" parent="." node_paths=PackedStringArray("gameplay") instance=ExtResource("1_d3ts3")]
 physics_interpolation_mode = 1
 position = Vector2(102, 136)
+gameplay = NodePath("..")
 
 [node name="deathBarrier" type="Area2D" parent="." groups=["despawnTrigger"]]
 collision_layer = 4

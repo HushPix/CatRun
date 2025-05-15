@@ -26,6 +26,7 @@ var random = RandomNumberGenerator.new()
 @export var scoreForNormal: int #minimum score for normal difficulty
 @export var scoreForHard: int  #minimum score for hard difficulty
 @export var gameSpeed: float
+@export var maxGameSpeed: float
 @export var countDownTime: float
 @export var skipCountDown: bool = false
 @export var playTestMode: bool = false

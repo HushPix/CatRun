@@ -11,6 +11,7 @@ var maxPlatforms = 2
 var currGround: Ground
 var lastGround: Ground
 var groundAmount = 0
+var platformSpeed: float
 
 func loadTileset() -> TileMapLayer:
 	var tileSetPath = gameplayRoot.getLevelFromMemory() # This function provides random tileSets for each groundPrefab
@@ -18,9 +19,10 @@ func loadTileset() -> TileMapLayer:
 	return tileSet.instantiate()
 	
 func _spawnGround() -> void:
+	platformSpeed = gameplayRoot.gameSpeed
 	currGround = groundScene.instantiate() as Ground
 	currGround.animatable_body_2d.add_child(loadTileset())
-	currGround.speed = gameplayRoot.getSpeed()
+	currGround.speed = platformSpeed
 	
 	if(groundAmount > 0):
 		currGround.position = Vector2(320,0)
@@ -33,6 +35,11 @@ func _despawnGround() -> void:
 	lastGround = ground_spawner.get_child(2)
 	lastGround.queue_free()
 	groundAmount-=1
+	
+func _updateSpeed() -> void:
+	if gameplayRoot.gameSpeed != platformSpeed:
+		platformSpeed = gameplayRoot.gameSpeed
+		SignalManager.uodateExistingGroundSpeed.emit(platformSpeed)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -43,7 +50,9 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
-
+	
+func _physics_process(delta: float) -> void:
+	_updateSpeed()
 
 func _on_spawn_trigger_area_entered(_spawn_trigger) -> void:
 	#print("it's alive")

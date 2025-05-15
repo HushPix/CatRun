@@ -1,6 +1,7 @@
 extends Node2D
 class_name Player
 ## The player class, has some internal player logic
+@export var gameplay: Gameplay
 @export var character_body_2d: CharacterBody2D
 @export var on_screen_notifier: VisibleOnScreenNotifier2D
 @export var debug: Label
@@ -71,7 +72,7 @@ func clampSpeedX() -> void:
 
 func applySlowness() -> void:
 	isSlowedDown = true
-	character_body_2d.velocity.x -= slowDownValue
+	character_body_2d.velocity.x -= slowDownValue * (gameplay.gameSpeed / 2)
 	
 #This makes the player go back to the initial position it spawned in, in case the cat gets pushed back
 func goBackToInitialPos() -> void:
@@ -79,7 +80,7 @@ func goBackToInitialPos() -> void:
 	clampSpeedX()
 	if(character_body_2d.is_on_floor() and roundedPositionX != initialPosition):
 		if(roundedPositionX < initialPosition - 2):
-			character_body_2d.velocity.x += 5		
+			character_body_2d.velocity.x += 5 * (gameplay.gameSpeed / 2)		
 	else:
 		character_body_2d.velocity.x = 0
 
