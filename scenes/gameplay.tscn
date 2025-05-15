@@ -78,12 +78,13 @@ audioManager = NodePath("Managers/AudioManager")
 collectibleManager = NodePath("Managers/CollectibleManager")
 countDownTimer = NodePath("countDownTimer")
 coinSpawner = NodePath("CoinSpawner")
-scoreForNormal = 10
-scoreForHard = 12
+scoreForNormal = 7
+scoreForHard = 15
 countDownTime = 3.0
 skipCountDown = true
+playTestMode = true
 playTestScene = ExtResource("2_s6y8e")
-forcedDifficulty = 4
+forcedDifficulty = 1
 
 [node name="countDownTimer" type="Timer" parent="."]
 wait_time = 0.5
