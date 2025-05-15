@@ -2,8 +2,6 @@ class_name GroundSpawner
 extends Node2D
 var groundScene = preload("res://scenes/ground.tscn")
 @export var ground_spawner: GroundSpawner
-@export var spawn_trigger: Area2D
-@export var despawn_trigger: Area2D
 @export var gameplayRoot: Gameplay
 
 

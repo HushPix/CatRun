@@ -32,7 +32,7 @@ var random = RandomNumberGenerator.new()
 @export var playTestScene: PackedScene
 @export var forcedDifficulty: level
 
-var gameSpeed: float = 2 #This has to be a default value becasue of how godot loads in export vars
+var gameSpeed: float
 var difficulty: level = level.IDLE
 
 
@@ -121,7 +121,7 @@ func _changeDifficulty(newDifficulty: level) -> void:
 	_speedUpGameplay(difficulty)
 
 func _speedUpGameplay(newDifficulty: level) -> void:
-	maxGameSpeed = speedLevels[difficulty]
+	maxGameSpeed = speedLevels[newDifficulty]
 
 func _clampSpeed() -> void:
 	if gameSpeed < maxGameSpeed:
@@ -133,22 +133,22 @@ func _clampSpeed() -> void:
 
 #Called when the node enters the scene
 func _ready() -> void:
+	player.playerDied.connect(on_game_over)
+	player.disableInput()
+	coinSpawner.toggleComponent(false)
+	_changeDifficulty(level.IDLE)
+	
 	if(deleteSave):
 		SaveManager.deleteSave()
 	SaveManager.loadFile()
-	player.playerDied.connect(on_game_over)
-	_changeDifficulty(level.IDLE)
-	player.disableInput()
-	coinSpawner.toggleComponent(false)
-	
-	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if !playTestMode:
 		_compareCurrentScore()
 	
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if gameSpeed != maxGameSpeed:
 		_clampSpeed()
 
