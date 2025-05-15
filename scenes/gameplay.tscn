@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://bkgsdlcelledb"]
+[gd_scene load_steps=42 format=3 uid="uid://bkgsdlcelledb"]
 
 [ext_resource type="Script" uid="uid://cjalew5an6hsx" path="res://scripts/managers/canvasManager.gd" id="1_1sayb"]
 [ext_resource type="PackedScene" uid="uid://dr24hb7d2yjjl" path="res://scenes/player.tscn" id="1_d3ts3"]
@@ -64,12 +64,6 @@ frame_3/duration = 1.0
 frame_4/texture = ExtResource("19_37dvx")
 frame_4/duration = 1.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
-size = Vector2(26.735, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2l0u6"]
-size = Vector2(66.2499, 20)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28yds"]
 size = Vector2(164, 48)
 
@@ -84,13 +78,12 @@ audioManager = NodePath("Managers/AudioManager")
 collectibleManager = NodePath("Managers/CollectibleManager")
 countDownTimer = NodePath("countDownTimer")
 coinSpawner = NodePath("CoinSpawner")
-scoreForNormal = 1
-scoreForHard = 1
-maxGameSpeed = 6.0
+scoreForNormal = 10
+scoreForHard = 12
 countDownTime = 3.0
 skipCountDown = true
-playTestMode = true
 playTestScene = ExtResource("2_s6y8e")
+forcedDifficulty = 4
 
 [node name="countDownTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -132,7 +125,6 @@ gameOverMenu = NodePath("gameOverScreen")
 countDownMenu = NodePath("CountDown")
 
 [node name="MainMenu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("startButton", "highScoreLabelMenu", "collectibleManager")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -508,33 +500,10 @@ texture_repeat = 2
 texture = ExtResource("6_mpir8")
 offset = Vector2(384, 0)
 
-[node name="GroundSpawner" type="Node2D" parent="." node_paths=PackedStringArray("ground_spawner", "spawn_trigger", "despawn_trigger", "gameplayRoot")]
+[node name="GroundSpawner" type="Node2D" parent="." node_paths=PackedStringArray("ground_spawner", "gameplayRoot")]
 script = ExtResource("3_2rtxb")
 ground_spawner = NodePath(".")
-spawn_trigger = NodePath("SpawnTrigger")
-despawn_trigger = NodePath("DespawnTrigger")
 gameplayRoot = NodePath("..")
-
-[node name="SpawnTrigger" type="Area2D" parent="GroundSpawner"]
-position = Vector2(316.235, 204)
-collision_layer = 4
-collision_mask = 4
-input_pickable = false
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/SpawnTrigger"]
-position = Vector2(-8.86749, -8)
-shape = SubResource("RectangleShape2D_f2vle")
-
-[node name="DespawnTrigger" type="Area2D" parent="GroundSpawner"]
-position = Vector2(-6, 197)
-scale = Vector2(0.480001, 1)
-collision_layer = 4
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/DespawnTrigger"]
-position = Vector2(-23.1249, 0)
-shape = SubResource("RectangleShape2D_2l0u6")
 
 [node name="CoinSpawner" type="Node2D" parent="." node_paths=PackedStringArray("coinParent", "gameplay")]
 position = Vector2(331, 172)
@@ -577,6 +546,4 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 [connection signal="pressed" from="CanvasLayer/PauseMenu/exitButton" to="." method="_on_retry_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/gameOverScreen/retryButton" to="." method="_on_retry_button_pressed"]
 [connection signal="visibility_changed" from="CanvasLayer/gameOverScreen/scoreLabel2" to="CanvasLayer/gameOverScreen" method="_on_score_label_2_visibility_changed"]
-[connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
-[connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]
 [connection signal="area_entered" from="deathBarrier" to="Player" method="_on_death_barrier_area_entered"]

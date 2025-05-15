@@ -22,7 +22,7 @@ var rng = RandomNumberGenerator.new()
 
 func on_new_ground_spawn() -> void:
 	if enabled:
-		await calculateSpawnProbability()
+		calculateSpawnProbability()
 		spawnCoin()
 
 # Called when the node enters the scene tree for the first time.

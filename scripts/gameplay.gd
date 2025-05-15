@@ -30,6 +30,7 @@ var random = RandomNumberGenerator.new()
 @export var skipCountDown: bool = false
 @export var playTestMode: bool = false
 @export var playTestScene: PackedScene
+@export var forcedDifficulty: level
 
 var gameSpeed: float = 2 #This has to be a default value becasue of how godot loads in export vars
 var difficulty: level = level.IDLE
@@ -48,6 +49,14 @@ var groundTypes = {
 	level.HARD: hardLevels,
 	level.IDLE: idleLevels,
 	level.TEST: easyLevels
+}
+
+var speedLevels= {
+	level.EASY: 2.0,
+	level.MEDIUM: 2.5,
+	level.HARD: 3.0,
+	level.IDLE: 1.5,
+	level.TEST: 2.0
 }
 
 #This array contains currenlty loaded ground prefabs. By default it has ground0 loaded in to prevent crashes
@@ -86,26 +95,15 @@ func getLevelFromMemory() -> String:
 	var index = random.randi_range(0, levelsInMemory.size() - 1)
 	return levelsInMemory[index]
 
-
-
 #This returns current game speed
 func getSpeed() -> float:
 	return gameSpeed
-	
-#This function returns the current difficulty
-func getDifficulty() -> level:
-	return difficulty
-	
-	
-#This sets the game's difficulty to the value of newDifficulty
-func setDifficulty(newDifficulty: level) -> void:
-	difficulty = newDifficulty
-	
+
 #When player starts the game
 func gameStarted() -> void:
 	if playTestMode:
 		levelsInMemory.clear()
-		_changeDifficulty(level.TEST)
+		_changeDifficulty(forcedDifficulty)
 	else:
 		_changeDifficulty(level.EASY)
 	coinSpawner.toggleComponent(true)
@@ -115,11 +113,15 @@ func gameStarted() -> void:
 
 #This function changes the difficulty
 func _changeDifficulty(newDifficulty: level) -> void:
-	setDifficulty(newDifficulty)
-	loadLevelsIn(getDifficulty())
-	addLevelsToMemory(groundTypes[getDifficulty()])
-	
-func _updateSpeed() -> void:
+	difficulty = newDifficulty
+	loadLevelsIn(difficulty)
+	addLevelsToMemory(groundTypes[difficulty])
+	_speedUpGameplay(difficulty)
+
+func _speedUpGameplay(newDifficulty: level) -> void:
+	maxGameSpeed = speedLevels[difficulty]
+
+func _clampSpeed() -> void:
 	if gameSpeed < maxGameSpeed:
 		gameSpeed  += 0.5
 	elif gameSpeed > maxGameSpeed:
@@ -140,16 +142,19 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	_compareCurrentScore()
-	if gameSpeed != maxGameSpeed:
-		_updateSpeed()
+	if !playTestMode:
+		_compareCurrentScore()
+	
 
+func _physics_process(delta: float) -> void:
+	if gameSpeed != maxGameSpeed:
+		_clampSpeed()
 
 #This compares the current score, and changes difficulty according to made progress
 func _compareCurrentScore() -> void:
-	if collectibleManager.getScore() > scoreForNormal and getDifficulty() == level.EASY:
+	if collectibleManager.getScore() > scoreForNormal and difficulty == level.EASY:
 		_changeDifficulty(level.MEDIUM)
-	if collectibleManager.getScore() > scoreForHard and getDifficulty() == level.MEDIUM:
+	if collectibleManager.getScore() > scoreForHard and difficulty == level.MEDIUM:
 		_changeDifficulty(level.HARD)
 
 #This should be in canvas manager but i'll move it later (i forgor why tho)
@@ -166,7 +171,7 @@ func _gamePaused() -> void:
 #When the cat fails :(
 func on_game_over() -> void:
 	#coinSpawner.toggleComponent(false) #uncomment later
-	await collectibleManager.findAndSetHighScore()
+	collectibleManager.findAndSetHighScore()
 	SaveManager.saveFile()	
 	audioManager.gameOverAudio()
 	

@@ -1,22 +1,21 @@
-extends Node2D
+extends AnimatableBody2D
 class_name Ground
 
 var speed: float
-@export var animatable_body_2d: AnimatableBody2D 
-@export var area_2d: Area2D
-
+var hasBeenOnScreen: bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	SignalManager.connect("uodateExistingGroundSpeed", on_update_existing_ground_speed)
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	pass
+	if position.x <= -416:
+		SignalManager.emit_signal("deleteInstanceOfGround", self)
 	
 func _physics_process(_delta: float) -> void:
-	animatable_body_2d.move_and_collide(Vector2(-speed, 0))
-	area_2d.move_local_x(-speed)
+	move_and_collide(Vector2(-speed, 0))
 	
 func on_update_existing_ground_speed(gameSpeed: float) -> void:
 	speed = gameSpeed

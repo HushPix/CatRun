@@ -80,10 +80,10 @@ func _on_area_2d_body_entered(body) -> void:
 func move() -> void :
 	if noGroundYet or groundDetector.has_overlapping_bodies():
 		position.y -= 16
-		
+	
 	if global_position.y  < 30:
 		safelyOffset()
-		
+
 func safelyOffset() -> void:
 	noGroundYet = true
 	global_position.y = spawnPos.y
@@ -91,10 +91,6 @@ func safelyOffset() -> void:
 
 func _on_ground_area_body_entered(_body: Node2D) -> void:
 	noGroundYet = false
-
-
-func _on_ground_area_body_exited(_body: Node2D) -> void:
-	pass
 
 func _on_update_speed(gameSpeed: float) -> void:
 	speed = gameSpeed

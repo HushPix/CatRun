@@ -21,6 +21,10 @@ config/icon="res://icon.svg"
 SignalManager="*res://scripts/managers/signal_manager.gd"
 SaveManager="*res://scripts/managers/save_manager.gd"
 
+[debug]
+
+gdscript/warnings/unused_signal=0
+
 [display]
 
 window/size/viewport_width=320
