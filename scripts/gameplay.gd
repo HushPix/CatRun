@@ -25,13 +25,13 @@ var random = RandomNumberGenerator.new()
 @export var deleteSave: bool
 @export var scoreForNormal: int #minimum score for normal difficulty
 @export var scoreForHard: int  #minimum score for hard difficulty
-@export var gameSpeed: float
 @export var maxGameSpeed: float
 @export var countDownTime: float
 @export var skipCountDown: bool = false
 @export var playTestMode: bool = false
 @export var playTestScene: PackedScene
 
+var gameSpeed: float = 2 #This has to be a default value becasue of how godot loads in export vars
 var difficulty: level = level.IDLE
 
 
@@ -119,21 +119,30 @@ func _changeDifficulty(newDifficulty: level) -> void:
 	loadLevelsIn(getDifficulty())
 	addLevelsToMemory(groundTypes[getDifficulty()])
 	
+func _updateSpeed() -> void:
+	if gameSpeed < maxGameSpeed:
+		gameSpeed  += 0.5
+	elif gameSpeed > maxGameSpeed:
+		gameSpeed -= 0.5
+	SignalManager.uodateExistingGroundSpeed.emit(gameSpeed)
+	print("speedup")
+
 #Called when the node enters the scene
 func _ready() -> void:
 	if(deleteSave):
 		SaveManager.deleteSave()
 	SaveManager.loadFile()
-	
 	player.playerDied.connect(on_game_over)
 	_changeDifficulty(level.IDLE)
 	player.disableInput()
 	coinSpawner.toggleComponent(false)
 	
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	_compareCurrentScore()
-
+	if gameSpeed != maxGameSpeed:
+		_updateSpeed()
 
 
 #This compares the current score, and changes difficulty according to made progress

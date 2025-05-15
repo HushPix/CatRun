@@ -32,6 +32,7 @@ func setCollectibleData(collectibleData: CollectibleData):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	SignalManager.connect("uodateExistingGroundSpeed", _on_update_speed)
 	setCollectibleData(data)
 	spawnPos = global_position
 	animationPlayer.play("collectibleAnims/idleAnim")
@@ -94,3 +95,6 @@ func _on_ground_area_body_entered(_body: Node2D) -> void:
 
 func _on_ground_area_body_exited(_body: Node2D) -> void:
 	pass
+
+func _on_update_speed(gameSpeed: float) -> void:
+	speed = gameSpeed

@@ -36,10 +36,6 @@ func _despawnGround() -> void:
 	lastGround.queue_free()
 	groundAmount-=1
 	
-func _updateSpeed() -> void:
-	if gameplayRoot.gameSpeed != platformSpeed:
-		platformSpeed = gameplayRoot.gameSpeed
-		SignalManager.uodateExistingGroundSpeed.emit(platformSpeed)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -51,8 +47,6 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	pass
 	
-func _physics_process(delta: float) -> void:
-	_updateSpeed()
 
 func _on_spawn_trigger_area_entered(_spawn_trigger) -> void:
 	#print("it's alive")
