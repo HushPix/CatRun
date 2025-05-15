@@ -1,6 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnav5yjf6lrw4"]
+[gd_scene load_steps=11 format=3 uid="uid://c0mo4warn363q"]
 
-[ext_resource type="Script" uid="uid://bwt10jfurwdmn" path="res://scripts/collectible/collectible.gd" id="1_jlmvj"]
+[ext_resource type="Script" uid="uid://bwt10jfurwdmn" path="res://scripts/collectible/collectible.gd" id="1_vde3i"]
+[ext_resource type="Resource" uid="uid://dkttfyqdqrr8f" path="res://objects/collectibleDataPresets/chicken.tres" id="2_n6g17"]
+[ext_resource type="Animation" uid="uid://cn6xl4ar1tdks" path="res://animations/collectibleAnims/collectibleGet.tres" id="3_lrl7b"]
+[ext_resource type="Animation" uid="uid://b3uk2fe0rqxft" path="res://animations/collectibleAnims/foodGet.res" id="4_wkoj7"]
+[ext_resource type="Texture2D" uid="uid://386itt5iukmy" path="res://sprites/playerTest.png" id="5_538u2"]
+
+[sub_resource type="Animation" id="Animation_ajd0s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatableBody2D/Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_w7ogi"]
+resource_name = "foodIdle"
+length = 0.794
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatableBody2D/Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.366667, 0.533333, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.89, 0.89), Vector2(0.89, 0.8), Vector2(1, 1), Vector2(1.095, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fufe5"]
+_data = {
+&"RESET": SubResource("Animation_ajd0s"),
+&"collectibleGet": ExtResource("3_lrl7b"),
+&"foodGet": ExtResource("4_wkoj7"),
+&"foodIdle": SubResource("Animation_w7ogi")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tm3hh"]
 size = Vector2(16, 16)
@@ -18,16 +62,20 @@ color = Color(1, 0, 0.0392157, 1)
 
 [node name="collectible" type="Node2D" node_paths=PackedStringArray("sprite_2d", "playerDetector", "groundDetector", "collectible_audio", "animatableBody", "animationPlayer", "particleEmitter") groups=["collectible"]]
 editor_description = "Basic collectible template"
-script = ExtResource("1_jlmvj")
+script = ExtResource("1_vde3i")
 sprite_2d = NodePath("AnimatableBody2D/Sprite2D")
 playerDetector = NodePath("AnimatableBody2D/Collider")
 groundDetector = NodePath("AnimatableBody2D/groundArea")
 collectible_audio = NodePath("AnimatableBody2D/collectibleAudio")
 animatableBody = NodePath("AnimatableBody2D")
+data = ExtResource("2_n6g17")
 animationPlayer = NodePath("AnimationPlayer")
 particleEmitter = NodePath("AnimatableBody2D/GPUParticles2D")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_fufe5")
+}
 
 [node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
 collision_layer = 0
@@ -35,6 +83,7 @@ collision_mask = 0
 sync_to_physics = false
 
 [node name="Sprite2D" type="Sprite2D" parent="AnimatableBody2D"]
+texture = ExtResource("5_538u2")
 
 [node name="Collider" type="Area2D" parent="AnimatableBody2D"]
 collision_layer = 32
@@ -67,3 +116,4 @@ process_material = SubResource("ParticleProcessMaterial_foiqg")
 [connection signal="area_entered" from="AnimatableBody2D/Collider" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="AnimatableBody2D/Collider" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="AnimatableBody2D/groundArea" to="." method="_on_ground_area_body_entered"]
+[connection signal="body_exited" from="AnimatableBody2D/groundArea" to="." method="_on_ground_area_body_exited"]

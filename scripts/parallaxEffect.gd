@@ -11,7 +11,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	ground_bg.autoscroll.x = gameplayNode.getSpeed() * -50.0
 	clouds_bg.autoscroll.x = gameplayNode.getSpeed() * -20.0
 	sky_bg.autoscroll.x = int(gameplayNode.getSpeed() * -10)

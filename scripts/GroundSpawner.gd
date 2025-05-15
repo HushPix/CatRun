@@ -7,47 +7,39 @@ var groundScene = preload("res://scenes/ground.tscn")
 @export var gameplayRoot: Gameplay
 
 
-var maxPlatforms = 2
-var currGround: Ground
 var lastGround: Ground
-var groundAmount = 0
+var currGround: Ground
+var platformSpeed: float
 
 func loadTileset() -> TileMapLayer:
 	var tileSetPath = gameplayRoot.getLevelFromMemory() # This function provides random tileSets for each groundPrefab
 	var tileSet = load(tileSetPath)
 	return tileSet.instantiate()
-	
+
 func _spawnGround() -> void:
+	platformSpeed = gameplayRoot.gameSpeed
 	currGround = groundScene.instantiate() as Ground
-	currGround.animatable_body_2d.add_child(loadTileset())
-	currGround.speed = gameplayRoot.getSpeed()
+	currGround.add_child(loadTileset())
+	currGround.speed = platformSpeed
 	
-	if(groundAmount > 0):
-		currGround.position = Vector2(320,0)
-	ground_spawner.add_child(currGround)
-	groundAmount+=1
+	if lastGround != null:
+		currGround.position.x = lastGround.position.x + 416
 	
-func _despawnGround() -> void:
-	lastGround = ground_spawner.get_child(2)
-	lastGround.queue_free()
-	groundAmount-=1
+	lastGround = currGround
+	
+	SignalManager.emit_signal("groundHasSpawned")
+	ground_spawner.call_deferred("add_child", currGround)
+
+func _despawnGround(ground: Ground) -> void:
+	ground_spawner.call_deferred("remove_child", ground)
+	ground.queue_free()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	SignalManager.connect("deleteInstanceOfGround", on_delete_instance_of_ground)
 	_spawnGround()
-	
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
-func _on_spawn_trigger_area_entered(spawn_trigger) -> void:
-	#print("it's alive")
 	_spawnGround()
 
-
-func _on_despawn_trigger_area_entered(despawn_trigger) -> void:
-	#print("ded")
-	_despawnGround()
+func on_delete_instance_of_ground(ground: Ground) -> void:
+	_despawnGround(ground)
+	_spawnGround()

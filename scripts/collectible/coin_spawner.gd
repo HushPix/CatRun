@@ -1,12 +1,11 @@
 extends Node2D
 class_name CoinSpawner
 
-@export var spawnDelayTimer: Timer
+#@export var spawnDelayTimer: Timer
 @export var spawnDelay: int
 @export var coinParent: Node2D
 @export var collectibleTypes: Array[CollectibleData] = []
 @export var gameplay: Gameplay
-@export var spawnCheck: RayCast2D
 @export_file("*tscn") var collectibleObjectPath = "res://objects/"
 
 var collectibleObject: PackedScene
@@ -17,26 +16,34 @@ var spawnChance: float = 1.8  #23.8
 var currentChance: float = 0
 var offset: float = 16
 var previousOffset: float
+var enabled: bool
 
 var rng = RandomNumberGenerator.new()
+
+func on_new_ground_spawn() -> void:
+	if enabled:
+		calculateSpawnProbability()
+		spawnCoin()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	SignalManager.connect("deleteInstanceOfCollectible", deleteInstanceOfCollectible)
+	SignalManager.connect("groundHasSpawned", on_new_ground_spawn)
 	randomize()
-	spawnDelayTimer.wait_time = spawnDelay
+	#spawnDelayTimer.wait_time = spawnDelay
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 			
 	#print(str(getGroupSize("collectible")) + "/" + str(maxCollectiblesPerSpawn) + "timer:" + str(spawnDelayTimer.time_left))
 
 func spawnCoin() -> void:
-	if currentChance > spawnChance and  getGroupSize("collectible") < maxCollectiblesPerSpawn:
-		for n in range(maxCollectiblesPerSpawn):	
+	var groupSize = getGroupSize("collectible")
+	if currentChance > spawnChance and  groupSize < maxCollectiblesPerSpawn:
+		for n in range(maxCollectiblesPerSpawn - groupSize):	
 			var coin = createCoin()
-			coinParent.add_child(coin)
+			coinParent.call_deferred("add_child", coin)
 		#if(spawnDelayTimer.is_stopped() and activeCollectibles.size() == 0):
 			#spawnDelayTimer.start(spawnDelay)
 
@@ -46,16 +53,17 @@ func createCoin() -> Collectible:
 	spawnedCollectible.data = collectibleTypes[randomizeCollectibleData()]
 	spawnedCollectible.speed = gameplay.getSpeed()
 	spawnedCollectible.position.x += previousOffset + offset
+	spawnedCollectible.safetyOffset = previousOffset + offset * 2
 	previousOffset += offset
 	#activeCollectibles.push_front(spawnedCollectible)
 	#coinParent.add_child(spawnedCollectible, true)
 	return spawnedCollectible
 	
-func getGroupSize(name: String) -> int:
-	return get_tree().get_nodes_in_group(name).size()
+func getGroupSize(groupName: String) -> int:
+	return get_tree().get_nodes_in_group(groupName).size()
 
-func startDelayTimer() -> void:
-	spawnDelayTimer.start(spawnDelay)
+#func startDelayTimer() -> void:
+	#spawnDelayTimer.start(spawnDelay)
 
 func calculateSpawnProbability() -> void:
 	currentChance = (randf_range(0, 100)  / 3.5) + randi_range(0, 1)
@@ -63,10 +71,10 @@ func calculateSpawnProbability() -> void:
 	previousOffset = 0
 	offset = 16 * rng.randf_range(1, 4)
 
-func _on_spawn_delay_timeout() -> void:
-	await calculateSpawnProbability()
-	spawnCoin()
-	#spawnDelayTimer.stop()
+#func _on_spawn_delay_timeout() -> void:
+	#await calculateSpawnProbability()
+	#spawnCoin()
+	##spawnDelayTimer.stop()
 
 func randomizeCollectibleData() -> int:
 	var DataAmount = collectibleTypes.size()
@@ -78,5 +86,12 @@ func deleteInstanceOfCollectible(collectible: Collectible) -> void:
 		#activeCollectibles.remove_at(0)
 		#node_at_index.queue_free()
 		#coinParent.remove_child(node_at_index)
-	coinParent.remove_child(collectible)
+	coinParent.call_deferred("remove_child", collectible)
+	#coinParent.remove_child(collectible)
 	collectible.queue_free()
+
+func toggleComponent(switch: bool) -> void:
+	enabled = switch
+
+#func checkSpawnPosition() -> bool:
+	#if spawnCheck.collide_with_bodies

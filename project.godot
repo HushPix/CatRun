@@ -21,6 +21,10 @@ config/icon="res://icon.svg"
 SignalManager="*res://scripts/managers/signal_manager.gd"
 SaveManager="*res://scripts/managers/save_manager.gd"
 
+[debug]
+
+gdscript/warnings/unused_signal=0
+
 [display]
 
 window/size/viewport_width=320
@@ -65,6 +69,7 @@ uiButtonAccept={
 2d_physics/layer_5="obstacle"
 2d_physics/layer_6="Interactables"
 2d_physics/layer_7="enemy"
+2d_physics/layer_8="mud"
 
 [rendering]
 

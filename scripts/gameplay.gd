@@ -8,7 +8,8 @@ enum level {
 	EASY,
 	MEDIUM,
 	HARD,
-	IDLE
+	IDLE,
+	TEST
 }
 
 #References to objects on scene
@@ -24,10 +25,14 @@ var random = RandomNumberGenerator.new()
 @export var deleteSave: bool
 @export var scoreForNormal: int #minimum score for normal difficulty
 @export var scoreForHard: int  #minimum score for hard difficulty
-@export var gameSpeed: float
+@export var maxGameSpeed: float
 @export var countDownTime: float
 @export var skipCountDown: bool = false
+@export var playTestMode: bool = false
+@export var playTestScene: PackedScene
+@export var forcedDifficulty: level
 
+var gameSpeed: float = 2 #This has to be a default value becasue of how godot loads in export vars
 var difficulty: level = level.IDLE
 
 
@@ -42,29 +47,39 @@ var groundTypes = {
 	level.EASY: easyLevels,
 	level.MEDIUM: mediumLevels,
 	level.HARD: hardLevels,
-	level.IDLE: idleLevels
+	level.IDLE: idleLevels,
+	level.TEST: easyLevels
+}
+
+var speedLevels= {
+	level.EASY: 2.0,
+	level.MEDIUM: 2.5,
+	level.HARD: 3.0,
+	level.IDLE: 1.5,
+	level.TEST: 2.0
 }
 
 #This array contains currenlty loaded ground prefabs. By default it has ground0 loaded in to prevent crashes
 var levelsInMemory: Array = ["res://groundPrefabs/idle/groundIdle1.tscn"]
 	
 #This function is used to load all level prefabs from the game's files	
-func loadLevelsIn(level, debug = false) -> void:
+func loadLevelsIn(levelType, debug = false) -> void:
 	var folderName: String
 	var path = "res://groundPrefabs/" #looks for all the prefabs here
 	var fileName
-	match level:
+	match levelType:
 		0: folderName = "easy"
 		1: folderName = "medium"
 		2: folderName = "hard"
 		3: folderName = "idle"
+		4: folderName = "Test"
 	path += folderName
 	var dir = DirAccess.open(path)
 	if dir:
 		dir.list_dir_begin() #opens up the file stream
 		fileName = dir.get_next()  #looks for another file in the folder
 		while fileName != "":
-			groundTypes[level].append(path+"/"+fileName) #adds levels to specific array
+			groundTypes[levelType].append(path+"/"+fileName) #adds levels to specific array
 			fileName = dir.get_next()
 		dir.list_dir_end() #closes the file stream
 		if debug:
@@ -74,67 +89,79 @@ func loadLevelsIn(level, debug = false) -> void:
 	
 #Adds prefabs to the levelsInMemory array	
 func addLevelsToMemory(inputArray: Array) -> void:
+	levelsInMemory.clear()
+	if difficulty != level.IDLE:
+		levelsInMemory.append_array(groundTypes[level.IDLE])
 	levelsInMemory.append_array(inputArray)
-	
 func getLevelFromMemory() -> String:
 	var index = random.randi_range(0, levelsInMemory.size() - 1)
 	return levelsInMemory[index]
 
-
-
 #This returns current game speed
 func getSpeed() -> float:
 	return gameSpeed
-	
-#This function returns the current difficulty
-func getDifficulty() -> level:
-	return difficulty
-	
-	
-#This sets the game's difficulty to the value of newDifficulty
-func setDifficulty(newDifficulty: level) -> void:
-	difficulty = newDifficulty
-	
+
 #When player starts the game
 func gameStarted() -> void:
-	_changeDifficulty(level.EASY)
+	if playTestMode:
+		levelsInMemory.clear()
+		_changeDifficulty(forcedDifficulty)
+	else:
+		_changeDifficulty(level.EASY)
+	coinSpawner.toggleComponent(true)
 	player.enableInput()
 	collectibleManager.startScoreTimer()
 	player.isControlable = true
-	coinSpawner.startDelayTimer()
 
 #This function changes the difficulty
 func _changeDifficulty(newDifficulty: level) -> void:
-	setDifficulty(newDifficulty)
-	loadLevelsIn(getDifficulty())
-	addLevelsToMemory(groundTypes[getDifficulty()])
-	
+	difficulty = newDifficulty
+	loadLevelsIn(difficulty)
+	addLevelsToMemory(groundTypes[difficulty])
+	_speedUpGameplay(difficulty)
+
+func _speedUpGameplay(newDifficulty: level) -> void:
+	maxGameSpeed = speedLevels[difficulty]
+
+func _clampSpeed() -> void:
+	if gameSpeed < maxGameSpeed:
+		gameSpeed  += 0.5
+	elif gameSpeed > maxGameSpeed:
+		gameSpeed -= 0.5
+	SignalManager.uodateExistingGroundSpeed.emit(gameSpeed)
+	print("speedup")
+
 #Called when the node enters the scene
 func _ready() -> void:
 	if(deleteSave):
 		SaveManager.deleteSave()
 	SaveManager.loadFile()
-	
 	player.playerDied.connect(on_game_over)
 	_changeDifficulty(level.IDLE)
 	player.disableInput()
-
+	coinSpawner.toggleComponent(false)
+	
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	_compareCurrentScore()
+func _process(_delta: float) -> void:
+	if !playTestMode:
+		_compareCurrentScore()
+	
 
-
+func _physics_process(delta: float) -> void:
+	if gameSpeed != maxGameSpeed:
+		_clampSpeed()
 
 #This compares the current score, and changes difficulty according to made progress
 func _compareCurrentScore() -> void:
-	if collectibleManager.getScore() > scoreForNormal and getDifficulty() == level.EASY:
+	if collectibleManager.getScore() > scoreForNormal and difficulty == level.EASY:
 		_changeDifficulty(level.MEDIUM)
-	if collectibleManager.getScore() > scoreForHard and getDifficulty() == level.MEDIUM:
+	if collectibleManager.getScore() > scoreForHard and difficulty == level.MEDIUM:
 		_changeDifficulty(level.HARD)
 
 #This should be in canvas manager but i'll move it later (i forgor why tho)
 func _on_start_button_pressed() -> void:
-	await begin_countdown(countDownTime, skipCountDown)
+	await begin_countdown(skipCountDown)
 	gameStarted()
 	print("game started")
 
@@ -145,11 +172,12 @@ func _gamePaused() -> void:
 
 #When the cat fails :(
 func on_game_over() -> void:
-	await collectibleManager.findAndSetHighScore()
+	#coinSpawner.toggleComponent(false) #uncomment later
+	collectibleManager.findAndSetHighScore()
 	SaveManager.saveFile()	
 	audioManager.gameOverAudio()
 	
-func begin_countdown(delay: float, skip: bool) -> void:
+func begin_countdown(skip: bool) -> void:
 	if(skip == false):
 		countDownTimer.start(countDownTime)
 	else:

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CollectibleData" load_steps=6 format=3 uid="uid://dkttfyqdqrr8f"]
+
+[ext_resource type="Animation" uid="uid://b3uk2fe0rqxft" path="res://animations/collectibleAnims/foodGet.res" id="1_4yv20"]
+[ext_resource type="Animation" uid="uid://b7m71wfr2wpne" path="res://animations/collectibleAnims/foodIdle.res" id="2_mi540"]
+[ext_resource type="Script" uid="uid://skqnkcie26mx" path="res://scripts/collectible/collectibleData.gd" id="3_i2pwj"]
+[ext_resource type="AudioStream" uid="uid://jchgmsoc6b4e" path="res://sfx/deny.wav" id="4_sv76a"]
+[ext_resource type="Texture2D" uid="uid://386itt5iukmy" path="res://sprites/playerTest.png" id="5_4yv20"]
+
+[resource]
+script = ExtResource("3_i2pwj")
+sprite = ExtResource("5_4yv20")
+sound = ExtResource("4_sv76a")
+points = 3
+type = 1
+idleAnim = ExtResource("2_mi540")
+getAnim = ExtResource("1_4yv20")
+particleColor = Color(0.962151, 0.485729, 0.201238, 1)

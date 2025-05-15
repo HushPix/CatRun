@@ -1,12 +1,17 @@
-[gd_resource type="Resource" script_class="CollectibleData" load_steps=4 format=3 uid="uid://bx2rsxmi1t2er"]
+[gd_resource type="Resource" script_class="CollectibleData" load_steps=6 format=3 uid="uid://bx2rsxmi1t2er"]
 
+[ext_resource type="Texture2D" uid="uid://dyymaqtrjfkch" path="res://sprites/collectibles/coinAnimatedTexture.tres" id="1_7qj0v"]
 [ext_resource type="Script" uid="uid://skqnkcie26mx" path="res://scripts/collectible/collectibleData.gd" id="1_fun2m"]
+[ext_resource type="Animation" uid="uid://cxtoom3cs5wro" path="res://animations/collectibleAnims/coinGet.tres" id="1_t2v8p"]
 [ext_resource type="AudioStream" uid="uid://bc41gdt86ys22" path="res://sfx/coinNew.wav" id="2_7qj0v"]
-[ext_resource type="Texture2D" uid="uid://hoa0e07p6ejd" path="res://sprites/individualSprites/coinIndividualFrames/coin1.png" id="3_74lfc"]
+[ext_resource type="Animation" uid="uid://8k6hd2mompn7" path="res://animations/collectibleAnims/collectibleIdle.res" id="2_t2v8p"]
 
 [resource]
 script = ExtResource("1_fun2m")
-sprite = ExtResource("3_74lfc")
+sprite = ExtResource("1_7qj0v")
 sound = ExtResource("2_7qj0v")
 points = 1
 type = 0
+idleAnim = ExtResource("2_t2v8p")
+getAnim = ExtResource("1_t2v8p")
+particleColor = Color(0, 0, 0, 1)

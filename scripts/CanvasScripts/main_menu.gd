@@ -9,7 +9,7 @@ func _ready() -> void:
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 	
 func _unhandled_input(event: InputEvent) -> void:
@@ -17,5 +17,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if visible:
 			startButton.emit_signal("pressed")
 
-func _on_hi_score_label_menu_draw() -> void:
+
+
+func _on_hi_score_label_menu_visibility_changed() -> void:
+	await SignalManager.loadCollectibles
 	_updateScore(highScoreLabelMenu, true, collectibleManager)

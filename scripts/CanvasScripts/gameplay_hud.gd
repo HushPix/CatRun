@@ -13,7 +13,7 @@ func _ready() -> void:
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if self.visible:
 		_updateScore(scoreLabel, false, collectibleManager)
 
@@ -23,6 +23,6 @@ func _on_visibility_changed() -> void:
 	print(collectibleManager.get_coins())
 
 
-func _updateCoins(collectible: Collectible) -> void:
+func _updateCoins(_nullCollectible: Collectible) -> void:
 	_displayNumsWithEquals(coinAmountLabel, collectibleManager.get_coins())
 	print(collectibleManager.get_coins())

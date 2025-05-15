@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://dc0oi0au87j3p" path="res://scripts/gameplay.gd" id="1_opprc"]
 [ext_resource type="Script" uid="uid://creudqlpp8co4" path="res://scripts/managers/collectible_manager.gd" id="2_1xsq2"]
 [ext_resource type="Script" uid="uid://4cbe5bvmupvr" path="res://scripts/managers/audio_manager.gd" id="2_k5gxe"]
+[ext_resource type="PackedScene" uid="uid://dql00skuqd5in" path="res://groundPrefabs/Test/playTestScene.tscn" id="2_s6y8e"]
 [ext_resource type="Script" uid="uid://jd0tl44vp28j" path="res://scripts/GroundSpawner.gd" id="3_2rtxb"]
 [ext_resource type="PackedScene" uid="uid://6j8fdpsikfqn" path="res://scenes/background.tscn" id="3_q2xm3"]
 [ext_resource type="LabelSettings" uid="uid://cah3ii4hvydr" path="res://LabelSettings/pixelTextoutline.tres" id="3_xlalq"]
@@ -34,6 +35,7 @@
 [ext_resource type="Script" uid="uid://skqnkcie26mx" path="res://scripts/collectible/collectibleData.gd" id="26_kf058"]
 [ext_resource type="Resource" uid="uid://bx2rsxmi1t2er" path="res://objects/collectibleDataPresets/coinData.tres" id="27_7yhwd"]
 [ext_resource type="Resource" uid="uid://c6pguoq7txy42" path="res://objects/collectibleDataPresets/testFoodData.tres" id="28_0fgne"]
+[ext_resource type="Resource" uid="uid://dkttfyqdqrr8f" path="res://objects/collectibleDataPresets/chicken.tres" id="34_5vu4g"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7x2nf"]
 font = ExtResource("6_njlph")
@@ -62,11 +64,6 @@ frame_3/duration = 1.0
 frame_4/texture = ExtResource("19_37dvx")
 frame_4/duration = 1.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2vle"]
-size = Vector2(9, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2l0u6"]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28yds"]
 size = Vector2(164, 48)
 
@@ -81,11 +78,13 @@ audioManager = NodePath("Managers/AudioManager")
 collectibleManager = NodePath("Managers/CollectibleManager")
 countDownTimer = NodePath("countDownTimer")
 coinSpawner = NodePath("CoinSpawner")
-scoreForNormal = 1
-scoreForHard = 1
-gameSpeed = 2.0
+scoreForNormal = 7
+scoreForHard = 15
 countDownTime = 3.0
 skipCountDown = true
+playTestMode = true
+playTestScene = ExtResource("2_s6y8e")
+forcedDifficulty = 1
 
 [node name="countDownTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -127,7 +126,6 @@ gameOverMenu = NodePath("gameOverScreen")
 countDownMenu = NodePath("CountDown")
 
 [node name="MainMenu" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("startButton", "highScoreLabelMenu", "collectibleManager")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -312,20 +310,18 @@ clip_text = true
 
 [node name="PauseButton" parent="CanvasLayer/GameplayHud" node_paths=PackedStringArray("buttonAudioPlayer") instance=ExtResource("10_4c78n")]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -32.0
-offset_right = 32.0
-grow_horizontal = 2
 pressSound = ExtResource("11_m0es0")
 buttonAudioPlayer = NodePath("../../../Managers/AudioManager/globalSfxPlayer")
 
 [node name="coinContainer" type="HBoxContainer" parent="CanvasLayer/GameplayHud"]
-layout_mode = 0
-offset_left = 5.0
-offset_right = 73.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -34.0
+offset_right = 34.0
 offset_bottom = 20.0
+grow_horizontal = 2
 theme_override_constants/separation = 4
 
 [node name="coinIcon" type="TextureRect" parent="CanvasLayer/GameplayHud/coinContainer"]
@@ -505,58 +501,24 @@ texture_repeat = 2
 texture = ExtResource("6_mpir8")
 offset = Vector2(384, 0)
 
-[node name="GroundSpawner" type="Node2D" parent="." node_paths=PackedStringArray("ground_spawner", "spawn_trigger", "despawn_trigger", "gameplayRoot")]
+[node name="GroundSpawner" type="Node2D" parent="." node_paths=PackedStringArray("ground_spawner", "gameplayRoot")]
 script = ExtResource("3_2rtxb")
 ground_spawner = NodePath(".")
-spawn_trigger = NodePath("SpawnTrigger")
-despawn_trigger = NodePath("DespawnTrigger")
 gameplayRoot = NodePath("..")
 
-[node name="SpawnTrigger" type="Area2D" parent="GroundSpawner"]
-position = Vector2(322, 204)
-collision_layer = 4
-collision_mask = 4
-input_pickable = false
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/SpawnTrigger"]
-position = Vector2(-5.5, 0)
-shape = SubResource("RectangleShape2D_f2vle")
-
-[node name="DespawnTrigger" type="Area2D" parent="GroundSpawner"]
-position = Vector2(-5, 202)
-scale = Vector2(0.480001, 1)
-collision_layer = 4
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundSpawner/DespawnTrigger"]
-shape = SubResource("RectangleShape2D_2l0u6")
-
-[node name="CoinSpawner" type="Node2D" parent="." node_paths=PackedStringArray("spawnDelayTimer", "coinParent", "gameplay", "spawnCheck")]
+[node name="CoinSpawner" type="Node2D" parent="." node_paths=PackedStringArray("coinParent", "gameplay")]
 position = Vector2(331, 172)
 script = ExtResource("25_5gpb1")
-spawnDelayTimer = NodePath("spawnDelay")
 spawnDelay = 5
 coinParent = NodePath(".")
-collectibleTypes = Array[ExtResource("26_kf058")]([ExtResource("27_7yhwd"), ExtResource("28_0fgne")])
+collectibleTypes = Array[ExtResource("26_kf058")]([ExtResource("27_7yhwd"), ExtResource("28_0fgne"), ExtResource("34_5vu4g")])
 gameplay = NodePath("..")
-spawnCheck = NodePath("RayCast2D")
 collectibleObjectPath = "res://Objects/collectible.tscn"
 
-[node name="spawnDelay" type="Timer" parent="CoinSpawner"]
-process_thread_group = 1
-process_thread_group_order = 0
-process_thread_messages = 0
-physics_interpolation_mode = 1
-process_callback = 0
-
-[node name="RayCast2D" type="RayCast2D" parent="CoinSpawner"]
-target_position = Vector2(0, -16)
-collision_mask = 2
-
-[node name="Player" parent="." instance=ExtResource("1_d3ts3")]
+[node name="Player" parent="." node_paths=PackedStringArray("gameplay") instance=ExtResource("1_d3ts3")]
 physics_interpolation_mode = 1
 position = Vector2(102, 136)
+gameplay = NodePath("..")
 
 [node name="deathBarrier" type="Area2D" parent="." groups=["despawnTrigger"]]
 collision_layer = 4
@@ -573,7 +535,7 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 
 [connection signal="ready" from="." to="CanvasLayer" method="_on_gameplay_ready"]
 [connection signal="timeout" from="Managers/CollectibleManager/scoreTimer" to="Managers/CollectibleManager" method="_on_score_timer_timeout"]
-[connection signal="draw" from="CanvasLayer/MainMenu/hiScoreLabelMenu" to="CanvasLayer/MainMenu" method="_on_hi_score_label_menu_draw"]
+[connection signal="visibility_changed" from="CanvasLayer/MainMenu/hiScoreLabelMenu" to="CanvasLayer/MainMenu" method="_on_hi_score_label_menu_visibility_changed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/play" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/play" to="CanvasLayer" method="_on_start_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/PanelContainer/MarginContainer/VBoxContainer/exit" to="." method="_on_exit_pressed"]
@@ -585,7 +547,4 @@ debug_color = Color(0.932447, 0.260223, 0, 0.42)
 [connection signal="pressed" from="CanvasLayer/PauseMenu/exitButton" to="." method="_on_retry_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/gameOverScreen/retryButton" to="." method="_on_retry_button_pressed"]
 [connection signal="visibility_changed" from="CanvasLayer/gameOverScreen/scoreLabel2" to="CanvasLayer/gameOverScreen" method="_on_score_label_2_visibility_changed"]
-[connection signal="area_entered" from="GroundSpawner/SpawnTrigger" to="GroundSpawner" method="_on_spawn_trigger_area_entered"]
-[connection signal="area_entered" from="GroundSpawner/DespawnTrigger" to="GroundSpawner" method="_on_despawn_trigger_area_entered"]
-[connection signal="timeout" from="CoinSpawner/spawnDelay" to="CoinSpawner" method="_on_spawn_delay_timeout"]
 [connection signal="area_entered" from="deathBarrier" to="Player" method="_on_death_barrier_area_entered"]
