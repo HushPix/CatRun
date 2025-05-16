@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ComplexParticle" load_steps=3 format=3 uid="uid://yw4vfvq4soyq"]
+
+[ext_resource type="Material" uid="uid://cfeysnxgrfeq6" path="res://particles/mud.tres" id="1_87vmq"]
+[ext_resource type="Script" uid="uid://l0rr0b7w1ts4" path="res://scripts/complexParticle.gd" id="1_lf0tt"]
+
+[resource]
+script = ExtResource("1_lf0tt")
+processMaterial = ExtResource("1_87vmq")
+amount = 8
+amountRatio = 1.0
+oneShot = true
+lifeTime = 0.15
+fps = 15
+useFixedSeed = false
+explosiveness = 0.0
+VisibilityRect = Rect2(-75, -75, 100, 100)
+trailsToggle = false
+trailLifeTime = 1.0
+trailSections = 2
+trailSubdivision = 2
+metadata/_custom_type_script = "uid://l0rr0b7w1ts4"

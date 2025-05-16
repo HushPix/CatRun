@@ -99,6 +99,7 @@ func processTileTypes(body: Node2D, bodyRid: RID) -> void:
 			gameOver()	
 		if tileProperty == 2:
 			applySlowness()
+			SignalManager.emitPlayerParticle.emit("mud")
 	else: 
 		isSlowedDown = false
 

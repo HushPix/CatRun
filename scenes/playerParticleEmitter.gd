@@ -8,6 +8,9 @@ func _ready() -> void:
 
 
 func emitParticleEffect(particleName: StringName) -> void:
+	if emitting:
+		restart()
+	
 	var currentParticle = ComplexParticleList[particleName]
 	process_material = currentParticle.processMaterial
 	setUpComplexParticle(currentParticle)
