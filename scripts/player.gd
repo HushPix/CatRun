@@ -54,6 +54,7 @@ func gameOver() -> void:
 		alive = false
 		disableInput()
 		emit_signal("playerDied")
+		SignalManager.emitPlayerParticle.emit("blood")
 		character_body_2d.set_collision_layer_value(1, false)
 #---
 
