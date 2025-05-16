@@ -32,6 +32,7 @@ var random = RandomNumberGenerator.new()
 @export var playTestScene: PackedScene
 @export var forcedDifficulty: level
 
+
 var gameSpeed: float
 var difficulty: level = level.IDLE
 
@@ -93,6 +94,7 @@ func addLevelsToMemory(inputArray: Array) -> void:
 	if difficulty != level.IDLE:
 		levelsInMemory.append_array(groundTypes[level.IDLE])
 	levelsInMemory.append_array(inputArray)
+
 func getLevelFromMemory() -> String:
 	var index = random.randi_range(0, levelsInMemory.size() - 1)
 	return levelsInMemory[index]

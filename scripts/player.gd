@@ -19,13 +19,14 @@ var initialPosition: float
 var maxSpeed: float = 50
 var isSlowedDown: bool = false
 @export var slowDownValue: int = 10
-
 var currentTileMap: TileMapLayer
 
 enum playerInputState {
 	AllowInput,
 	BlockInput
 }
+
+var groundTypes
 
 #getters
 func _isPlayerAlive() -> bool:
@@ -37,7 +38,6 @@ func _isPlayerOnScreen() -> bool:
 func _isPlayerOnFloor() -> bool:
 	return character_body_2d.is_on_floor()
 #---
-
 #player states
 func _isPlayerJumping() -> bool:
 	if(character_body_2d.velocity.y <= 0 and character_body_2d.is_on_floor()):
@@ -90,15 +90,17 @@ func processTileTypes(body: Node2D, bodyRid: RID) -> void:
 
 	var tileData = currentTileMap.get_cell_tile_data(collidedTilePos)
 	
-	var tileType = tileData.get_custom_data_by_layer_id(0)
+	var tileProperty = tileData.get_custom_data_by_layer_id(0)
+	print(tileProperty)
 	
-	if tileType != "":
-		if tileType == "spike":
+	if tileProperty > 0:
+		if tileProperty == 1:
 			gameOver()	
-		if tileType == "mud":
+		if tileProperty == 2:
 			applySlowness()
 	else: 
 		isSlowedDown = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

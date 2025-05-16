@@ -84,7 +84,7 @@ countDownTime = 3.0
 skipCountDown = true
 playTestMode = true
 playTestScene = ExtResource("2_s6y8e")
-forcedDifficulty = 1
+forcedDifficulty = 4
 
 [node name="countDownTimer" type="Timer" parent="."]
 wait_time = 0.5
