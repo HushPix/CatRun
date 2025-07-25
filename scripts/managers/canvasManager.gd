@@ -48,3 +48,7 @@ func _on_un_pause_button_pressed() -> void:
 func _disableAllLayouts() -> void:
 	for i in $".".get_children():
 		i.hide()
+
+
+func _on_exit_button_pressed() -> void:
+	pauseMenu.hide()

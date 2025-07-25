@@ -71,7 +71,7 @@ size = Vector2(164, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5e380"]
 size = Vector2(49.5, 178.25)
 
-[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "audioManager", "collectibleManager", "countDownTimer", "coinSpawner")]
+[node name="Gameplay" type="Node2D" node_paths=PackedStringArray("player", "ground_spawner", "audioManager", "collectibleManager", "countDownTimer", "coinSpawner", "parallaxBg")]
 script = ExtResource("1_opprc")
 player = NodePath("Player")
 ground_spawner = NodePath("GroundSpawner")
@@ -79,6 +79,7 @@ audioManager = NodePath("Managers/AudioManager")
 collectibleManager = NodePath("Managers/CollectibleManager")
 countDownTimer = NodePath("countDownTimer")
 coinSpawner = NodePath("CoinSpawner")
+parallaxBg = NodePath("Background")
 scoreForNormal = 7
 scoreForHard = 15
 countDownTime = 3.0
@@ -457,9 +458,8 @@ text = "000"
 label_settings = ExtResource("3_xlalq")
 horizontal_alignment = 1
 
-[node name="Background" parent="." node_paths=PackedStringArray("gameplay", "ground_bg", "clouds_bg", "sky_bg", "bg_bg") instance=ExtResource("3_q2xm3")]
+[node name="Background" parent="." node_paths=PackedStringArray("ground_bg", "clouds_bg", "sky_bg", "bg_bg") instance=ExtResource("3_q2xm3")]
 script = ExtResource("4_0a36o")
-gameplay = NodePath("..")
 ground_bg = NodePath("groundBG")
 clouds_bg = NodePath("cloudsBG")
 sky_bg = NodePath("skyBG")
@@ -488,7 +488,6 @@ follow_viewport = false
 ignore_camera_scroll = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Background/Background"]
-modulate = Color(1, 1, 1, 0.737255)
 texture_filter = 1
 texture_repeat = 2
 texture = ExtResource("28_s1tv7")

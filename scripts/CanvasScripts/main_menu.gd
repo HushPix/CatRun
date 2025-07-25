@@ -20,5 +20,5 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_hi_score_label_menu_visibility_changed() -> void:
-	#await SignalManager.loadData
+	await SignalManager.loadData
 	_updateScore(highScoreLabelMenu, true, collectibleManager)

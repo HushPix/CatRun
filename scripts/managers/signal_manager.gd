@@ -12,8 +12,9 @@ signal loadData()
 signal deleteInstanceOfCollectible(currCollectible: Collectible)
 signal groundHasSpawned()
 signal deleteInstanceOfGround(currGround: Ground)
-signal uodateExistingGroundSpeed(gameSpeed: float)
+signal updateExistingGroundSpeed(gameSpeed: float)
 signal emitPlayerParticle(particleName: StringName)
+signal difficultyChange(difficulty)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

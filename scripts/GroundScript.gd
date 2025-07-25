@@ -6,7 +6,7 @@ var hasBeenOnScreen: bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	SignalManager.connect("uodateExistingGroundSpeed", on_update_existing_ground_speed)
+	SignalManager.connect("updateExistingGroundSpeed", on_update_existing_ground_speed)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

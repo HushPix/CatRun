@@ -32,18 +32,6 @@ var random = RandomNumberGenerator.new()
 @export var playTestScene: PackedScene
 @export var forcedDifficulty: level
 
-
-var gameSpeed: float
-var difficulty: level = level.IDLE
-
-
-#This could probably be done better but for me it was the easiest to make individual arrays for each level category
-var easyLevels: Array
-var mediumLevels: Array
-var hardLevels: Array
-var idleLevels: Array
-
-##This enum is used to easily label and group level types
 var groundTypes = {
 	level.EASY: easyLevels,
 	level.MEDIUM: mediumLevels,
@@ -59,6 +47,20 @@ var speedLevels= {
 	level.IDLE: 1.5,
 	level.TEST: 2.0
 }
+
+
+var gameSpeed: float = speedLevels[level.IDLE]
+var difficulty: level = level.IDLE
+
+
+#This could probably be done better but for me it was the easiest to make individual arrays for each level category
+var easyLevels: Array
+var mediumLevels: Array
+var hardLevels: Array
+var idleLevels: Array
+
+##This enum is used to easily label and group level types
+
 
 #This array contains currenlty loaded ground prefabs. By default it has ground0 loaded in to prevent crashes
 var levelsInMemory: Array = ["res://groundPrefabs/idle/groundIdle1.tscn"]
@@ -118,6 +120,7 @@ func gameStarted() -> void:
 #This function changes the difficulty
 func _changeDifficulty(newDifficulty: level) -> void:
 	difficulty = newDifficulty
+	SignalManager.difficultyChange.emit(difficulty)
 	loadLevelsIn(difficulty)
 	addLevelsToMemory(groundTypes[difficulty])
 	_speedUpGameplay(difficulty)
@@ -130,7 +133,7 @@ func _clampSpeed() -> void:
 		gameSpeed  += 0.5
 	elif gameSpeed > maxGameSpeed:
 		gameSpeed -= 0.5
-	SignalManager.uodateExistingGroundSpeed.emit(gameSpeed)
+	SignalManager.updateExistingGroundSpeed.emit(gameSpeed)
 	print("speedup")
 
 #Called when the node enters the scene
@@ -197,7 +200,10 @@ func _on_un_pause_button_pressed() -> void:
 func _on_retry_button_pressed() -> void:
 	await audioManager.waitForSfx()
 	get_tree().paused = false
-	get_tree().reload_current_scene()
+	if player.alive == true:
+		player.gameOver()
+	else:
+		get_tree().reload_current_scene()
 
 
 func _on_exit_pressed() -> void:
