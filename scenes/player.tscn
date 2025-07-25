@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://5cpb1ib4nren" path="res://sfx/meowButAngry.wav" id="6_7mhyq"]
 [ext_resource type="Script" uid="uid://l0rr0b7w1ts4" path="res://scripts/complexParticle.gd" id="6_ur7pv"]
 [ext_resource type="Script" uid="uid://0gq4oymsjt86" path="res://scenes/playerParticleEmitter.gd" id="7_fjrip"]
-[ext_resource type="Resource" uid="uid://bjjp78xaqcav7" path="res://particles/complexParticles/bloodCP.res" id="7_y4r1p"]
+[ext_resource type="Resource" uid="uid://bjjp78xaqcav7" path="res://particles/complexParticles/blood.res" id="7_y4r1p"]
 [ext_resource type="Resource" uid="uid://yw4vfvq4soyq" path="res://particles/complexParticles/mud.tres" id="8_d2wvv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_cqp0x"]

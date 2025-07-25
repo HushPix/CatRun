@@ -97,6 +97,7 @@ func processTileTypes(body: Node2D, bodyRid: RID) -> void:
 	if tileProperty > 0:
 		if tileProperty == 1:
 			gameOver()	
+			SignalManager.emitPlayerParticle.emit("blood")
 		if tileProperty == 2:
 			applySlowness()
 			SignalManager.emitPlayerParticle.emit("mud")

@@ -7,8 +7,8 @@ extends Node
 
 
 signal passColectible(currCollectible: Collectible)
-signal saveCollectibles()
-signal loadCollectibles()
+signal saveData()
+signal loadData()
 signal deleteInstanceOfCollectible(currCollectible: Collectible)
 signal groundHasSpawned()
 signal deleteInstanceOfGround(currGround: Ground)

@@ -11,8 +11,8 @@ var hiScore: int = 0
 
 func _ready() -> void:
 	SignalManager.passColectible.connect(onCollectible)
-	SignalManager.saveCollectibles.connect(onSaveCollectibles)
-	SignalManager.loadCollectibles.connect(onLoadCollectibles)
+	SignalManager.saveData.connect(onSaveData)
+	SignalManager.loadData.connect(onLoadData)
 
 func set_coins(coins) -> void:
 	currentCoins = coins
@@ -60,11 +60,10 @@ func _on_score_timer_timeout() -> void:
 func startScoreTimer() -> void:
 	score_timer.start()
 
-func onSaveCollectibles() -> void:
-	SaveManager.saveData.data["coins"] = get_coins()
-	SaveManager.saveData.data["high_score"] = getHighScore()
+func onSaveData() -> void:
+	SaveManager.saveData["coins"] = currentCoins
+	SaveManager.saveData["high_score"] = hiScore
 
-	
-func onLoadCollectibles() -> void:
-	set_coins(SaveManager.saveData.data["coins"])
-	setHighScore(SaveManager.saveData.data["high_score"])
+func onLoadData() -> void:
+	currentCoins = SaveManager.saveData["coins"]
+	hiScore = SaveManager.saveData["high_score"]
